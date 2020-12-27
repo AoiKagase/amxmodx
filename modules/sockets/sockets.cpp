@@ -44,7 +44,7 @@
 	bool g_winsock_initialized = false;
 #endif
 
-static char *g_send2_buffer = nullptr;
+static char *g_send2_buffer = "";
 static int g_send2_buffer_length = 0;
 
 

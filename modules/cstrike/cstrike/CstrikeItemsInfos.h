@@ -62,8 +62,8 @@ struct AliasInfo
 	{
 		itemid  = CSI_NONE;
 		classid = CS_WEAPONCLASS_NONE;
-		classname = nullptr;
-		alt_alias = nullptr;
+		classname = "";
+		alt_alias = "";
 	}
 
 	int itemid;
