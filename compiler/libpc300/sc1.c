@@ -1944,7 +1944,7 @@ static void declglb(char *firstname,int firsttag,int fpublic,int fstatic,int fst
   int numdim;
   short filenum;
   symbol *sym;
-  constvalue *enumroot;
+  constvalue *enumroot = NULL;
   #if !defined NDEBUG
     cell glbdecl=0;
   #endif
@@ -2066,7 +2066,7 @@ static int declloc(int fstatic)
   int idxtag[sDIMEN_MAX];
   char name[sNAMEMAX+1];
   symbol *sym;
-  constvalue *enumroot;
+  constvalue *enumroot = NULL;
   cell val,size;
   char *str;
   value lval = {0};
@@ -2736,7 +2736,7 @@ static void decl_enum(int vclass)
   /* go through all constants */
   value=0;                              /* default starting value */
   do {
-    int idxtag,fieldtag;
+    int idxtag,fieldtag = 0;
     symbol *sym;
     if (matchtoken('}')) {              /* quick exit if '}' follows ',' */
       lexpush();
