@@ -30,13 +30,13 @@ JS_Handle JSONMngr::_MakeHandle(void *value, JSONHandleType type, bool must_be_f
 
 	if (!m_OldHandles.empty())
 	{
-		id = m_OldHandles.popFrontCopy();
-		m_Handles[id] = ke::AutoPtr<JSONHandle>(new JSONHandle);
+		id = ke::PopFront(&m_OldHandles);
+		m_Handles[id] = std::make_unique<JSONHandle>();
 	}
 	else
 	{
-		m_Handles.append(ke::AutoPtr<JSONHandle>(new JSONHandle));
-		id = m_Handles.length() - 1;
+		m_Handles.emplace_back(std::make_unique<JSONHandle>());
+		id = m_Handles.size() - 1;
 	}
 
 	switch (type)
@@ -74,7 +74,7 @@ JS_Handle JSONMngr::_MakeHandle(void *value, JSONHandleType type, bool must_be_f
 	return id;
 }
 
-void JSONMngr::_FreeHandle(ke::AutoPtr<JSONHandle> &ptr)
+void JSONMngr::_FreeHandle(std::unique_ptr<JSONHandle> &ptr)
 {
 	if (ptr->m_bMustBeFreed && ptr->m_pValue)
 	{
@@ -84,7 +84,7 @@ void JSONMngr::_FreeHandle(ke::AutoPtr<JSONHandle> &ptr)
 
 void JSONMngr::Free(JS_Handle id)
 {
-	auto handle = ke::Move(m_Handles[id]);
+	auto handle = std::move(m_Handles[id]);
 
 	if (!handle)
 	{
@@ -92,12 +92,12 @@ void JSONMngr::Free(JS_Handle id)
 	}
 
 	_FreeHandle(handle);
-	m_OldHandles.append(id);
+	m_OldHandles.emplace_back(id);
 }
 
 bool JSONMngr::IsValidHandle(JS_Handle handle, JSONHandleType type)
 {
-	if (handle >= m_Handles.length() || !m_Handles[handle])
+	if (handle >= m_Handles.size() || !m_Handles[handle])
 	{
 		return false;
 	}

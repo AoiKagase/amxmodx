@@ -31,7 +31,7 @@ typedef struct location_data_s
 class LocationManager
 {
 private:
-	ke::Vector<location_data_t>			m_LocationList;
+	std::vector<location_data_t>			m_LocationList;
 
 public:
 	LocationManager()
@@ -42,7 +42,7 @@ public:
 	inline void Clear(void)
 	{
 		m_LocationList.clear();
-		m_LocationList.ensure(32);
+		// m_LocationList.ensure(32);
 	};
 
 	inline void Add(const char *Name, edict_t *Entity)
@@ -54,17 +54,17 @@ public:
 
 		strncpy(Temp.name,Name,sizeof(Temp.name)-1);
 
-		ke::AString NameString(UTIL_ToLowerCase(Name));
+		std::string NameString(UTIL_ToLowerCase(Name));
 
 		Temp.titlelookup=TitleMan.Lookup(NameString);
 
-		m_LocationList.append(Temp);
+		m_LocationList.emplace_back(Temp);
 	};
 	inline const char *Lookup(vec3_t origin, cell titlelookup)
 	{
 		unsigned int i=0;
 		location_data_t Temp;
-		while (i<m_LocationList.length())
+		while (i<m_LocationList.size())
 		{
 			Temp=m_LocationList[i++];
 

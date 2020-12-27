@@ -14,10 +14,8 @@
 #include <amxxmodule.h>
 #include <parson.h>
 #include <amtl/am-vector.h>
-#include <amtl/am-autoptr.h>
-#include <amtl/am-uniqueptr.h>
 #include <amtl/am-deque.h>
-
+#include <memory>
 #include "IJsonMngr.h"
 
 using namespace AMXX;
@@ -187,10 +185,10 @@ class JSONMngr : public IJSONMngr
 	};
 
 	JS_Handle _MakeHandle(void *value, JSONHandleType type, bool must_be_freed = false);
-	void _FreeHandle(ke::AutoPtr<JSONHandle> &ptr);
+	void _FreeHandle(std::unique_ptr<JSONHandle> &ptr);
 
-	ke::Vector<ke::AutoPtr<JSONHandle>> m_Handles;
-	ke::Deque<JS_Handle> m_OldHandles;
+	std::vector<std::unique_ptr<JSONHandle>> m_Handles;
+	std::deque<JS_Handle> m_OldHandles;
 };
 
-extern ke::UniquePtr<JSONMngr> JsonMngr;
+extern std::unique_ptr<JSONMngr> JsonMngr;

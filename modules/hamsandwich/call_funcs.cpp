@@ -21,7 +21,7 @@
 #include <amtl/am-vector.h>
 #include <amtl/am-string.h>
 
-extern ke::Vector<Hook *> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
+extern std::vector<Hook *> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
 
 void FailPlugin(AMX *amx, int id, int err, const char *reason);
 
@@ -33,7 +33,7 @@ inline void *GetFunction(void *pthis, int id, bool &istramp)
 	void *func=GetVTableEntry(pthis, hooklist[id].vtid, Offsets.GetBase());
 
 	// Check to see if it's a trampoline
-	for (size_t i = 0; i < hooks[id].length(); ++i)
+	for (size_t i = 0; i < hooks[id].size(); ++i)
 	{
 		if (func == hooks[id].at(i)->tramp)
 		{
@@ -52,7 +52,7 @@ inline void *_GetFunction(void *pthis, int id)
 	void *func=ivtbl[hooklist[id].vtid];
 
 	// Iterate through the hooks for the id, see if the function is found
-	for (size_t i = 0; i < hooks[id].length(); ++i)
+	for (size_t i = 0; i < hooks[id].size(); ++i)
 	{
 		// If the function points to a trampoline, then return the original
 		// function.

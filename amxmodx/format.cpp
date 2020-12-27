@@ -42,7 +42,7 @@ template size_t atcprintf<char, cell>(char *, size_t, const cell *, AMX *, cell 
 template size_t atcprintf<cell, char>(cell *, size_t, const char *, AMX *, cell *, int *);
 template size_t atcprintf<char, char>(char *, size_t, const char *, AMX *, cell *, int *);
 
-THash<ke::AString, lang_err> BadLang_Table;
+THash<std::string, lang_err> BadLang_Table;
 
 static cvar_t *amx_mldebug = nullptr;
 static cvar_t *amx_cl_langs = nullptr;
@@ -134,9 +134,9 @@ const char *translate(AMX *amx, const char *lang, const char *key)
 	{
 		if (debug && status == ERR_BADLANG)
 		{
-			ke::AString langName(pLangName);
+			std::string langName(pLangName);
 
-			auto &err = BadLang_Table.AltFindOrInsert(ke::Move(langName));
+			auto &err = BadLang_Table.AltFindOrInsert(std::move(langName));
 
 			if (err.last + 120.0f < gpGlobals->time)
 			{
@@ -735,7 +735,7 @@ reswitch:
 					}
 
 					int userid = GETPLAYERUSERID(player->pEdict);
-					ke::SafeSprintf(buffer, sizeof(buffer), "%s<%d><%s><%s>", player->name.chars(), userid, auth, player->team.chars());
+					ke::SafeSprintf(buffer, sizeof(buffer), "%s<%d><%s><%s>", player->name.c_str(), userid, auth, player->team.c_str());
 				}
 				else
 				{
@@ -767,7 +767,7 @@ reswitch:
 						return 0;
 					}
 
-					name = player->name.chars();
+					name = player->name.c_str();
 				}
 			
 				AddString(&buf_p, llen, name, width, prec);

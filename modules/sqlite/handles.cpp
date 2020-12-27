@@ -24,7 +24,7 @@ struct QHandle
 	bool isfree;
 };
 
-ke::Vector<QHandle *> g_Handles;
+std::vector<QHandle *> g_Handles;
 CStack<unsigned int> g_FreeHandles;
 
 unsigned int MakeHandle(void *ptr, HandleType type, FREEHANDLE f)
@@ -39,8 +39,8 @@ unsigned int MakeHandle(void *ptr, HandleType type, FREEHANDLE f)
 		h = g_Handles[num];
 	} else {
 		h = new QHandle;
-		g_Handles.append(h);
-		num = static_cast<unsigned int>(g_Handles.length()) - 1;
+		g_Handles.emplace_back(h);
+		num = static_cast<unsigned int>(g_Handles.size()) - 1;
 	}
 
 	h->_ptr = ptr;
@@ -57,7 +57,7 @@ void *GetHandle(unsigned int num, HandleType type)
 		return NULL;
 
 	num--;
-	if (num >= g_Handles.length())
+	if (num >= g_Handles.size())
 		return NULL;
 
 	QHandle *h = g_Handles[num];
@@ -75,7 +75,7 @@ bool FreeHandle(unsigned int num)
 	unsigned int _num = num;
 
 	num--;
-	if (num >= g_Handles.length())
+	if (num >= g_Handles.size())
 		return false;
 
 	QHandle *h = g_Handles[num];
@@ -95,7 +95,7 @@ bool FreeHandle(unsigned int num)
 void FreeAllHandles(HandleType type)
 {
 	QHandle *q;
-	for (size_t i = 0; i < g_Handles.length(); i++)
+	for (size_t i = 0; i < g_Handles.size(); i++)
 	{
 		q = g_Handles[i];
 		if (q && !q->isfree && q->type == type)
@@ -108,7 +108,7 @@ void FreeAllHandles(HandleType type)
 void FreeHandleTable()
 {
 	QHandle *q;
-	for (size_t i = 0; i < g_Handles.length(); i++)
+	for (size_t i = 0; i < g_Handles.size(); i++)
 	{
 		q = g_Handles[i];
 		if (q && !q->isfree)

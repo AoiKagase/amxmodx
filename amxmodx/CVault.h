@@ -18,15 +18,15 @@ class Vault
 {
 	struct Obj
 	{
-		ke::AString key;
-		ke::AString value;
+		std::string key;
+		std::string value;
 
 		int number;
 		Obj *next;
 		Obj(const char* k, const char* v);
 	} *head;
 
-	ke::AString path;
+	std::string path;
 
 	Obj** find(const char* n);
 
@@ -59,8 +59,8 @@ public:
 		iterator& operator++() { if (a) a = a->next; return *this; }
 		bool operator==(const iterator& b) const { return a == b.a; }
 		bool operator!=(const iterator& b) const { return !operator==(b); }
-		ke::AString& key() const { return a->key; }
-		ke::AString& value() const { return a->value; }
+		std::string& key() const { return a->key; }
+		std::string& value() const { return a->value; }
 	};
 
 	inline iterator begin() const { return iterator(head); }

@@ -54,7 +54,7 @@ struct amxx_module_info_s
 
 class CModule : public ke::InlineListNode<CModule>
 {
-	ke::AString m_Filename;         // Filename
+	std::string m_Filename;         // Filename
 
 	bool m_Metamod;					// Using metamod?
 
@@ -86,16 +86,16 @@ public:
 	inline int getStatusValue() { return m_Status; }
 	inline bool isReloadable() { return ((m_Status == MODULE_LOADED) && (m_InfoNew.reload != 0)); }
 	inline const char *getMissingFunc() const { return m_MissingFunc; }
-	inline const char *getFilename() { return m_Filename.chars(); }
+	inline const char *getFilename() { return m_Filename.c_str(); }
 	inline bool IsMetamod() { return m_Metamod; }
 
 	void CallPluginsLoaded();
 	void CallPluginsUnloaded();
 	void CallPluginsUnloading();
 
-	ke::Vector<AMX_NATIVE_INFO*> m_Natives;
-	ke::Vector<AMX_NATIVE_INFO*> m_NewNatives; // Natives for new (AMXX, not AMX) plugins only
-	ke::Vector<size_t> m_DestroyableIndexes;
+	std::vector<AMX_NATIVE_INFO*> m_Natives;
+	std::vector<AMX_NATIVE_INFO*> m_NewNatives; // Natives for new (AMXX, not AMX) plugins only
+	std::vector<size_t> m_DestroyableIndexes;
 };
 
 #endif //CMODULE_H

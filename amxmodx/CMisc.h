@@ -29,9 +29,9 @@ class CPlayer
 public:
 	edict_t* pEdict;
 	
-	ke::AString name;
-	ke::AString ip;
-	ke::AString team;
+	std::string name;
+	std::string ip;
+	std::string team;
 
 	bool initialized;
 	bool ingame;
@@ -63,7 +63,7 @@ public:
 	int death_killer;
 	int death_victim;
 	bool death_tk;
-	ke::AString death_weapon;
+	std::string death_weapon;
 	int newmenu;
 	int page;
 
@@ -138,7 +138,7 @@ public:
 
 class ForceObject
 {
-	ke::AString filename;
+	std::string filename;
 	FORCE_TYPE type;
 	Vector mins;
 	Vector maxs;
@@ -146,7 +146,7 @@ class ForceObject
 public:
 	ForceObject(const char* n, FORCE_TYPE c, Vector& mi, Vector& ma, AMX* a) : filename(n), type(c), mins(mi), maxs(ma), amx(a) {}
 
-	inline const char* getFilename() { return filename.chars(); }
+	inline const char* getFilename() { return filename.c_str(); }
 	inline AMX* getAMX() { return amx; }
 	
 	Vector& getMin() { return mins; }
@@ -203,14 +203,14 @@ public:
 
 class CScript : public ke::InlineListNode<CScript>
 {
-	ke::AString filename;
+	std::string filename;
 	AMX* amx;
 	void* code;
 public:
 	CScript(AMX* aa, void* cc, const char* ff) : filename(ff), amx(aa), code(cc) {}
 	
 	inline AMX* getAMX() { return amx; }
-	inline const char* getName() { return filename.chars(); }
+	inline const char* getName() { return filename.c_str(); }
 	inline void* getCode() { return code; }
 };
 
@@ -222,7 +222,7 @@ class TeamIds
 {
 	struct TeamEle
 	{
-		ke::AString name;
+		std::string name;
 		int id;
 		char tid;
 		static char uid;

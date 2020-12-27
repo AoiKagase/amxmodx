@@ -214,7 +214,7 @@ void CFlagManager::LookupOrAdd(const char *Command, int &Flags, AMX *Plugin)
 
 	while (iter!=end)
 	{
-		if (strcmp((*iter)->GetName()->chars(),Command)==0)
+		if (strcmp((*iter)->GetName()->c_str(),Command)==0)
 		{
 			CFlagEntry *Entry=(*iter);
 
@@ -305,11 +305,11 @@ void CFlagManager::WriteCommands(void)
 		{
 			if ((*iter)->GetComment()->length())
 			{
-				fprintf(File,"\"%s\" \t\"%s\" ; %s\n",(*iter)->GetName()->chars(),(*iter)->GetFlags()->chars(),(*iter)->GetComment()->chars());
+				fprintf(File, "\"%s\" \t\"%s\" ; %s\n", (*iter)->GetName()->c_str(), (*iter)->GetFlags()->c_str(), (*iter)->GetComment()->c_str());
 			}
 			else
 			{
-				fprintf(File,"\"%s\" \t\"%s\"\n",(*iter)->GetName()->chars(),(*iter)->GetFlags()->chars());
+				fprintf(File, "\"%s\" \t\"%s\"\n", (*iter)->GetName()->c_str(), (*iter)->GetFlags()->c_str());
 			}
 			(*iter)->SetNeedWritten(0);
 		}

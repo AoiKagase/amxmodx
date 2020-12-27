@@ -37,9 +37,9 @@ int LogEventsMngr::CLogCmp::compareCondition(const char* string)
 	logid = parent->logCounter;
 	
 	if (in)
-		return result = strstr(string, text.chars()) ? 0 : 1;
+		return result = strstr(string, text.c_str()) ? 0 : 1;
 	
-	return result = strcmp(string,text.chars());
+	return result = strcmp(string,text.c_str());
 }
 
 LogEventsMngr::CLogCmp* LogEventsMngr::registerCondition(char* filter)
@@ -61,7 +61,7 @@ LogEventsMngr::CLogCmp* LogEventsMngr::registerCondition(char* filter)
 	
 	while (c)
 	{
-		if ((c->pos == pos) && (c->in == in) && !strcmp(c->text.chars(), filter))
+		if ((c->pos == pos) && (c->in == in) && !strcmp(c->text.c_str(), filter))
 			return c;
 		c = c->next;
 	}

@@ -21,9 +21,9 @@
 class CFlagEntry
 {
 private:
-	ke::AString		m_strName;			// command name ("amx_slap")
-	ke::AString		m_strFlags;			// string flags ("a","b")
-	ke::AString		m_strComment;		// comment to write ("; admincmd.amxx")
+	std::string		m_strName;			// command name ("amx_slap")
+	std::string		m_strFlags;			// string flags ("a","b")
+	std::string		m_strComment;		// comment to write ("; admincmd.amxx")
 	int				m_iFlags;			// bitmask flags
 	int				m_iNeedWritten;		// write this command on map change?
 	int				m_iHidden;			// set to 1 when the command is set to "!" access in
@@ -47,17 +47,17 @@ public:
 		m_iNeedWritten=i;
 	};
 
-	const ke::AString *GetName(void) const
+	const std::string *GetName(void) const
 	{
 		return &m_strName;
 	};
 
-	const ke::AString *GetFlags(void) const
+	const std::string *GetFlags(void) const
 	{
 		return &m_strFlags;
 	};
 
-	const ke::AString *GetComment(void) const
+	const std::string *GetComment(void) const
 	{
 		return &m_strComment;
 	};
@@ -109,7 +109,7 @@ class CFlagManager
 {
 private:
 	List<CFlagEntry *>		 m_FlagList;
-	ke::AString				 m_strConfigFile;
+	std::string				 m_strConfigFile;
 	struct stat				 m_Stat;
 	int						 m_iForceRead;
 	int						 m_iDisabled;
@@ -188,7 +188,7 @@ public:
 	 */
 	void SetFile(const char *Filename="cmdaccess.ini");
 
-	const char *GetFile(void) const	{ return m_strConfigFile.chars(); };
+	const char *GetFile(void) const	{ return m_strConfigFile.c_str(); };
 	
 	/**
 	 * Parse the file, and load all entries

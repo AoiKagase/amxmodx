@@ -48,9 +48,9 @@ void OnAmxxAttach()
 	MF_AddNatives(pdata_entities_natives);
 	MF_AddNatives(pdata_gamerules_natives);
 
-	g_kvd_glb.kvd.szClassName = const_cast<char *>(g_kvd_glb.cls.chars());
-	g_kvd_glb.kvd.szKeyName = const_cast<char *>(g_kvd_glb.key.chars());
-	g_kvd_glb.kvd.szValue = const_cast<char *>(g_kvd_glb.val.chars());
+	g_kvd_glb.kvd.szClassName = const_cast<char *>(g_kvd_glb.cls.c_str());
+	g_kvd_glb.kvd.szKeyName = const_cast<char *>(g_kvd_glb.key.c_str());
+	g_kvd_glb.kvd.szValue = const_cast<char *>(g_kvd_glb.val.c_str());
 	g_kvd_glb.kvd.fHandled = 0;
 
 	ConfigManager = MF_GetConfigManager();
@@ -99,8 +99,8 @@ void OnPluginsLoaded()
 }
 
 extern CStack<TraceResult *> g_FreeTRs;
-extern ke::Vector<KVD_Wrapper *> g_KVDWs;
-extern ke::Vector<KVD_Wrapper *> g_FreeKVDWs;
+extern std::vector<KVD_Wrapper *> g_KVDWs;
+extern std::vector<KVD_Wrapper *> g_FreeKVDWs;
 
 void OnAmxxDetach()
 {
@@ -119,10 +119,10 @@ void OnAmxxDetach()
 	}
 
 	while (!g_KVDWs.empty())
-		delete g_KVDWs.popCopy();
+		delete ke::PopBack(&g_KVDWs);
 
 	while (!g_FreeKVDWs.empty())
-		delete g_FreeKVDWs.popCopy();
+		delete ke::PopBack(&g_FreeKVDWs);
 }
 
 void ServerActivate(edict_t *pEdictList, int edictCount, int clientMax)

@@ -57,7 +57,7 @@ Vault::Obj** Vault::find(const char* n)
 
 	while (*a)
 	{
-		if (strcmp((*a)->key.chars(), n) == 0)
+		if (strcmp((*a)->key.c_str(), n) == 0)
 			return a;
 
 		a = &(*a)->next;
@@ -86,7 +86,7 @@ const char* Vault::get(const char* n)
 
 	if (b == 0) return "";
 
-	return b->value.chars();
+	return b->value.c_str();
 }
 
 void Vault::clear()
@@ -117,14 +117,14 @@ void Vault::setSource(const char* n)
 
 bool Vault::loadVault()
 {
-	if (!path.length())
+	if (!path.size())
 	{
 		return false;
 	}
 
 	clear();
 
-	FILE *fp = fopen(path.chars(), "r");
+	FILE *fp = fopen(path.c_str(), "r");
 
 	if (!fp)
 	{
@@ -160,12 +160,12 @@ bool Vault::loadVault()
 
 bool Vault::saveVault()
 {
-	if (!path.length())
+	if (!path.size())
 	{
 		return false;
 	}
 
-	FILE *fp = fopen(path.chars(), "w");
+	FILE *fp = fopen(path.c_str(), "w");
 
 	if (!fp)
 	{
@@ -176,7 +176,7 @@ bool Vault::saveVault()
 
 	for (Obj* b = head; b; b = b->next)
 	{
-		fprintf(fp, "%s\t%s\n", b->key.chars(), b->value.chars());
+		fprintf(fp, "%s\t%s\n", b->key.c_str(), b->value.c_str());
 	}
 
 	fclose(fp);

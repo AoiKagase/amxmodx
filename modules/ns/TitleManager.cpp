@@ -135,9 +135,9 @@ scan_for_data:
 		if (*TempPointer=='}')			// end of data
 		{
 			// insert KeyName & Data into the hash
-			ke::AString key(UTIL_ToLowerCase(KeyName));
+			std::string key(UTIL_ToLowerCase(KeyName));
 
-			this->m_Hash.insert(key, new ke::AString(Data));
+			this->m_Hash.insert(key, new std::string(Data));
 
 			goto scan_for_key;
 		}

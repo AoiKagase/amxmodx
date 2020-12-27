@@ -560,14 +560,14 @@ static cell AMX_NATIVE_CALL get_plugins_cvar(AMX *amx, cell *params)
 
 	if (info)
 	{
-		set_amxstring(amx, params[2], info->name.chars(), params[3]);
+		set_amxstring(amx, params[2], info->name.c_str(), params[3]);
 		*get_amxaddr(amx, params[4]) = info->var->flags;
 		*get_amxaddr(amx, params[5]) = info->pluginId;
 		*get_amxaddr(amx, params[6]) = reinterpret_cast<cell>(info->var);
 
 		if (*params / sizeof(cell) >= 7)
 		{
-			set_amxstring(amx, params[7], info->description.chars(), params[8]);
+			set_amxstring(amx, params[7], info->description.c_str(), params[8]);
 		}
 
 		return 1;

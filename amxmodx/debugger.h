@@ -122,10 +122,10 @@ public:
 	
 	int m_Top;
 	cell *m_pOpcodeList;
-	ke::AString m_FileName;
-	ke::AString m_Version;
+	std::string m_FileName;
+	std::string m_Version;
 
-	ke::Vector<Tracer *> m_pCalls;
+	std::vector<Tracer *> m_pCalls;
 };
 
 typedef Debugger::Tracer::trace_info trace_info_t;
@@ -153,7 +153,7 @@ public:
 	
 	const char *GetLastMsg();
 	trace_info_t *GetTrace() const { return m_pTrace; }
-	const char *GetFmtCache() { return m_FmtCache.chars(); }
+	const char *GetFmtCache() { return m_FmtCache.c_str(); }
 	
 	bool IsNativeFiltering() { return (m_iNatFunc > -1); }
 	bool InNativeFilter() { return m_InNativeFilter; }
@@ -169,8 +169,8 @@ private:
 	//in the future, make this a stack!
 	bool m_InNativeFilter;
 	
-	ke::AString m_MsgCache;
-	ke::AString m_FmtCache;
+	std::string m_MsgCache;
+	std::string m_FmtCache;
 	
 	trace_info_t *m_pTrace;
 };

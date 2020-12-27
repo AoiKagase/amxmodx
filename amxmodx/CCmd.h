@@ -33,10 +33,10 @@ public:
 		
 		CPluginMngr::CPlugin* plugin;
 		CmdMngr* parent;
-		ke::AString command;
-		ke::AString argument;
-		ke::AString commandline;
-		ke::AString info;
+		std::string command;
+		std::string argument;
+		std::string commandline;
+		std::string info;
 		
 		bool info_ml;
 		bool listable;
@@ -50,12 +50,12 @@ public:
 		Command(CPluginMngr::CPlugin* pplugin, const char* pcmd, const char* pinfo, int pflags, int pfunc, bool pviewable, bool pinfo_ml, CmdMngr* pparent);
 		~Command();
 	public:
-		inline const char* getCommand() { return command.chars(); }
-		inline const char* getArgument() { return argument.chars(); }
-		inline const char* getCmdInfo() { return info.chars(); }
-		inline const char* getCmdLine() { return commandline.chars(); }
-		inline bool matchCommandLine(const char* cmd, const char* arg) 	{return (!stricmp(command.chars() + prefix, cmd + prefix) && (!argument.length() || !stricmp(argument.chars(), arg)));}
-		inline bool matchCommand(const char* cmd) {	return (!stricmp(command.chars(), cmd)); }
+		inline const char* getCommand() { return command.c_str(); }
+		inline const char* getArgument() { return argument.c_str(); }
+		inline const char* getCmdInfo() { return info.c_str(); }
+		inline const char* getCmdLine() { return commandline.c_str(); }
+		inline bool matchCommandLine(const char* cmd, const char* arg) 	{return (!stricmp(command.c_str() + prefix, cmd + prefix) && (!argument.size() || !stricmp(argument.c_str(), arg)));}
+		inline bool matchCommand(const char* cmd) {	return (!stricmp(command.c_str(), cmd)); }
 		inline int getFunction() const { return function; }
 		inline bool gotAccess(int f) const { return (!flags || ((flags & f) != 0)); }
 		inline CPluginMngr::CPlugin* getPlugin() { return plugin; }
@@ -85,7 +85,7 @@ private:
 
 	struct CmdPrefix
 	{
-		ke::AString name;
+		std::string name;
 		CmdMngr* parent;
 		CmdLink* list;
 		CmdPrefix* next;

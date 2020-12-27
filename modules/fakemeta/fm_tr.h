@@ -30,9 +30,9 @@ extern usercmd_t *g_uc_hook;
 struct KVD_Wrapper
 {
 	KeyValueData kvd;
-	ke::AString cls;
-	ke::AString key;
-	ke::AString val;
+	std::string cls;
+	std::string key;
+	std::string val;
 };
 
 extern KVD_Wrapper g_kvd_glb;

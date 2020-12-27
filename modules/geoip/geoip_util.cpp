@@ -13,7 +13,7 @@
 
 #include "geoip_util.h"
 #include "geoip_natives.h"
-#include <amtl/am-algorithm.h>
+#include <algorithm>
 
 const char GeoIPCountryCode[252][3] =
 {
@@ -176,7 +176,7 @@ const char *lookupString(const char *ip, const char **path, int *length)
 	}
 
 	// Let's avoid a crash in case we go over the buffer size.
-	size_t maxLength = ke::Min((size_t)result.data_size, sizeof(buffer) - 1);
+	size_t maxLength = min((size_t)result.data_size, sizeof(buffer) - 1);
 
 	// Strings from database are not null terminated.
 	memcpy(buffer, result.utf8_string, maxLength);
@@ -268,9 +268,9 @@ const char *getLang(int playerIndex)
 
 		if (value && *value)
 		{
-			for (size_t i = 0; i < LangList.length(); ++i)
+			for (size_t i = 0; i < LangList.size(); ++i)
 			{
-				lang = LangList.at(i).chars();
+				lang = LangList.at(i).c_str();
 
 				if (stristr(lang, value) != NULL)
 				{

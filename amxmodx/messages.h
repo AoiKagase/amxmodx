@@ -26,7 +26,7 @@
 class RegisteredMessage
 {
 private:
-	ke::Vector<int> m_Forwards;
+	std::vector<int> m_Forwards;
 	CStack<int> m_InExecution;
 	bool m_Cleanup;
 
@@ -36,7 +36,7 @@ public:
 
 	void AddHook(int fwd)
 	{
-		m_Forwards.append(fwd);
+		m_Forwards.emplace_back(fwd);
 	}
 	bool RemoveHook(int fwd)
 	{
@@ -48,7 +48,7 @@ public:
 		{
 			this->m_Cleanup = true;
 
-			for (size_t i = 0; i < m_Forwards.length(); ++i)
+			for (size_t i = 0; i < m_Forwards.size(); ++i)
 			{
 				int& forward = m_Forwards[i];
 
@@ -67,7 +67,7 @@ public:
 		}
 		else
 		{
-			for (size_t i = 0; i < m_Forwards.length(); ++i)
+			for (size_t i = 0; i < m_Forwards.size(); ++i)
 			{
 				int forward = m_Forwards[i];
 
@@ -77,14 +77,14 @@ public:
 					{
 						unregisterSPForward(forward);
 
-						m_Forwards.remove(forward);
+						m_Forwards.erase(m_Forwards.begin() + forward);
 
 						return true;
 					}
 					else
 					{
 						// -1 could be in here more than once
-						m_Forwards.remove(forward);
+						m_Forwards.erase(m_Forwards.begin() + forward);
 					}
 				}
 			}
@@ -99,7 +99,7 @@ public:
 		{
 			m_InExecution.pop();
 		}
-		for (size_t i = 0; i < m_Forwards.length(); i++)
+		for (size_t i = 0; i < m_Forwards.size(); i++)
 		{
 			int fwd = m_Forwards[i];
 
@@ -117,7 +117,7 @@ public:
 		m_InExecution.push(1);
 		cell res = 0;
 		cell thisres = 0;
-		for (size_t i = 0; i < m_Forwards.length(); i++)
+		for (size_t i = 0; i < m_Forwards.size(); i++)
 		{
 			int fwd = m_Forwards[i];
 
@@ -143,7 +143,7 @@ public:
 	}
 	bool Hooked() const
 	{
-		return m_Forwards.length() != 0;
+		return m_Forwards.size() != 0;
 	}
 };
 enum msgtype
@@ -166,7 +166,7 @@ struct msgparam
 		REAL fData;
 		int iData;
 	} v;
-	ke::AString szData;
+	std::string szData;
 };
 
 class Message
@@ -192,7 +192,7 @@ public:
 private:
 	msgparam *AdvPtr();
 private:
-	ke::Vector<msgparam *> m_Params;
+	std::vector<msgparam *> m_Params;
 	size_t m_CurParam;
 };
 

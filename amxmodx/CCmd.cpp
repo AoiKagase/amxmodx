@@ -201,7 +201,7 @@ bool CmdMngr::registerCmdPrefix(Command* cc)
 	if (*b)
 	{
 		setCmdLink(&(*b)->list, cc, false);
-		cc->prefix = (*b)->name.length();
+		cc->prefix = (*b)->name.size();
 		return true;
 	}
 	
@@ -223,7 +223,7 @@ CmdMngr::CmdPrefix** CmdMngr::findPrefix(const char* nn)
 	
 	while (*aa)
 	{
-		if (!strncmp((*aa)->name.chars(), nn, (*aa)->name.length()))
+		if (!strncmp((*aa)->name.c_str(), nn, (*aa)->name.size()))
 			break;
 		aa = &(*aa)->next;
 	}

@@ -204,7 +204,7 @@ int EventsMngr::registerEvent(CPluginMngr::CPlugin* plugin, int func, int flags,
 		return 0;
 	}
 
-	auto event = ke::AutoPtr<ClEvent>(new ClEvent(plugin, func, flags));
+	auto event = std::unique_ptr<ClEvent>(new ClEvent(plugin, func, flags));
 
 	int handle = EventHandles.create(event.get());
 	
@@ -213,7 +213,7 @@ int EventsMngr::registerEvent(CPluginMngr::CPlugin* plugin, int func, int flags,
 		return 0;
 	}
 
-	m_Events[msgid].append(ke::Move(event));
+	m_Events[msgid].emplace_back(std::move(event));
 
 	return handle;
 }
@@ -226,7 +226,7 @@ void EventsMngr::parserInit(int msg_type, float* timer, CPlayer* pPlayer, int in
 	m_ParseNotDone = false;
 
 	// don't parse if nothing to do
-	if (!m_Events[msg_type].length())
+	if (!m_Events[msg_type].size())
 		return;
 
 	m_ParseMsgType = msg_type;
@@ -402,9 +402,9 @@ void EventsMngr::parseValue(const char *sz)
 				anyConditions = true;
 				switch (condIter->type)
 				{
-					case '=': if (!strcmp(sz, condIter->sValue.chars())) execute = true; break;
-					case '!': if (strcmp(sz, condIter->sValue.chars())) execute = true; break;
-					case '&': if (strstr(sz, condIter->sValue.chars())) execute = true; break;
+					case '=': if (!strcmp(sz, condIter->sValue.c_str())) execute = true; break;
+					case '!': if (strcmp(sz, condIter->sValue.c_str())) execute = true; break;
+					case '&': if (strstr(sz, condIter->sValue.c_str())) execute = true; break;
 				}
 				
 				if (execute)
@@ -458,7 +458,7 @@ void EventsMngr::executeEvents()
 	auto parseFun = m_ParseFun;
 	m_ParseFun = nullptr;
 
-	auto lastSize = parseFun->length();
+	auto lastSize = parseFun->size();
 	for(auto i = 0u; i < lastSize; i++)
 	{
 		auto &event = parseFun->at(i);

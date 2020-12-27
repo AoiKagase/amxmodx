@@ -23,27 +23,27 @@
 #define INSERT_NEWLINE		4
 
 template<>
-int Compare<ke::AString>(const ke::AString &k1, const ke::AString &k2)
+int Compare<std::string>(const std::string &k1, const std::string &k2)
 {
 	return k1.compare(k2);
 }
 
 template<>
-int CompareAlt<char const *, ke::AString>(char const * const &k1, ke::AString const &k2)
+int CompareAlt<char const *, std::string>(char const * const &k1, std::string const &k2)
 {
 	return k2.compare(k1);
 }
 template<>
-int CompareAlt<ke::AString, ke::AString>(ke::AString const &k1, ke::AString const &k2)
+int CompareAlt<std::string, std::string>(std::string const &k1, std::string const &k2)
 {
 	return k1.compare(k2);
 }
 
 template<>
-int HashFunction<ke::AString>(const ke::AString &k)
+int HashFunction<std::string>(const std::string &k)
 {
 	unsigned long hash = 5381;
-	register const char *str = k.chars();
+	register const char *str = k.c_str();
 	register char c;
 	while ((c = *str++))
 	{
@@ -66,10 +66,10 @@ int HashAlt<const char *>(char const * const &k)
 }
 
 template<>
-int HashAlt<ke::AString>(ke::AString const &k)
+int HashAlt<std::string>(std::string const &k)
 {
 	unsigned long hash = 5381;
-	register const char *str = k.chars();
+	register const char *str = k.c_str();
 	register char c;
 	while ((c = *str++))
 	{
@@ -160,7 +160,7 @@ void CLangMngr::CLang::AddEntry(int key, const char *definition)
 		m_entries++;
 	}
 
-	d.definition = new ke::AString(definition);
+	d.definition = new std::string(definition);
 }
 
 CLangMngr::CLang::~CLang()
@@ -183,14 +183,14 @@ void CLangMngr::CLang::Clear()
 	m_entries = 0;
 }
 
-void CLangMngr::CLang::MergeDefinitions(ke::Vector<sKeyDef> &vec)
+void CLangMngr::CLang::MergeDefinitions(std::vector<sKeyDef> &vec)
 {
 	ke::AutoString *pDef;
 	int key = -1;
 	
 	while (!vec.empty())
 	{
-		auto keydef = vec.popCopy();
+		auto keydef = ke::PopBack(&vec);
 
 		key = keydef.key;
 		pDef = keydef.definition;
@@ -212,7 +212,7 @@ const char * CLangMngr::CLang::GetDef(int key, int &status)
 	}
 
 	status = 0;
-	return def.definition->chars();
+	return def.definition->c_str();
 }
 
 int CLangMngr::CLang::Entries()
@@ -229,15 +229,15 @@ CLangMngr::CLangMngr()
 
 const char * CLangMngr::GetKey(int key)
 {
-	if (key < 0 || key >= (int)KeyList.length())
+	if (key < 0 || key >= (int)KeyList.size())
 		return NULL;
 
-	return KeyList[key]->chars();
+	return KeyList[key]->c_str();
 }
 
 int CLangMngr::GetKeyEntry(const char *key)
 {
-	keytbl_val &val = KeyTable[ke::AString(key)];
+	keytbl_val &val = KeyTable[std::string(key)];
 
 	return val.index;
 }
@@ -245,21 +245,21 @@ int CLangMngr::GetKeyEntry(const char *key)
 int CLangMngr::AddKeyEntry(const char *key)
 {
 	keytbl_val val;
-	val.index = static_cast<int>(KeyList.length());
+	val.index = static_cast<int>(KeyList.size());
 
-	KeyList.append(new ke::AString(key));
+	KeyList.emplace_back(new std::string(key));
 
-	KeyTable[ke::AString(key)] = val;
+	KeyTable[std::string(key)] = val;
 
 	return val.index;
 }
 
-int CLangMngr::AddKeyEntry(ke::AString &key)
+int CLangMngr::AddKeyEntry(std::string &key)
 {
-	return AddKeyEntry(key.chars());
+	return AddKeyEntry(key.c_str());
 }
 
-int CLangMngr::GetKeyEntry(ke::AString &key)
+int CLangMngr::GetKeyEntry(std::string &key)
 {
 	keytbl_val &val = KeyTable[key];
 
@@ -277,7 +277,7 @@ char * CLangMngr::FormatAmxString(AMX *amx, cell *params, int parm, int &len)
 	return outbuf;
 }
 
-void CLangMngr::MergeDefinitions(const char *lang, ke::Vector<sKeyDef> &tmpVec)
+void CLangMngr::MergeDefinitions(const char *lang, std::vector<sKeyDef> &tmpVec)
 {
 	CLang * language = GetLang(lang);
 	if (language)
@@ -350,9 +350,9 @@ struct LangFileData
 	bool                multiLine;
 	char                language[3];
 	char                valueBuffer[512];
-	ke::AString         currentFile;
-	ke::AString         lastKey;
-	ke::Vector<sKeyDef> defsQueue;
+	std::string         currentFile;
+	std::string         lastKey;
+	std::vector<sKeyDef> defsQueue;
 	sKeyDef             entry;
 
 } Data;
@@ -366,7 +366,7 @@ bool CLangMngr::ReadINI_NewSection(const char *section, bool invalid_tokens, boo
 {
 	if (Data.multiLine)
 	{
-		AMXXLOG_Log("New section, unterminated block (file \"%s\" key \"%s\" lang \"%s\")", Data.currentFile.chars(), Data.lastKey.chars(), Data.language);
+		AMXXLOG_Log("New section, unterminated block (file \"%s\" key \"%s\" lang \"%s\")", Data.currentFile.c_str(), Data.lastKey.c_str(), Data.language);
 
 		Data.clearEntry();
 	}
@@ -415,7 +415,7 @@ bool CLangMngr::ReadINI_KeyValue(const char *key, const char *value, bool invali
 				Data.entry.definition = new ke::AutoString;
 				*Data.entry.definition = Data.valueBuffer;
 
-				Data.defsQueue.append(Data.entry);
+				Data.defsQueue.emplace_back(Data.entry);
 				Data.clearEntry();
 			}
 			else if (!value && colons_token)
@@ -428,7 +428,7 @@ bool CLangMngr::ReadINI_KeyValue(const char *key, const char *value, bool invali
 		}
 		else
 		{
-			AMXXLOG_Log("Invalid multi-lingual line (file \"%s\" key \"%s\" lang \"%s\")", Data.currentFile.chars(), Data.lastKey.chars(), Data.language);
+			AMXXLOG_Log("Invalid multi-lingual line (file \"%s\" key \"%s\" lang \"%s\")", Data.currentFile.c_str(), Data.lastKey.c_str(), Data.language);
 		}
 	}
 	else
@@ -440,7 +440,7 @@ bool CLangMngr::ReadINI_KeyValue(const char *key, const char *value, bool invali
 
 			*Data.entry.definition = Data.valueBuffer;
 
-			Data.defsQueue.append(Data.entry);
+			Data.defsQueue.emplace_back(Data.entry);
 			Data.clearEntry();
 
 			Data.multiLine = false;
@@ -507,7 +507,7 @@ int CLangMngr::MergeDefinitionFile(const char *file)
 // Find a CLang by name, if not found, add it
 CLangMngr::CLang * CLangMngr::GetLang(const char *name)
 {
-	for (size_t iter = 0; iter < m_Languages.length(); ++iter)
+	for (size_t iter = 0; iter < m_Languages.size(); ++iter)
 	{
 		if (strcmp(m_Languages[iter]->GetName(), name) == 0)
 			return m_Languages[iter];
@@ -516,14 +516,14 @@ CLangMngr::CLang * CLangMngr::GetLang(const char *name)
 	CLang *p = new CLang(name);
 	p->SetMngr(this);
 
-	m_Languages.append(p);
+	m_Languages.emplace_back(p);
 	return p;
 }
 
 // Find a CLang by name, if not found, return NULL
 CLangMngr::CLang * CLangMngr::GetLangR(const char *name)
 {
-	for (size_t iter = 0; iter < m_Languages.length(); ++iter)
+	for (size_t iter = 0; iter < m_Languages.size(); ++iter)
 	{
 		if (strcmp(m_Languages[iter]->GetName(), name) == 0)
 			return m_Languages[iter];
@@ -536,7 +536,7 @@ const char *CLangMngr::GetDef(const char *langName, const char *key, int &status
 {
 	CLang *lang = GetLangR(langName);
 
-	keytbl_val &val = KeyTable.AltFindOrInsert(ke::AString(key)); //KeyTable[make_string(key)];
+	keytbl_val &val = KeyTable.AltFindOrInsert(std::string(key)); //KeyTable[make_string(key)];
 	if (lang == NULL)
 	{
 		status = ERR_BADLANG;
@@ -566,13 +566,13 @@ void CLangMngr::Clear()
 
 	KeyTable.clear();
 	
-	for (i = 0; i < m_Languages.length(); i++)
+	for (i = 0; i < m_Languages.size(); i++)
 	{
 		if (m_Languages[i])
 			delete m_Languages[i];
 	}
 
-	for (i = 0; i < KeyList.length(); i++)
+	for (i = 0; i < KeyList.size(); i++)
 	{
 		if (KeyList[i])
 			delete KeyList[i];
@@ -585,12 +585,12 @@ void CLangMngr::Clear()
 
 int CLangMngr::GetLangsNum()
 {
-	return m_Languages.length();
+	return m_Languages.size();
 }
 
 const char *CLangMngr::GetLangName(int langId)
 {
-	for (size_t iter = 0; iter < m_Languages.length(); ++iter)
+	for (size_t iter = 0; iter < m_Languages.size(); ++iter)
 	{
 		if ((int)iter == langId)
 		{
@@ -612,7 +612,7 @@ bool CLangMngr::LangExists(const char *langName)
 			break;
 	}
 	
-	for (size_t iter = 0; iter < m_Languages.length(); ++iter)
+	for (size_t iter = 0; iter < m_Languages.size(); ++iter)
 	{
 		if (strcmp(m_Languages[iter]->GetName(), buf) == 0)
 		{

@@ -80,7 +80,7 @@ public:
 private:
 	void WritePluginDB(FILE *fp);
 private:
-	ke::AString m_logfile;
+	std::string m_logfile;
 	bool m_state;
 };
 

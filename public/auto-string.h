@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <amtl/am-string.h>
-#include <amtl/am-algorithm.h>
+#include <algorithm>
 
 namespace ke {
 
@@ -44,9 +44,9 @@ public:
   {
     assign(ptr);
   }
-  AutoString(const AString &str)
+  AutoString(const std::string &str)
   {
-    assign(str.chars(), str.length());
+    assign(str.c_str(), str.size());
   }
   AutoString(const char *ptr, size_t len)
   {
@@ -72,8 +72,8 @@ public:
     return *this;
   }
   AutoString &operator =(AutoString &&other) {
-    Swap(other.ptr_, ptr_);
-    Swap(other.length_, length_);
+    std::swap(other.ptr_, ptr_);
+    std::swap(other.length_, length_);
     return *this;
   }
 

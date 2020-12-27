@@ -259,11 +259,11 @@ void Debugger::BeginExec()
 	m_Top++;
 	assert(m_Top >= 0);
 
-	if (m_Top >= (int)m_pCalls.length())
+	if (m_Top >= (int)m_pCalls.size())
 	{
 		Tracer *pTracer = new Tracer();
-		m_pCalls.append(pTracer);
-		assert(m_Top == static_cast<int>(m_pCalls.length() - 1));
+		m_pCalls.emplace_back(pTracer);
+		assert(m_Top == static_cast<int>(m_pCalls.size() - 1));
 	}
 
 	m_pCalls[m_Top]->Reset();
@@ -271,7 +271,7 @@ void Debugger::BeginExec()
 
 void Debugger::EndExec()
 {
-	assert(m_Top >= 0 && m_Top < (int)m_pCalls.length());
+	assert(m_Top >= 0 && m_Top < (int)m_pCalls.size());
 
 	m_pCalls[m_Top]->Reset();
 
@@ -280,7 +280,7 @@ void Debugger::EndExec()
 
 void Debugger::StepI()
 {
-	assert(m_Top >= 0 && m_Top < (int)m_pCalls.length());
+	assert(m_Top >= 0 && m_Top < (int)m_pCalls.size());
 
 #if defined BINLOG_ENABLED
 	if (g_binlog_level & 32)
@@ -306,21 +306,21 @@ void Debugger::Reset()
 
 int Debugger::GetTracedError()
 {
-	assert(m_Top >= 0 && m_Top < (int)m_pCalls.length());
+	assert(m_Top >= 0 && m_Top < (int)m_pCalls.size());
 
 	return m_pCalls[m_Top]->m_Error;
 }
 
 void Debugger::SetTracedError(int error)
 {
-	assert(m_Top >= 0 && m_Top < (int)m_pCalls.length());
+	assert(m_Top >= 0 && m_Top < (int)m_pCalls.size());
 
 	m_pCalls[m_Top]->m_Error = error;
 }
 
 trace_info_t *Debugger::GetTraceStart() const
 {
-	assert(m_Top >= 0 && m_Top < (int)m_pCalls.length());
+	assert(m_Top >= 0 && m_Top < (int)m_pCalls.size());
 
 	return m_pCalls[m_Top]->GetEnd();
 }
@@ -346,7 +346,7 @@ trace_info_t *Debugger::GetNextTrace(trace_info_t *pTraceInfo)
 
 bool Debugger::ErrorExists()
 {
-	assert(m_Top >= 0 && m_Top < (int)m_pCalls.length());
+	assert(m_Top >= 0 && m_Top < (int)m_pCalls.size());
 
 	return (m_pCalls[m_Top]->m_Error != AMX_ERR_NONE);
 }
@@ -356,7 +356,7 @@ int Debugger::FormatError(char *buffer, size_t maxLength)
 	if (!ErrorExists())
 		return -1;
 
-	assert(m_Top >= 0 && m_Top < (int)m_pCalls.length());
+	assert(m_Top >= 0 && m_Top < (int)m_pCalls.size());
 
 	Tracer *pTracer = m_pCalls[m_Top];
 	int error = pTracer->m_Error;
@@ -521,7 +521,7 @@ int AMXAPI Debugger::DebugHook(AMX *amx)
 
 void Debugger::Clear()
 {
-	for (size_t i = 0; i < m_pCalls.length(); i++)
+	for (size_t i = 0; i < m_pCalls.size(); i++)
 	{
 		delete m_pCalls[i];
 	}
@@ -568,7 +568,7 @@ void Debugger::DisplayTrace(const char *message)
 
 const char *Debugger::_GetFilename()
 {
-    if (m_FileName.length() < 1)
+    if (m_FileName.size() < 1)
     {
         CPluginMngr::CPlugin *pl = g_plugins.findPluginFast(m_pAmx);
         if (pl)
@@ -587,12 +587,12 @@ const char *Debugger::_GetFilename()
             }
         }
     }
-    return m_FileName.chars();
+    return m_FileName.c_str();
 }
 
 const char *Debugger::_GetVersion()
 {
-    if (m_Version.length() < 1)
+    if (m_Version.size() < 1)
     {
         const char *version = "";
         CPluginMngr::CPlugin *pl = g_plugins.findPluginFast(m_pAmx);
@@ -604,7 +604,7 @@ const char *Debugger::_GetVersion()
         m_Version = version;
     }
 
-    return m_Version.chars();
+    return m_Version.c_str();
 }
 
 void Debugger::FmtGenericMsg(AMX *amx, int error, char buffer[], size_t maxLength)
@@ -704,10 +704,10 @@ void Handler::SetErrorMsg(const char *msg)
 
 const char *Handler::GetLastMsg()
 {
-	if (m_MsgCache.length() < 1)
+	if (m_MsgCache.size() < 1)
 		return NULL;
 
-	return m_MsgCache.chars();
+	return m_MsgCache.c_str();
 }
 
 int Handler::HandleModule(const char *module, bool isClass)

@@ -17,7 +17,7 @@
 #include <time.h>
 
 MMDB_s HandleDB;
-ke::Vector<ke::AString> LangList;
+std::vector<std::string> LangList;
 bool NativesRegistered;
 
 void OnAmxxAttach()
@@ -248,7 +248,7 @@ bool loadDatabase()
 	// Retrieve supported languages.
 	for (size_t i = 0; i < HandleDB.metadata.languages.count; i++)
 	{
-		LangList.append(ke::AString(HandleDB.metadata.languages.names[i]));
+		LangList.emplace_back(std::string(HandleDB.metadata.languages.names[i]));
 	}
 
 	return true;

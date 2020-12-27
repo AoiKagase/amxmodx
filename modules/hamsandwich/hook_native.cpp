@@ -34,7 +34,7 @@ OffsetManager Offsets;
 
 bool gDoForwards=true;
 
-ke::Vector<Hook *> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
+std::vector<Hook *> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
 CHamSpecialBotHandler SpecialbotHandler;
 
 #define V(__KEYNAME, __STUFF__) 0, 0, __KEYNAME, false, RT_##__STUFF__, RB_##__STUFF__, PC_##__STUFF__, reinterpret_cast<void *>(Hook_##__STUFF__), Create_##__STUFF__, Call_##__STUFF__
@@ -600,21 +600,21 @@ static cell AMX_NATIVE_CALL RegisterHam(AMX *amx, cell *params)
 	// Fixes a buffer issue by copying locally the strings.
 	// REMOVE_ENTITY invokes pfnOnFreeEntPrivateData which plugins can hook and `function` and `classname` strings are used after that
 	// but it is pointing to the AMXX static buffer. Basically, hooking this forward and doing stuff inside could invalid all RegisterHam calls.
-	ke::AString function(MF_GetAmxString(amx, params[3], 0, NULL));
-	ke::AString classname(MF_GetAmxString(amx, params[2], 1, NULL));
+	std::string function(MF_GetAmxString(amx, params[3], 0, NULL));
+	std::string classname(MF_GetAmxString(amx, params[2], 1, NULL));
 
 	// Check the entity
 
 	// create an entity, assign it the gamedll's class, hook it and destroy it
 	edict_t *Entity=CREATE_ENTITY();
 
-	CALL_GAME_ENTITY(PLID,classname.chars(),&Entity->v);
+	CALL_GAME_ENTITY(PLID,classname.c_str(),&Entity->v);
 
 	if (Entity->pvPrivateData == NULL)
 	{
 		REMOVE_ENTITY(Entity);
 
-		MF_LogError(amx, AMX_ERR_NATIVE,"Failed to retrieve classtype for \"%s\", hook for \"%s\" not active.",classname.chars(),function.chars());
+		MF_LogError(amx, AMX_ERR_NATIVE,"Failed to retrieve classtype for \"%s\", hook for \"%s\" not active.",classname.c_str(),function.c_str());
 
 		return 0;
 	}
@@ -624,18 +624,18 @@ static cell AMX_NATIVE_CALL RegisterHam(AMX *amx, cell *params)
 
 	if (vtable == NULL)
 	{
-		MF_LogError(amx, AMX_ERR_NATIVE,"Failed to retrieve vtable for \"%s\", hook for \"%s\" not active.",classname.chars(),function.chars());
+		MF_LogError(amx, AMX_ERR_NATIVE,"Failed to retrieve vtable for \"%s\", hook for \"%s\" not active.",classname.c_str(),function.c_str());
 
 		return 0;
 	}
 
 	// Verify that the function is valid
 	// Don't fail the plugin if this fails, just emit a normal error
-	int fwd=hooklist[func].makefunc(amx, function.chars());
+	int fwd=hooklist[func].makefunc(amx, function.c_str());
 
 	if (fwd == -1)
 	{
-		MF_LogError(amx, AMX_ERR_NATIVE, "Function %s not found.", function.chars());
+		MF_LogError(amx, AMX_ERR_NATIVE, "Function %s not found.", function.c_str());
 
 		return 0;
 	}
@@ -652,9 +652,9 @@ static cell AMX_NATIVE_CALL RegisterHam(AMX *amx, cell *params)
 	pfwd->AddRef();
 
 	// We've passed all tests...
-	if (strcmp(classname.chars(), "player") == 0 && enableSpecialBot)
+	if (strcmp(classname.c_str(), "player") == 0 && enableSpecialBot)
 	{
-		SpecialbotHandler.RegisterHamSpecialBot(amx, func, function.chars(), post, pfwd);
+		SpecialbotHandler.RegisterHamSpecialBot(amx, func, function.c_str(), post, pfwd);
 	}
 
 	int **ivtable=(int **)vtable;
@@ -663,34 +663,34 @@ static cell AMX_NATIVE_CALL RegisterHam(AMX *amx, cell *params)
 
 	// Check the list of this function's hooks, see if the function we have is a hook
 
-	for (size_t i = 0; i < hooks[func].length(); ++i)
+	for (size_t i = 0; i < hooks[func].size(); ++i)
 	{
 		if (hooks[func].at(i)->tramp == vfunction)
 		{
 			// Yes, this function is hooked
 			if (post)
 			{
-				hooks[func].at(i)->post.append(pfwd);
+				hooks[func].at(i)->post.emplace_back(pfwd);
 			}
 			else
 			{
-				hooks[func].at(i)->pre.append(pfwd);
+				hooks[func].at(i)->pre.emplace_back(pfwd);
 			}
 			return reinterpret_cast<cell>(pfwd);
 		}
 	}
 
 	// If we got here, the function is not hooked
-	Hook *hook = new Hook(vtable, hooklist[func].vtid, hooklist[func].targetfunc, hooklist[func].isvoid, hooklist[func].needsretbuf, hooklist[func].paramcount, classname.chars());
-	hooks[func].append(hook);
+	Hook *hook = new Hook(vtable, hooklist[func].vtid, hooklist[func].targetfunc, hooklist[func].isvoid, hooklist[func].needsretbuf, hooklist[func].paramcount, classname.c_str());
+	hooks[func].emplace_back(hook);
 
 	if (post)
 	{
-		hook->post.append(pfwd);
+		hook->post.emplace_back(pfwd);
 	}
 	else
 	{
-		hook->pre.append(pfwd);
+		hook->pre.emplace_back(pfwd);
 	}
 
 	return reinterpret_cast<cell>(pfwd);
@@ -750,18 +750,18 @@ static cell AMX_NATIVE_CALL RegisterHamFromEntity(AMX *amx, cell *params)
 
 	// Check the list of this function's hooks, see if the function we have is a hook
 
-	for (size_t i = 0; i < hooks[func].length(); ++i)
+	for (size_t i = 0; i < hooks[func].size(); ++i)
 	{
 		if (hooks[func].at(i)->tramp == vfunction)
 		{
 			// Yes, this function is hooked
 			if (post)
 			{
-				hooks[func].at(i)->post.append(pfwd);
+				hooks[func].at(i)->post.emplace_back(pfwd);
 			}
 			else
 			{
-				hooks[func].at(i)->pre.append(pfwd);
+				hooks[func].at(i)->pre.emplace_back(pfwd);
 			}
 			return reinterpret_cast<cell>(pfwd);
 		}
@@ -775,15 +775,15 @@ static cell AMX_NATIVE_CALL RegisterHamFromEntity(AMX *amx, cell *params)
 
 	// If we got here, the function is not hooked
 	Hook *hook = new Hook(vtable, hooklist[func].vtid, hooklist[func].targetfunc, hooklist[func].isvoid, hooklist[func].needsretbuf, hooklist[func].paramcount, classname);
-	hooks[func].append(hook);
+	hooks[func].emplace_back(hook);
 
 	if (post)
 	{
-		hook->post.append(pfwd);
+		hook->post.emplace_back(pfwd);
 	}
 	else
 	{
-		hook->pre.append(pfwd);
+		hook->pre.emplace_back(pfwd);
 	}
 
 	return reinterpret_cast<cell>(pfwd);

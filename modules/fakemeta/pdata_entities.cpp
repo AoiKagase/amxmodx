@@ -13,6 +13,7 @@
 
 #include "fakemeta_amxx.h"
 #include "pdata_shared.h"
+#include <algorithm>
 
 // native any:get_ent_data(entity, const class[], const member[], element = 0);
 static cell AMX_NATIVE_CALL get_ent_data(AMX *amx, cell *params)
@@ -180,7 +181,7 @@ static cell AMX_NATIVE_CALL get_ent_data_string(AMX *amx, cell *params)
 
 	if (data.fieldSize)
 	{
-		maxlen = ke::Min(maxlen, data.fieldSize);
+		maxlen = min(maxlen, data.fieldSize);
 	}
 
 	return MF_SetAmxStringUTF8Char(amx, buffer, string ? string : "", string ? strlen(string) : 0, maxlen);
@@ -221,7 +222,7 @@ static cell AMX_NATIVE_CALL find_ent_data_info(AMX *amx, cell *params)
 	GET_TYPE_DESCRIPTION(1, data, CommonConfig);
 
 	*MF_GetAmxAddr(amx, params[3]) = static_cast<cell>(data.fieldType);
-	*MF_GetAmxAddr(amx, params[4]) = ke::Max<int>(0, data.fieldSize);
+	*MF_GetAmxAddr(amx, params[4]) = std::max<int>(0, data.fieldSize);
 	*MF_GetAmxAddr(amx, params[5]) = data.fieldUnsigned != 0;
 
 	return data.fieldOffset;

@@ -25,7 +25,7 @@ typedef struct spawndata_s
 class SpawnManager
 {
 private:
-	ke::Vector<SpawnData>		TeamSpawns[5];
+	std::vector<SpawnData>		TeamSpawns[5];
 
 public:
 	SpawnManager()
@@ -43,9 +43,9 @@ public:
 
 		// Reserve data for a "typical" map layout
 		// makes data entry faster on map load
-		TeamSpawns[0].ensure(32);
-		TeamSpawns[1].ensure(16);
-		TeamSpawns[2].ensure(48);
+		// TeamSpawns[0].ensure(32);
+		// TeamSpawns[1].ensure(16);
+		// TeamSpawns[2].ensure(48);
 	};
 
 	inline void Insert(const edict_t *Entity)
@@ -61,7 +61,7 @@ public:
 		Entity->v.origin.CopyToArray(TemporaryData.Location);
 		Entity->v.angles.CopyToArray(TemporaryData.Angle);
 
-		TeamSpawns[Entity->v.team].append(TemporaryData);
+		TeamSpawns[Entity->v.team].emplace_back(TemporaryData);
 	};
 	inline void InsertReadyRoom(const edict_t *Entity)
 	{
@@ -70,7 +70,7 @@ public:
 		Entity->v.origin.CopyToArray(TemporaryData.Location);
 		Entity->v.angles.CopyToArray(TemporaryData.Angle);
 
-		TeamSpawns[0].append(TemporaryData);
+		TeamSpawns[0].emplace_back(TemporaryData);
 	};
 
 	// ns_get_spawn(team,number=0,Float:ret[3]);
@@ -82,10 +82,10 @@ public:
 		}
 		if (params[2]==0)
 		{
-			return static_cast<int>(TeamSpawns[params[1]].length());
+			return static_cast<int>(TeamSpawns[params[1]].size());
 		}
 
-		if (params[2]>=(int)TeamSpawns[params[1]].length())
+		if (params[2]>=(int)TeamSpawns[params[1]].size())
 		{
 			return 0;
 		}

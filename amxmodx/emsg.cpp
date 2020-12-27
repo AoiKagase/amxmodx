@@ -296,7 +296,7 @@ void Client_ScoreInfo(void* mValue)
 			pPlayer->deaths = deaths;
 			pPlayer->teamId = *(int*)mValue;
 			if (g_teamsIds.isNewTeam())
-				g_teamsIds.registerTeam(pPlayer->team.chars(), pPlayer->teamId);
+				g_teamsIds.registerTeam(pPlayer->team.c_str(), pPlayer->teamId);
 	}
 }
 
@@ -310,7 +310,7 @@ void Client_DamageEnd(void* mValue)
 		g_events.parseValue(dead->death_killer);
 		g_events.parseValue(dead->index);
 		g_events.parseValue(dead->death_headshot);
-		g_events.parseValue(dead->death_weapon.chars());
+		g_events.parseValue(dead->death_weapon.c_str());
 		g_events.parseValue(dead->death_tk ? 1 : 0);
 		g_events.executeEvents();
 		dead->death_killer = 0;

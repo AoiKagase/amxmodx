@@ -43,7 +43,7 @@ struct AutoForward
 
 	int         id;
 	fwdstate    state;
-	ke::AString callback;
+	std::string callback;
 };
 
 struct CvarHook
@@ -52,7 +52,7 @@ struct CvarHook
 	CvarHook(int id)                   : pluginId(id), forward(new AutoForward()) {};
 
 	int pluginId;
-	ke::AutoPtr<AutoForward> forward;
+	std::unique_ptr<AutoForward> forward;
 };
 
 struct CvarBind
@@ -94,8 +94,8 @@ struct CvarBound
 	int     maxPluginId;
 };
 
-typedef ke::Vector<CvarHook*> CvarsHook;
-typedef ke::Vector<CvarBind*> CvarsBind;
+typedef std::vector<CvarHook*> CvarsHook;
+typedef std::vector<CvarBind*> CvarsBind;
 
 struct CvarInfo : public ke::InlineListNode<CvarInfo>
 {
@@ -110,11 +110,11 @@ struct CvarInfo : public ke::InlineListNode<CvarInfo>
 		plugin(""), pluginId(-1), bound(), amxmodx(false) {};
 
 	cvar_t*      var;
-	ke::AString  name;
-	ke::AString  defaultval;
-	ke::AString  description;
+	std::string  name;
+	std::string  defaultval;
+	std::string  description;
 
-	ke::AString  plugin;
+	std::string  plugin;
 	int          pluginId;
 
 	CvarBound    bound;

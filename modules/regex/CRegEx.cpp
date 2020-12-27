@@ -176,13 +176,13 @@ int RegEx::Match(const char *str)
 	}
 
 	RegExSub res;
-	mSubStrings.ensure(rc);
+	// mSubStrings.ensure(rc);
 
 	for (int s = 0; s < rc; ++s)
 	{
 		res.start = ovector[2 * s];
 		res.end = ovector[2 * s + 1];
-		mSubStrings.append(res);
+		mSubStrings.emplace_back(res);
 	}
 
 	return 1;
@@ -229,14 +229,14 @@ int RegEx::MatchAll(const char *str)
 
 		if (rr > 0)
 		{
-			mMatchesSubs.append(rr);
+			mMatchesSubs.emplace_back(rr);
 
 			for (int s = 0; s < rr; ++s)
 			{
 				sub.start = ovector[2 * s];
 				sub.end = ovector[2 * s + 1];
 
-				mSubStrings.append(sub);
+				mSubStrings.emplace_back(sub);
 			}
 		}
 		else if (rr == PCRE_ERROR_NOMATCH)
@@ -261,7 +261,7 @@ int RegEx::MatchAll(const char *str)
 		{
 			mErrorOffset = rr;
 
-			if (mMatchesSubs.length())
+			if (mMatchesSubs.size())
 			{
 				ClearMatch();
 			}
@@ -283,7 +283,7 @@ int RegEx::MatchAll(const char *str)
 		startOffset = ovector[1];
 	}
 
-	if (!mMatchesSubs.length())
+	if (!mMatchesSubs.size())
 	{
 		return 0;
 	}
@@ -328,7 +328,7 @@ const char *getSubstring(char *subject, size_t start, size_t end, char buffer[],
 
 const char *RegEx::GetSubstring(size_t start, char buffer[], size_t max, size_t *outlen)
 {
-	if (start >= mSubStrings.length())
+	if (start >= mSubStrings.size())
 	{
 		return NULL;
 	}
@@ -372,7 +372,7 @@ void RegEx::MakeSubpatternsTable(int numSubpatterns)
 			data.index = 0xff * (unsigned char)nameTable[0] + (unsigned char)nameTable[1];
 			data.name = nameTable + 2;
 
-			mSubsNameTable.append(ke::Move(data));
+			mSubsNameTable.emplace_back(std::move(data));
 			nameTable += nameSize;
 		}
 	}
@@ -418,7 +418,7 @@ int RegEx::Replace(char *text, size_t textMaxLen, const char *replace, size_t re
 	/** 
 	 * Loop over all matches found.
 	 */
-	for (size_t i = 0; i < mMatchesSubs.length(); ++i)
+	for (size_t i = 0; i < mMatchesSubs.size(); ++i)
 	{
 		char *ptr = toReplace;
 
@@ -627,7 +627,7 @@ int RegEx::Replace(char *text, size_t textMaxLen, const char *replace, size_t re
 										 * Looking at the name table.
 										 */
 										bool found = false;
-										for (size_t i = 0; i < mSubsNameTable.length(); ++i)
+										for (size_t i = 0; i < mSubsNameTable.size(); ++i)
 										{
 											if (!mSubsNameTable.at(i).name.compare(name))
 											{

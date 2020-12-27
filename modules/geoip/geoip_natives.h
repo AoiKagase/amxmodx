@@ -16,10 +16,10 @@
 
 #include <amtl/am-string.h>
 #include <amtl/am-vector.h>
-#include <amtl/am-algorithm.h>
+#include <algorithm>
 
 extern MMDB_s HandleDB;
-extern ke::Vector<ke::AString> LangList;
+extern std::vector<std::string> LangList;
 extern AMX_NATIVE_INFO GeoipNatives[];
 
 #endif // _INCLUDE_GEOIPNATIVES_H

@@ -133,13 +133,13 @@ SMCResult CsItemInfo::ReadSMC_LeavingSection(const SMCStates *states)
 		}
 		case PSTATE_ALIASES_ALIAS_DEFS:
 		{
-			if (m_AliasAlt.length())
+			if (m_AliasAlt.size())
 			{
-				m_BuyAliasesAltList.replace(m_AliasAlt.chars(), m_AliasInfo);
-				m_AliasInfo.alt_alias = Move(m_AliasAlt);
+				m_BuyAliasesAltList.replace(m_AliasAlt.c_str(), m_AliasInfo);
+				m_AliasInfo.alt_alias = std::move(m_AliasAlt);
 			}
 
-			m_BuyAliasesList.replace(m_Alias.chars(), m_AliasInfo);
+			m_BuyAliasesList.replace(m_Alias.c_str(), m_AliasInfo);
 			m_WeaponIdToClass[m_AliasInfo.itemid] = static_cast<CsWeaponClassType>(m_AliasInfo.classid);
 
 			m_AliasInfo.clear();
@@ -169,7 +169,7 @@ bool CsItemInfo::GetAliasInfos(const char *alias, AliasInfo *info)
 	return false;
 }
 
-bool CsItemInfo::GetAliasFromId(size_t id, ke::AString &name, ke::AString &altname)
+bool CsItemInfo::GetAliasFromId(size_t id, std::string &name, std::string &altname)
 {
 	for (auto iter = m_BuyAliasesList.iter(); !iter.empty(); iter.next())
 	{
@@ -204,7 +204,7 @@ bool CsItemInfo::GetAliasInfosFromName(const char *name, AliasInfo *info)
 
 	for (size_t id = 0; id < ARRAYSIZE(WeaponsList); ++id)
 	{
-		const char *weapon = WeaponsList[id].name.chars();
+		const char *weapon = WeaponsList[id].name.c_str();
 
 		if (weapon[prefix_weapon_length] == '_' && !strncmp(weapon, prefix_weapon, prefix_weapon_length))
 		{
@@ -223,7 +223,7 @@ bool CsItemInfo::GetAliasInfosFromName(const char *name, AliasInfo *info)
 
 	for (auto iter = m_BuyAliasesList.iter(); !iter.empty(); iter.next())
 	{
-		if (iter->value.classname.length() && !strcmp(iter->value.classname.chars() + prefix_item_length + 1, name))
+		if (iter->value.classname.size() && !strcmp(iter->value.classname.c_str() + prefix_item_length + 1, name))
 		{
 			*info = iter->value;
 			return true;

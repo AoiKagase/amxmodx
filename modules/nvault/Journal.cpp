@@ -25,12 +25,12 @@ Journal::Journal(const char *file)
 
 bool Journal::Erase()
 {
-	return (unlink(m_File.chars()) == 0);
+	return (unlink(m_File.c_str()) == 0);
 }
 
 int Journal::Replay(VaultMap *pMap)
 {
-	m_fp = fopen(m_File.chars(), "rb");
+	m_fp = fopen(m_File.c_str(), "rb");
 	if (!m_fp)
 	{
 		return -1;
@@ -42,8 +42,8 @@ int Journal::Replay(VaultMap *pMap)
 	uint16_t len16;
 	char *key = NULL;
 	char *val = NULL;
-	ke::AString sKey;
-	ke::AString sVal;
+	std::string sKey;
+	std::string sVal;
 	time_t stamp;
 	JOp op;
 	int ops = 0;
@@ -158,7 +158,7 @@ success:
 
 bool Journal::Begin()
 {
-	m_fp = fopen(m_File.chars(), "wb");
+	m_fp = fopen(m_File.c_str(), "wb");
 	m_Bw.SetFilePtr(m_fp);
 	return (m_fp != NULL);
 }

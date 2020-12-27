@@ -3,7 +3,6 @@
 
 #include "amxmodx.h"
 #include <amtl/am-deque.h>
-#include <amtl/am-autoptr.h>
 
 class CFrameActionMngr
 {
@@ -38,23 +37,23 @@ public:
 
 	void AddFrameAction(int callbackForward, cell callbackData)
 	{
-		m_requestedFrames.append(new CFrameAction(callbackForward, callbackData));
+		m_requestedFrames.emplace_back(new CFrameAction(callbackForward, callbackData));
 	}
 
 	void ExecuteFrameCallbacks()
 	{
 		// In case a frame callback requests another frame, newly added frames won't be executed this way
-		int callbacksToRun = m_requestedFrames.length();
+		int callbacksToRun = m_requestedFrames.size();
 		while (callbacksToRun--)
 		{
-			ke::AutoPtr<CFrameAction> action = ke::Move(m_requestedFrames.front());
-			m_requestedFrames.popFront();
+			std::unique_ptr<CFrameAction> action = std::move(m_requestedFrames.front());
+			ke::PopFront(&m_requestedFrames);
 			action->Execute();
 		}
 	}
 
 private:
-	ke::Deque<ke::AutoPtr<CFrameAction>> m_requestedFrames;
+	std::deque<std::unique_ptr<CFrameAction>> m_requestedFrames;
 
 };
 

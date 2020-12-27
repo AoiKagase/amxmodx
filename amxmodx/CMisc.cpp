@@ -15,27 +15,27 @@
 
 void CPlayer::Init(edict_t* e, int i)
 {
-	index = i;
-	pEdict = e;
-	initialized = false;
-	ingame = false;
-	authorized = false;
-	disconnecting = false;
+	index		 = i;
+	pEdict		 = e;
+	initialized  = false;
+	ingame		 = false;
+	authorized	 = false;
+	disconnecting= false;
 	teamIdsInitialized = false;
 
-	current = 0;
-	teamId = -1;
-	deaths = 0;
-	aiming = 0;
-	menu = 0;
-	keys = 0;
-	menuexpire = 0.0;
-	newmenu = -1;
+	current		 = 0;
+	teamId		 = -1;
+	deaths		 = 0;
+	aiming		 = 0;
+	menu		 = 0;
+	keys		 = 0;
+	menuexpire	 = 0.0;
+	newmenu		 = -1;
 
-	death_weapon = nullptr;
-	name = nullptr;
-	ip = nullptr;
-	team = nullptr;
+	death_weapon = "";
+	name		 = "";
+	ip			 = "";
+	team		 = "";
 }
 
 void CPlayer::Disconnect()
@@ -241,7 +241,7 @@ void TeamIds::registerTeam(const char* n, int s)
 	
 	while (*a)
 	{
-		if (strcmp((*a)->name.chars(),n) == 0)
+		if (strcmp((*a)->name.c_str(),n) == 0)
 		{
 			if (s != -1)
 			{
@@ -268,7 +268,7 @@ int TeamIds::findTeamId(const char* n)
 	
 	while (a)
 	{
-		if (!stricmp(a->name.chars(), n))
+		if (!stricmp(a->name.c_str(), n))
 			return a->id;
 		a = a->next;
 	}
@@ -282,7 +282,7 @@ int TeamIds::findTeamIdCase(const char* n)
 	
 	while (a)
 	{
-		if (!strcmp(a->name.chars(), n))
+		if (!strcmp(a->name.c_str(), n))
 			return a->id;
 		a = a->next;
 	}

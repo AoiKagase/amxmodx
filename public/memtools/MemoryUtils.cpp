@@ -94,7 +94,7 @@ MemoryUtils::MemoryUtils()
 MemoryUtils::~MemoryUtils()
 {
 #if defined(__linux__) || defined(__APPLE__)
-	for (size_t i = 0; i < m_SymTables.length(); i++)
+	for (size_t i = 0; i < m_SymTables.size(); i++)
 	{
 		delete m_SymTables[i];
 	}
@@ -187,7 +187,7 @@ void *MemoryUtils::ResolveSymbol(void *handle, const char *symbol)
 	table = NULL;
 	
 	/* See if we already have a symbol table for this library */
-	for (size_t i = 0; i < m_SymTables.length(); i++)
+	for (size_t i = 0; i < m_SymTables.size(); i++)
 	{
 		libtable = m_SymTables[i];
 		if (libtable->lib_base == dlmap->l_addr)
@@ -205,7 +205,7 @@ void *MemoryUtils::ResolveSymbol(void *handle, const char *symbol)
 		libtable->lib_base = dlmap->l_addr;
 		libtable->last_pos = 0;
 		table = &libtable->table;
-		m_SymTables.append(libtable);
+		m_SymTables.emplace_back(libtable);
 	}
 
 	/* See if the symbol is already cached in our table */
@@ -347,7 +347,7 @@ void *MemoryUtils::ResolveSymbol(void *handle, const char *symbol)
 	}
 	
 	/* See if we already have a symbol table for this library */
-	for (size_t i = 0; i < m_SymTables.length(); i++)
+	for (size_t i = 0; i < m_SymTables.size(); i++)
 	{
 		libtable = m_SymTables[i];
 		if (libtable->lib_base == dlbase)
@@ -365,7 +365,7 @@ void *MemoryUtils::ResolveSymbol(void *handle, const char *symbol)
 		libtable->lib_base = dlbase;
 		libtable->last_pos = 0;
 		table = &libtable->table;
-		m_SymTables.append(libtable);
+		m_SymTables.emplace_back(libtable);
 	}
 	
 	/* See if the symbol is already cached in our table */

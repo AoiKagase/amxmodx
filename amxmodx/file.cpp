@@ -20,14 +20,14 @@ static cell AMX_NATIVE_CALL read_dir(AMX *amx, cell *params)
 	const char* path = get_amxstring(amx, params[1], 0, length);
 	const char* realpath = build_pathname("%s", path);
 
-	AutoPtr<CDirectory> dir(g_LibSys.OpenDirectory(realpath));
+	std::unique_ptr<CDirectory> dir(g_LibSys.OpenDirectory(realpath));
 
 	if (!dir)
 	{
 		return 0;
 	}
 
-	cell offset = Max(0, params[2]);
+	cell offset = max(0, params[2]);
 
 	if (offset >= 0)
 	{
@@ -74,7 +74,7 @@ static cell AMX_NATIVE_CALL read_file(AMX *amx, cell *params)
 	const char* path = get_amxstring(amx, params[1], 0, length);
 	const char* realpath = build_pathname("%s", path);
 
-	AutoPtr<SystemFile> fp(SystemFile::Open(realpath, "r"));
+	std::unique_ptr <SystemFile > fp(SystemFile::Open(realpath, "r"));
 
 	if (!fp)
 	{
@@ -85,7 +85,7 @@ static cell AMX_NATIVE_CALL read_file(AMX *amx, cell *params)
 	static char buffer[2048];
 
 	size_t currentLine = 0;
-	size_t targetLine = Max(0, params[2]);
+	size_t targetLine = max(0, params[2]);
 
 	while (currentLine <= targetLine && fp->ReadLine(buffer, sizeof(buffer) - 1))
 	{
@@ -121,7 +121,7 @@ static cell AMX_NATIVE_CALL write_file(AMX *amx, cell *params)
 
 	const char* realpath = build_pathname("%s", path);
 
-	AutoPtr<SystemFile>fp;
+	SystemFile *fp;
 
 	if (targetLine < 0)
 	{
@@ -191,7 +191,7 @@ static cell AMX_NATIVE_CALL write_file(AMX *amx, cell *params)
 
 	rewind(fptemp.handle());
 
-	if (!(fp = AutoPtr<SystemFile>(SystemFile::Open(realpath, "w"))))
+	if (!(fp = SystemFile::Open(realpath, "w")))
 	{
 		LogError(amx, AMX_ERR_NATIVE, "Couldn't write file \"%s\"", realpath);
 		return 0;
@@ -260,7 +260,7 @@ static cell AMX_NATIVE_CALL file_size(AMX *amx, cell *params)
 	const char* path = get_amxstring(amx, params[1], 0, length);
 	int flag = FSOPT_BYTES_COUNT;
 
-	AutoPtr<FileObject> fp;
+	FileObject *fp;
 
 	size_t numParams = *params / sizeof(cell);
 
@@ -714,7 +714,7 @@ static cell AMX_NATIVE_CALL amx_filesize(AMX *amx, cell *params)
 	int length;
 	const char *realpath = build_pathname("%s", format_amxstring(amx, params, 1, length));
 
-	AutoPtr<SystemFile> fp(SystemFile::Open(realpath, "rb"));
+	std::unique_ptr<SystemFile> fp(SystemFile::Open(realpath, "rb"));
 
 	if (fp)
 	{
@@ -812,7 +812,7 @@ static cell AMX_NATIVE_CALL amx_open_dir(AMX *amx, cell *params)
 // native close_dir(dirh);
 static cell AMX_NATIVE_CALL amx_close_dir(AMX *amx, cell *params)
 {
-	AutoPtr<DirectoryHandle> p(reinterpret_cast<DirectoryHandle*>(params[1]));
+	std::unique_ptr<DirectoryHandle> p(reinterpret_cast<DirectoryHandle*>(params[1]));
 
 	if (!p)
 	{

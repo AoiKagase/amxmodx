@@ -19,7 +19,7 @@
 
 typedef struct psystem_s
 {
-	ke::AString		 Name;
+	std::string		 Name;
 	int				 id;
 	int				 IsStatic; // Set to 1 if the particle system is loaded from ns.ps
 
@@ -28,7 +28,7 @@ typedef struct psystem_s
 class ParticleManager
 {
 private:
-	ke::Vector<ParticleSystem *>	Systems;
+	std::vector<ParticleSystem *>	Systems;
 	int								m_iFileLoaded;
 	unsigned short					m_iEventID;
 
@@ -37,23 +37,23 @@ public:
 	{
 		m_iFileLoaded=0;
 		m_iEventID=0;
-		Systems.ensure(64);
+		// Systems.ensure(64);
 	};
 
 	// Remove all non-static particle systems
 	inline void Prune()
 	{
-		for (size_t i = 0; i < Systems.length(); ++i)
+		for (size_t i = 0; i < Systems.size(); ++i)
 		{
 			if (Systems[i]->IsStatic)
 			{
 				break;
 			}
 
-			Systems.remove(i);
+			Systems.erase(Systems.begin() + i);
 			delete Systems.at(i);
 
-			if (!Systems.length())
+			if (!Systems.size())
 			{
 				break;
 			}
@@ -66,13 +66,13 @@ public:
 	{
 		ParticleSystem *ps=new ParticleSystem;
 
-		ps->id=Systems.length();
+		ps->id=Systems.size();
 		ps->IsStatic=Static;
 		ps->Name = Start;
 
-		Systems.append(ps);
+		Systems.emplace_back(ps);
 
-		return Systems.length()-1;
+		return Systems.size()-1;
 	};
 	inline void FireSystem(int id, float *Origin, float *Angles, int flags)
 	{
@@ -106,9 +106,9 @@ public:
 	};
 	inline int Find(const char *Needle)
 	{
-		for (size_t i = 0; i < Systems.length(); ++i)
+		for (size_t i = 0; i < Systems.size(); ++i)
 		{
-			if (strcmp(Needle, Systems[i]->Name.chars()) == 0)
+			if (strcmp(Needle, Systems[i]->Name.c_str()) == 0)
 			{
 				return Systems[i]->id;
 			}

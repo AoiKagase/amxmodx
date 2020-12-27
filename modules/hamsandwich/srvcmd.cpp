@@ -19,7 +19,7 @@
 #include "hook.h"
 
 extern hook_t hooklist[];
-extern ke::Vector<Hook *> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
+extern std::vector<Hook *> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
 
 void HamCommand(void)
 {
@@ -76,12 +76,12 @@ void HamCommand(void)
 		int count = 0;
 		for (int i=0; i<HAM_LAST_ENTRY_DONT_USE_ME_LOL; i++)
 		{
-			for (size_t j = 0; j < hooks[i].length(); ++j)
+			for (size_t j = 0; j < hooks[i].size(); ++j)
 			{
 				HookCount++;
-				ForwardCount += hooks[i].at(j)->pre.length() + hooks[i].at(j)->post.length();
+				ForwardCount += hooks[i].at(j)->pre.size() + hooks[i].at(j)->post.size();
 
-				MF_PrintSrvConsole("%-24s | %-27s | %10d | %10d\n", hooklist[i].name, hooks[i].at(j)->ent, hooks[i].at(j)->pre.length(), hooks[i].at(j)->post.length());
+				MF_PrintSrvConsole("%-24s | %-27s | %10d | %10d\n", hooklist[i].name, hooks[i].at(j)->ent, hooks[i].at(j)->pre.size(), hooks[i].at(j)->post.size());
 				if (count >= 5)
 				{
 					MF_PrintSrvConsole("--------------------------------------------------------------------------------\n");

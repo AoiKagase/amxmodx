@@ -148,7 +148,7 @@ int utf8strcasecmp(const char *string1, const char *string2);
 
 struct WeaponsVault
 {
-	ke::AString fullName;
+	std::string fullName;
 	short int iId;
 	short int ammoSlot;
 };
@@ -169,18 +169,18 @@ extern CFrameActionMngr g_frameActionMngr;
 extern CPlayer g_players[33];
 extern CPlayer* mPlayer;
 extern CmdMngr g_commands;
-extern ke::Vector<ke::AutoPtr<ForceObject>> g_forcemodels;
-extern ke::Vector<ke::AutoPtr<ForceObject>> g_forcesounds;
-extern ke::Vector<ke::AutoPtr<ForceObject>> g_forcegeneric;
-extern ke::Vector<ke::AutoPtr<CPlayer *>> g_auth;
+extern std::vector<std::unique_ptr<ForceObject>> g_forcemodels;
+extern std::vector<std::unique_ptr<ForceObject>> g_forcesounds;
+extern std::vector<std::unique_ptr<ForceObject>> g_forcegeneric;
+extern std::vector<std::unique_ptr<CPlayer *>> g_auth;
 extern ke::InlineList<CModule> g_modules;
 extern ke::InlineList<CScript> g_loadedscripts;
 extern EventsMngr g_events;
 extern Grenades g_grenades;
 extern LogEventsMngr g_logevents;
 extern CLangMngr g_langMngr;
-extern ke::AString g_log_dir;
-extern ke::AString g_mod_name;
+extern std::string g_log_dir;
+extern std::string g_mod_name;
 extern TeamIds g_teamsIds;
 extern Vault g_vault;
 extern CForwardMngr g_forwards;

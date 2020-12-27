@@ -25,7 +25,7 @@
 #include "entity_state.h"
 #include <amtl/am-vector.h>
 #include <amtl/am-string.h>
-#include <amtl/am-algorithm.h>
+#include <algorithm>
 #include <CDetour/detours.h>
 #include <HLTypeConversion.h>
 
@@ -145,8 +145,8 @@ class Touch
 {
 public:
 	int Forward;
-	ke::AString Toucher;
-	ke::AString Touched;
+	std::string Toucher;
+	std::string Touched;
 	~Touch()
 	{
 		if (Forward != -1)
@@ -158,7 +158,7 @@ class EntClass
 {
 public:
 	int Forward;
-	ke::AString Class;
+	std::string Class;
 	~EntClass()
 	{
 		if (Forward != -1)
@@ -221,9 +221,9 @@ extern struct PlayerInfo plinfo[33];
 extern struct GlobalInfo glinfo;
 extern AMX_NATIVE_INFO engine_Natives[];
 extern AMX_NATIVE_INFO engine_NewNatives[];
-extern ke::Vector<Impulse *> Impulses;
-extern ke::Vector<EntClass *> Thinks;
-extern ke::Vector<Touch *> Touches;
+extern std::vector<Impulse *> Impulses;
+extern std::vector<EntClass *> Thinks;
+extern std::vector<Touch *> Touches;
 
 #endif //_ENGINE_INCLUDE_H
 

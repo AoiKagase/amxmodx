@@ -13,7 +13,7 @@
 
 #include "JsonMngr.h"
 
-ke::UniquePtr<JSONMngr> JsonMngr;
+std::unique_ptr<JSONMngr> JsonMngr;
 
 //native JSON:json_parse(const string[], bool:is_file = false, bool:with_comments = false);
 static cell AMX_NATIVE_CALL amxx_json_parse(AMX *amx, cell *params)
@@ -930,7 +930,7 @@ AMX_NATIVE_INFO JsonNatives[] =
 
 void OnAmxxAttach()
 {
-	JsonMngr = ke::MakeUnique<JSONMngr>();
+	JsonMngr = std::make_unique<JSONMngr>();
 
 	MF_AddNatives(JsonNatives);
 	//MF_AddInterface(JsonMngr.get());

@@ -12,12 +12,12 @@
 #include "newmenus.h"
 #include "format.h"
 
-ke::Vector<Menu *> g_NewMenus;
+std::vector<Menu *> g_NewMenus;
 CStack<int> g_MenuFreeStack;
 
 void ClearMenus()
 {
-	for (size_t i = 0; i < g_NewMenus.length(); i++)
+	for (size_t i = 0; i < g_NewMenus.size(); i++)
 	{
 		delete g_NewMenus[i];
 	}
@@ -63,7 +63,7 @@ void validate_menu_text(char *str)
 
 Menu *get_menu_by_id(int id)
 {
-	if (id < 0 || size_t(id) >= g_NewMenus.length() || !g_NewMenus[id])
+	if (id < 0 || size_t(id) >= g_NewMenus.size() || !g_NewMenus[id])
 		return NULL;
 
 	return g_NewMenus[id];
@@ -120,7 +120,7 @@ isDestroying(false), pageCallback(-1), showPageNumber(true), useMultilingual(use
 
 Menu::~Menu()
 {
-	for (size_t i = 0; i < m_Items.length(); i++)
+	for (size_t i = 0; i < m_Items.size(); i++)
 	{
 		delete m_Items[i];
 	}
@@ -138,19 +138,19 @@ menuitem *Menu::AddItem(const char *name, const char *cmd, int access)
 	pItem->name = name;
 	pItem->cmd = cmd;
 	pItem->access = access;
-	pItem->id = m_Items.length();
+	pItem->id = m_Items.size();
 	pItem->handler = -1;
 	pItem->isBlank = false;
 	pItem->pfn = NULL;
 
-	m_Items.append(pItem);
+	m_Items.emplace_back(pItem);
 
 	return pItem;
 }
 
 menuitem *Menu::GetMenuItem(item_t item)
 {
-	if (item >= m_Items.length())
+	if (item >= m_Items.size())
 		return NULL;
 
 	return m_Items[item];
@@ -158,7 +158,7 @@ menuitem *Menu::GetMenuItem(item_t item)
 
 size_t Menu::GetItemCount()
 {
-	return m_Items.length();
+	return m_Items.size();
 }
 
 size_t Menu::GetPageCount()
@@ -179,7 +179,7 @@ int Menu::PagekeyToItem(page_t page, item_t key)
 
 	if (num_pages == 1 || !items_per_page)
 	{
-		if (key > m_Items.length())
+		if (key > m_Items.size())
 		{
 			return MENU_EXIT;
 		} else {
@@ -191,9 +191,9 @@ int Menu::PagekeyToItem(page_t page, item_t key)
 		{
 			/* The algorithm for spaces here is same as a middle page. */
 			item_t new_key = key;
-			for (size_t i=start; i<(start+key-1) && i<m_Items.length(); i++)
+			for (size_t i=start; i<(start+key-1) && i<m_Items.size(); i++)
 			{
-				for (size_t j=0; j<m_Items[i]->blanks.length(); j++)
+				for (size_t j=0; j<m_Items[i]->blanks.size(); j++)
 				{
 					if (m_Items[i]->blanks[j].EatNumber())
 					{
@@ -221,7 +221,7 @@ int Menu::PagekeyToItem(page_t page, item_t key)
 		} else if (page == num_pages - 1) {
 			//last page
 			item_t item_tracker = 0; //  tracks how many valid items we have passed so far.
-			size_t remaining = m_Items.length() - start;
+			size_t remaining = m_Items.size() - start;
 			item_t new_key = key;
 			
 			// For every item that takes up a slot (item or padded blank)
@@ -229,7 +229,7 @@ int Menu::PagekeyToItem(page_t page, item_t key)
 			// For every item (not blanks), we increase item_tracker.
 			// When new_key equals 0, item_tracker will then be set to
 			// whatever valid item was selected.
-			for (size_t i=m_Items.length() - remaining; i<m_Items.length(); i++)
+			for (size_t i=m_Items.size() - remaining; i<m_Items.size(); i++)
 			{
 				item_tracker++;
 				
@@ -241,7 +241,7 @@ int Menu::PagekeyToItem(page_t page, item_t key)
 				
 				new_key--;
 				
-				for (size_t j=0; j<m_Items[i]->blanks.length(); j++)
+				for (size_t j=0; j<m_Items[i]->blanks.size(); j++)
 				{
 					if (m_Items[i]->blanks[j].EatNumber())
 					{
@@ -273,9 +273,9 @@ int Menu::PagekeyToItem(page_t page, item_t key)
 			 * one from the key for each space we find along the way.
 			 */
 			item_t new_key = key;
-			for (size_t i=start; i<(start+items_per_page-1) && i<m_Items.length(); i++)
+			for (size_t i=start; i<(start+items_per_page-1) && i<m_Items.size(); i++)
 			{
-				for (size_t j=0; j<m_Items[i]->blanks.length(); j++)
+				for (size_t j=0; j<m_Items[i]->blanks.size(); j++)
 				{
 					if (m_Items[i]->blanks[j].EatNumber())
 					{
@@ -358,7 +358,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 	m_Text = nullptr;
 
 
-	auto title = m_Title.chars();
+	auto title = m_Title.c_str();
 
 	if (this->useMultilingual)
 	{
@@ -477,7 +477,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 			option_display = 0;
 		}
 
-		auto itemName = pItem->name.chars();
+		auto itemName = pItem->name.c_str();
 
 		if (this->useMultilingual)
 		{
@@ -498,7 +498,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 		{
 			if (m_AutoColors)
 			{
-				ke::SafeSprintf(buffer, sizeof(buffer), "%s%d.\\w %s\n", m_ItemColor.chars(),option_display, itemName);
+				ke::SafeSprintf(buffer, sizeof(buffer), "%s%d.\\w %s\n", m_ItemColor.c_str(),option_display, itemName);
 			} else {
 				ke::SafeSprintf(buffer, sizeof(buffer), "%d. %s\n", option_display, itemName);
 			}
@@ -515,9 +515,9 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 		m_Text = m_Text + buffer;
 
 		//attach blanks
-		if (pItem->blanks.length())
+		if (pItem->blanks.size())
 		{
-			for (size_t j=0; j<pItem->blanks.length(); j++)
+			for (size_t j=0; j<pItem->blanks.size(); j++)
 			{
 				if (pItem->blanks[j].EatNumber())
 				{
@@ -545,7 +545,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 		if (pages > 1)
 		{
 
-			auto tempItemName = m_OptNames[abs(MENU_BACK)].chars();
+			auto tempItemName = m_OptNames[abs(MENU_BACK)].c_str();
 
 			if (this->useMultilingual)
 			{
@@ -566,7 +566,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 					ke::SafeSprintf(buffer,
 						sizeof(buffer), 
 						"%s%d. \\w%s\n", 
-						m_ItemColor.chars(), 
+						m_ItemColor.c_str(), 
 						option == 10 ? 0 : option, 
 						tempItemName);
 				} else {
@@ -591,7 +591,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 			}
 			m_Text = m_Text + buffer;
 
-			tempItemName = m_OptNames[abs(MENU_MORE)].chars();
+			tempItemName = m_OptNames[abs(MENU_MORE)].c_str();
 
 			if (this->useMultilingual)
 			{
@@ -612,7 +612,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 					ke::SafeSprintf(buffer,
 						sizeof(buffer), 
 						"%s%d. \\w%s\n", 
-						m_ItemColor.chars(), 
+						m_ItemColor.c_str(), 
 						option == 10 ? 0 : option, 
 						tempItemName);
 				} else {
@@ -644,7 +644,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 
 	if ((items_per_page && !m_NeverExit) || (m_ForceExit && numItems < 10))
 	{
-		auto exitName = m_OptNames[abs(MENU_EXIT)].chars();
+		auto exitName = m_OptNames[abs(MENU_EXIT)].c_str();
 
 		if (this->useMultilingual)
 		{
@@ -667,7 +667,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 			ke::SafeSprintf(buffer,
 				sizeof(buffer), 
 				"%s%d. \\w%s\n", 
-				m_ItemColor.chars(), 
+				m_ItemColor.c_str(), 
 				option == 10 ? 0 : option, 
 				exitName);
 		} else {
@@ -685,7 +685,7 @@ const char *Menu::GetTextString(int player, page_t page, int &keys)
 
 #define GETMENU(p) Menu *pMenu = get_menu_by_id(p); \
 	if (pMenu == NULL || pMenu->isDestroying) { \
-	LogError(amx, AMX_ERR_NATIVE, "Invalid menu id %d(%d)", p, g_NewMenus.length()); \
+	LogError(amx, AMX_ERR_NATIVE, "Invalid menu id %d(%d)", p, g_NewMenus.size()); \
 	return 0; }
 
 // native menu_create(const title[], const handler[], bool:ml = false);
@@ -710,9 +710,9 @@ static cell AMX_NATIVE_CALL menu_create(AMX *amx, cell *params)
 
 	if (g_MenuFreeStack.empty())
 	{
-		g_NewMenus.append(pMenu);
+		g_NewMenus.emplace_back(pMenu);
 
-		pMenu->thisId = static_cast<int>(g_NewMenus.length()) - 1;
+		pMenu->thisId = static_cast<int>(g_NewMenus.size()) - 1;
 	}
 	else
 	{
@@ -737,13 +737,13 @@ static cell AMX_NATIVE_CALL menu_addblank(AMX *amx, cell *params)
 		return 0;
 	}
 
-	if (!pMenu->m_Items.length())
+	if (!pMenu->m_Items.size())
 	{
 		LogError(amx, AMX_ERR_NATIVE, "Blanks can only be added after items.");
 		return 0;
 	}
 
-	menuitem *item = pMenu->m_Items[pMenu->m_Items.length() - 1];
+	menuitem *item = pMenu->m_Items[pMenu->m_Items.size() - 1];
 
 	BlankItem a;
 
@@ -755,7 +755,7 @@ static cell AMX_NATIVE_CALL menu_addblank(AMX *amx, cell *params)
 	else
 		a.SetEatNumber(false);
 
-	item->blanks.append(ke::Move(a));
+	item->blanks.emplace_back(std::move(a));
 
 	return 1;
 }
@@ -769,13 +769,13 @@ static cell AMX_NATIVE_CALL menu_addtext(AMX *amx, cell *params)
 		return 0;
 	}
 
-	if (!pMenu->m_Items.length())
+	if (!pMenu->m_Items.size())
 	{
 		LogError(amx, AMX_ERR_NATIVE, "Blanks can only be added after items.");
 		return 0;
 	}
 
-	menuitem *item = pMenu->m_Items[pMenu->m_Items.length() - 1];
+	menuitem *item = pMenu->m_Items[pMenu->m_Items.size() - 1];
 
 	BlankItem a;
 
@@ -788,7 +788,7 @@ static cell AMX_NATIVE_CALL menu_addtext(AMX *amx, cell *params)
 	else
 		a.SetEatNumber(false);
 
-	item->blanks.append(ke::Move(a));
+	item->blanks.emplace_back(std::move(a));
 
 	return 1;
 }
@@ -965,8 +965,8 @@ static cell AMX_NATIVE_CALL menu_item_getinfo(AMX *amx, cell *params)
 	cell *addr = get_amxaddr(amx, params[3]);
 	addr[0] = pItem->access;
 
-	set_amxstring(amx, params[4], pItem->cmd.chars(), params[5]);
-	set_amxstring(amx, params[6], pItem->name.chars(), params[7]);
+	set_amxstring(amx, params[4], pItem->cmd.c_str(), params[5]);
+	set_amxstring(amx, params[6], pItem->name.c_str(), params[7]);
 
 	if (params[8])
 	{
@@ -1188,7 +1188,7 @@ static cell AMX_NATIVE_CALL menu_setprop(AMX *amx, cell *params)
 
 #define GETMENU_R(p) Menu *pMenu = get_menu_by_id(p); \
 	if (pMenu == NULL) { \
-	LogError(amx, AMX_ERR_NATIVE, "Invalid menu id %d(%d)", p, g_NewMenus.length()); \
+	LogError(amx, AMX_ERR_NATIVE, "Invalid menu id %d(%d)", p, g_NewMenus.size()); \
 	return 0; }
 
 static cell AMX_NATIVE_CALL menu_cancel(AMX *amx, cell *params)

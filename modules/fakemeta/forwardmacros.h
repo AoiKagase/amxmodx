@@ -923,7 +923,7 @@
 	clfm(); \
 	int fmres = FMRES_IGNORED; \
 	int lastFmRes = FMRES_IGNORED; \
-	for (i=0; i<Engine[pfnCall].length(); i++) \
+	for (i=0; i<Engine[pfnCall].size(); i++) \
 	{ \
 		fmres = MF_ExecuteForward pfnArgs; \
 		if (fmres >= lastFmRes) { \
@@ -941,7 +941,7 @@
 	clfm(); \
 	int fmres = FMRES_IGNORED; \
 	int lastFmRes = FMRES_IGNORED; \
-	for (i=0; i<EnginePost[pfnCall].length(); i++) \
+	for (i=0; i<EnginePost[pfnCall].size(); i++) \
 	{ \
 		fmres = MF_ExecuteForward pfnArgs; \
 		if (fmres >= lastFmRes) { \

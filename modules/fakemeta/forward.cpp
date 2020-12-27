@@ -13,8 +13,8 @@
 
 #include "fakemeta_amxx.h"
 
-ke::Vector<int> Engine[ENGFUNC_NUM+10];
-ke::Vector<int> EnginePost[ENGFUNC_NUM + 10];
+std::vector<int> Engine[ENGFUNC_NUM+10];
+std::vector<int> EnginePost[ENGFUNC_NUM + 10];
 void *EngineAddrs[ENGFUNC_NUM+10];
 void *EngineAddrsPost[ENGFUNC_NUM+10];
 cell mCellResult;
@@ -834,7 +834,7 @@ static cell AMX_NATIVE_CALL unregister_forward(AMX *amx, cell *params)
 
 	void *patchAddr = NULL;
 
-	ke::Vector<int> *peng = NULL;
+	std::vector<int> *peng = NULL;
 	if (post)
 	{
 		peng = &(EnginePost[func]);
@@ -843,13 +843,13 @@ static cell AMX_NATIVE_CALL unregister_forward(AMX *amx, cell *params)
 		peng = &(Engine[func]);
 		patchAddr = EngineAddrs[func];
 	}
-	for (size_t i = 0; i < peng->length(); ++i)
+	for (size_t i = 0; i < peng->size(); ++i)
 	{
 		if (peng->at(i) == func_id)
 		{
-			peng->remove(i);
+			peng->erase(peng->begin() + i);
 			MF_UnregisterSPForward(func_id);
-			if (!peng->length() && patchAddr != NULL && func != FM_ServerDeactivate)
+			if (!peng->size() && patchAddr != NULL && func != FM_ServerDeactivate)
 			{
 				/* Clear out this forward if we no longer need it */
 				*(void **)patchAddr = NULL;
@@ -1511,9 +1511,9 @@ static cell AMX_NATIVE_CALL register_forward(AMX *amx, cell *params)
 
 	if (post)
 	{
-		EnginePost[func].append(fId);
+		EnginePost[func].emplace_back(fId);
 	} else {
-		Engine[func].append(fId);
+		Engine[func].emplace_back(fId);
 	}
 
 	return fId;

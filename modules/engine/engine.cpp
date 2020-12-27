@@ -47,7 +47,7 @@ static cell AMX_NATIVE_CALL register_think(AMX *amx, cell *params)
 
 	p->Forward = MF_RegisterSPForwardByName(amx, MF_GetAmxString(amx, params[2], 0, &len), FP_CELL, FP_DONE);
 
-	Thinks.append(p);
+	Thinks.emplace_back(p);
 
 	if (!g_pFunctionTable->pfnThink)
 		g_pFunctionTable->pfnThink=Think;
@@ -58,15 +58,15 @@ static cell AMX_NATIVE_CALL register_think(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL unregister_think(AMX *amx, cell *params)
 {
 	int fwd = params[1];
-	for (size_t i = 0; i < Thinks.length(); ++i)
+	for (size_t i = 0; i < Thinks.size(); ++i)
 	{
 		EntClass *p = Thinks.at(i);
 		if (p->Forward == fwd)
 		{
-			Thinks.remove(i);
+			Thinks.erase(Thinks.begin() + i);
 			delete p;
 
-			if (!Thinks.length())
+			if (!Thinks.size())
 				g_pFunctionTable->pfnThink = NULL;
 
 			return 1;
@@ -85,7 +85,7 @@ static cell AMX_NATIVE_CALL register_impulse(AMX *amx, cell *params)
 
 	p->Forward = MF_RegisterSPForwardByName(amx, MF_GetAmxString(amx, params[2], 0, &len), FP_CELL, FP_CELL, FP_DONE);
 
-	Impulses.append(p);
+	Impulses.emplace_back(p);
 
 	if (!g_pFunctionTable->pfnCmdStart)
 		g_pFunctionTable->pfnCmdStart=CmdStart;
@@ -96,15 +96,15 @@ static cell AMX_NATIVE_CALL register_impulse(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL unregister_impulse(AMX *amx, cell *params)
 {
 	int fwd = params[1];
-	for (size_t i = 0; i < Impulses.length(); ++i)
+	for (size_t i = 0; i < Impulses.size(); ++i)
 	{
 		Impulse *p = Impulses.at(i);
 		if (p->Forward == fwd)
 		{
-			Impulses.remove(i);
+			Impulses.erase(Impulses.begin() + i);
 			delete p;
 
-			if (!Impulses.length())
+			if (!Impulses.size())
 				g_pFunctionTable->pfnCmdStart = NULL;
 
 			return 1;
@@ -136,7 +136,7 @@ static cell AMX_NATIVE_CALL register_touch(AMX *amx, cell *params)
 
 	p->Forward = MF_RegisterSPForwardByName(amx, MF_GetAmxString(amx, params[3], 2, &len), FP_CELL, FP_CELL, FP_DONE);
 
-	Touches.append(p);
+	Touches.emplace_back(p);
 
 	if (!g_pFunctionTable->pfnTouch)
 		g_pFunctionTable->pfnTouch=pfnTouch;
@@ -147,15 +147,15 @@ static cell AMX_NATIVE_CALL register_touch(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL unregister_touch(AMX *amx, cell *params)
 {
 	int fwd = params[1];
-	for (size_t i = 0; i < Touches.length(); ++i)
+	for (size_t i = 0; i < Touches.size(); ++i)
 	{
 		Touch *p = Touches.at(i);
 		if (p->Forward == fwd)
 		{
-			Touches.remove(i);
+			Touches.erase(Touches.begin() + i);
 			delete p;
 
-			if (!Touches.length())
+			if (!Touches.size())
 				g_pFunctionTable->pfnTouch = NULL;
 
 			return 1;

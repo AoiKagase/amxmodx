@@ -15,7 +15,6 @@
 #define _INCLUDE_JOURNAL_H
 
 #include "Binary.h"
-#include <amtl/am-linkedlist.h>
 #include <sm_stringhashmap.h>
 #include <amtl/am-string.h>
 
@@ -37,7 +36,7 @@ enum Encode
 
 struct ArrayInfo
 {
-	ke::AString value;
+	std::string value;
 	time_t stamp;
 };
 
@@ -62,7 +61,7 @@ private:
 	bool WriteInt32(int num);
 	bool WriteString(const char *str, Encode enc);
 private:
-	ke::AString m_File;
+	std::string m_File;
 	FILE *m_fp;
 	BinaryWriter m_Bw;
 };

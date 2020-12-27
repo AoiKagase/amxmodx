@@ -14,7 +14,7 @@
 #include "CstrikePlayer.h"
 
 CPlayer Players[33];
-ke::Vector<int> ModelsUpdateQueue;
+std::vector<int> ModelsUpdateQueue;
 
 void ClientDisconnect(edict_t *pEntity)
 {
@@ -66,7 +66,7 @@ void StartFrame()
 		RETURN_META(MRES_IGNORED);
 	}
 
-	ServerStatic->clients[ModelsUpdateQueue.popCopy()].sendinfo = true;
+	ServerStatic->clients[ke::PopBack(&ModelsUpdateQueue)].sendinfo = true;
 
 	RETURN_META(MRES_IGNORED);
 }

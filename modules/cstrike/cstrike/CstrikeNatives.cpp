@@ -1839,11 +1839,11 @@ static cell AMX_NATIVE_CALL cs_get_item_alias(AMX* amx, cell* params)
 		return FALSE;
 	}
 
-	ke::AString name, altname;
+	std::string name, altname;
 	auto result = ItemsManager.GetAliasFromId(itemid, name, altname);
 
-	MF_SetAmxString(amx, params[2], name.chars(), params[3]);
-	MF_SetAmxString(amx, params[4], altname.chars(), params[5]);
+	MF_SetAmxString(amx, params[2], name.c_str(), params[3]);
+	MF_SetAmxString(amx, params[4], altname.c_str(), params[5]);
 
 	return result ? TRUE : FALSE;
 }
@@ -1874,13 +1874,13 @@ static cell AMX_NATIVE_CALL cs_get_translated_item_alias(AMX* amx, cell* params)
 				// Special item_* defined in gamdata file as game
 				// doesn't give us really a way to know about their classname
 				// and I don't want to hard code them in module.
-				name = info.classname.chars();
+				name = info.classname.c_str();
 				break;
 			}
 			default:
 			{
 				// weapon_* retrieved from WeaponList messages at map change.
-				name = WeaponsList[info.itemid].name.chars();
+				name = WeaponsList[info.itemid].name.c_str();
 				break;
 			}
 		}

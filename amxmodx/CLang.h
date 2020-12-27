@@ -47,7 +47,7 @@ public:
 	~defentry()
 	{
 	}
-	ke::AString *definition;
+	std::string *definition;
 };
 
 struct keytbl_val
@@ -73,7 +73,7 @@ class CLangMngr : public ITextListener_INI
 		// Get the definition
 		const char *GetDef(int key, int &status);
 		// Add definitions to this language
-		void MergeDefinitions(ke::Vector <sKeyDef> & vec);
+		void MergeDefinitions(std::vector <sKeyDef> & vec);
 		// Reset this language
 		void Clear();
 
@@ -103,7 +103,7 @@ class CLangMngr : public ITextListener_INI
 	};
 public:
 	// Merge definitions into a language
-	void MergeDefinitions(const char *lang, ke::Vector <sKeyDef> &tmpVec);
+	void MergeDefinitions(const char *lang, std::vector <sKeyDef> &tmpVec);
 
 public: // ITextListener_INI
 	void ReadINI_ParseStart();
@@ -115,13 +115,13 @@ private:
 	// strip lowercase; make lower if needed
 	static size_t strip(char *str, char *newstr, bool makelower = false);
 
-	typedef ke::Vector<CLang*> LangVec;
+	typedef std::vector<CLang*> LangVec;
 	
 	LangVec m_Languages;
 
 	StringHashMap<time_t> FileList;
-	ke::Vector<ke::AString *> KeyList;
-	THash<ke::AString, keytbl_val> KeyTable;
+	std::vector<std::string *> KeyList;
+	THash<std::string, keytbl_val> KeyTable;
 
 	// Get a lang object (construct if needed)
 	CLang * GetLang(const char *name);
@@ -139,12 +139,12 @@ public:
 	char *FormatAmxString(AMX *amx, cell *params, int parm, int &len);
 	void InvalidateCache();
 	// Get index
-	int GetKeyEntry(ke::AString &key);
+	int GetKeyEntry(std::string &key);
 	int GetKeyEntry(const char *key);
 	// Get key from index
 	const char *GetKey(int key);
 	// Add key
-	int AddKeyEntry(ke::AString &key);
+	int AddKeyEntry(std::string &key);
 	int AddKeyEntry(const char *key);
 
 	// Get the number of languages

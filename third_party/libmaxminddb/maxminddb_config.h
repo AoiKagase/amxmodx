@@ -5,7 +5,7 @@
 
 /* This fixes a behavior change in after https://github.com/maxmind/libmaxminddb/pull/123. */
 #if defined(BYTE_ORDER) && BYTE_ORDER == LITTLE_ENDIAN
-	#define MMDB_LITTLE_ENDIAN 1
+#define MMDB_LITTLE_ENDIAN 1
 #endif
 
 #ifndef MMDB_UINT128_USING_MODE
@@ -18,4 +18,4 @@
 #define MMDB_UINT128_IS_BYTE_ARRAY 1
 #endif
 
-#endif                          /* MAXMINDDB_CONFIG_H */
+#endif /* MAXMINDDB_CONFIG_H */

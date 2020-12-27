@@ -19,20 +19,20 @@
 #include "CRegEx.h"
 #include "utils.h"
 
-ke::Vector<RegEx *> PEL;
+std::vector<RegEx *> PEL;
 
 int GetPEL()
 {
-	for (int i=0; i<(int)PEL.length(); i++)
+	for (int i=0; i<(int)PEL.size(); i++)
 	{
 		if (PEL[i]->isFree())
 			return i;
 	}
 
 	RegEx *x = new RegEx();
-	PEL.append(x);
+	PEL.emplace_back(x);
 
-	return (int)PEL.length() - 1;
+	return (int)PEL.size() - 1;
 }
 
 // native Regex:regex_compile(const pattern[], &ret, error[], maxLen, const flags[]="");
@@ -159,7 +159,7 @@ cell match_c(AMX *amx, cell *params, bool all)
 {
 	int id = params[2] - 1;
 
-	if (id >= (int)PEL.length() || id < 0 || PEL[id]->isFree())
+	if (id >= (int)PEL.size() || id < 0 || PEL[id]->isFree())
 	{
 		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid regex handle %d", id);
 		return 0;
@@ -219,7 +219,7 @@ static cell AMX_NATIVE_CALL regex_match_all_c(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL regex_substr(AMX *amx, cell *params)
 {
 	int id = params[1]-1;
-	if (id >= (int)PEL.length() || id < 0 || PEL[id]->isFree())
+	if (id >= (int)PEL.size() || id < 0 || PEL[id]->isFree())
 	{
 		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid regex handle %d", id);
 		return 0;
@@ -229,7 +229,7 @@ static cell AMX_NATIVE_CALL regex_substr(AMX *amx, cell *params)
 	static char buffer[16384]; // Same as AMXX buffer.
 
 	size_t length;
-	size_t maxLength = ke::Min<size_t>(params[4], sizeof(buffer) - 1);
+	size_t maxLength = std::min<size_t>(params[4], sizeof(buffer) - 1);
 
 	const char *ret = x->GetSubstring(params[2], buffer, maxLength, &length);
 
@@ -254,7 +254,7 @@ static cell AMX_NATIVE_CALL regex_free(AMX *amx, cell *params)
 	int id = *c;
 	*c = 0;
 	id -= 1;
-	if (id >= (int)PEL.length() || id < 0 || PEL[id]->isFree())
+	if (id >= (int)PEL.size() || id < 0 || PEL[id]->isFree())
 	{
 		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid regex handle %d", id);
 		return 0;
@@ -270,7 +270,7 @@ static cell AMX_NATIVE_CALL regex_free(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL regex_replace(AMX *amx, cell *params)
 {
 	int id = params[1] - 1;
-	if (id >= (int)PEL.length() || id < 0 || PEL[id]->isFree())
+	if (id >= (int)PEL.size() || id < 0 || PEL[id]->isFree())
 	{
 		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid regex handle %d", id);
 		return 0;
@@ -323,7 +323,7 @@ void OnAmxxAttach()
 
 void OnAmxxDetach()
 {
-	for (int i = 0; i<(int)PEL.length(); i++)
+	for (int i = 0; i<(int)PEL.size(); i++)
 	{
 		if (PEL[i])
 		{

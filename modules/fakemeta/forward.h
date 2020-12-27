@@ -183,8 +183,8 @@ enum {
 	FM_LAST_DONT_USE_ME
 };
 
-extern ke::Vector<int> Engine[];
-extern ke::Vector<int> EnginePost[];
+extern std::vector<int> Engine[];
+extern std::vector<int> EnginePost[];
 extern void *EngineAddrs[ENGFUNC_NUM+10];
 extern void *EngineAddrsPost[ENGFUNC_NUM+10];
 extern cell mCellResult;

@@ -37,7 +37,7 @@ Message::Message()
 
 bool Message::Ready()
 {
-	if (!m_Params.length())
+	if (!m_Params.size())
 		return false;
 	return true;
 }
@@ -47,14 +47,14 @@ void Message::Init()
 	if (!Ready())
 	{
 		msgparam *p = new msgparam;
-		m_Params.append(p);
+		m_Params.emplace_back(p);
 	}
 	m_CurParam = 0;
 }
 
 Message::~Message()
 {
-	for (size_t i=0; i<m_Params.length(); i++)
+	for (size_t i=0; i<m_Params.size(); i++)
 		delete m_Params[i];
 	
 	m_Params.clear();
@@ -64,10 +64,10 @@ msgparam *Message::AdvPtr()
 {
 	msgparam *pParam = NULL;
 
-	if (++m_CurParam >= m_Params.length())
+	if (++m_CurParam >= m_Params.size())
 	{
 		pParam = new msgparam;
-		m_Params.append(pParam);
+		m_Params.emplace_back(pParam);
 	} else {
 		pParam = m_Params[m_CurParam];
 	}
@@ -120,7 +120,7 @@ const char *Message::GetParamString(size_t index)
 	if (index < 1 || index > m_CurParam)
 		return 0;
 
-	return m_Params[index]->szData.chars();
+	return m_Params[index]->szData.c_str();
 }
 
 int Message::GetParamInt(size_t index)
@@ -193,7 +193,7 @@ void Message::Send()
 			WRITE_COORD(pParam->v.fData);
 			break;
 		case arg_string:
-			WRITE_STRING(pParam->szData.chars());
+			WRITE_STRING(pParam->szData.c_str());
 			break;
 		case arg_entity:
 			WRITE_ENTITY(pParam->v.iData);

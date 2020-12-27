@@ -52,7 +52,7 @@ void Cvar_DirectSet_Custom(struct cvar_s *var, const char *value, IRehldsHook_Cv
 		}
 	}
 
-	ke::AString oldValue; // We save old value since it will be likely changed after original function called.
+	std::string oldValue; // We save old value since it will be likely changed after original function called.
 
 	if (!info->hooks.empty())
 	{
@@ -63,7 +63,7 @@ void Cvar_DirectSet_Custom(struct cvar_s *var, const char *value, IRehldsHook_Cv
 
 	if (!info->binds.empty())
 	{
-		for (size_t i = 0; i < info->binds.length(); ++i)
+		for (size_t i = 0; i < info->binds.size(); ++i)
 		{
 			CvarBind* bind = info->binds[i];
 
@@ -91,13 +91,13 @@ void Cvar_DirectSet_Custom(struct cvar_s *var, const char *value, IRehldsHook_Cv
 
 	if (!info->hooks.empty())
 	{
-		for (size_t i = 0; i < info->hooks.length(); ++i)
+		for (size_t i = 0; i < info->hooks.size(); ++i)
 		{
 			CvarHook* hook = info->hooks[i];
 
 			if (hook->forward->state == AutoForward::FSTATE_OK) // Our callback can be enable/disabled by natives.
 			{
-				executeForwards(hook->forward->id, reinterpret_cast<cvar_t*>(var), oldValue.chars(), var->string);
+				executeForwards(hook->forward->id, reinterpret_cast<cvar_t*>(var), oldValue.c_str(), var->string);
 			}
 		}
 	}
@@ -216,7 +216,7 @@ CvarInfo* CvarManager::CreateCvar(const char* name, const char* value, const cha
 			static cvar_t cvar_reg_helper;
 
 			// "string" will be set after. "value" and "next" are automatically set.
-			cvar_reg_helper.name   = info->name.chars();
+			cvar_reg_helper.name   = info->name.c_str();
 			cvar_reg_helper.string = "";
 			cvar_reg_helper.flags  = flags;
 
@@ -243,7 +243,7 @@ CvarInfo* CvarManager::CreateCvar(const char* name, const char* value, const cha
 		}
 
 		// Add a new entry in the caches.
-		m_Cvars.append(info);
+		m_Cvars.Append(info);
 		m_Cache.insert(name, info);
 
 		// Make sure that whether an existing or new cvar is set to the given value.
@@ -294,7 +294,7 @@ CvarInfo* CvarManager::FindCvar(const char* name)
 	info->var = var;
 
 	// Add entry in the caches.
-	m_Cvars.append(info);
+	m_Cvars.Append(info);
 	m_Cache.insert(name, info);
 
 	return info;
@@ -339,8 +339,8 @@ AutoForward* CvarManager::HookCvarChange(cvar_t* var, AMX* amx, cell param, cons
 		info->var = var;
 
 		// Add entry in the caches.
-		m_Cvars.append(info);
-		m_Cache.insert(info->name.chars(), info);
+		m_Cvars.Append(info);
+		m_Cache.insert(info->name.c_str(), info);
 	}
 
 	int length;
@@ -358,7 +358,7 @@ AutoForward* CvarManager::HookCvarChange(cvar_t* var, AMX* amx, cell param, cons
 	EnableHook();
 
 	AutoForward* forward = new AutoForward(forwardId, *callback);
-	info->hooks.append(new CvarHook(g_plugins.findPlugin(amx)->getId(), forward));
+	info->hooks.emplace_back(new CvarHook(g_plugins.findPlugin(amx)->getId(), forward));
 
 	return forward;
 }
@@ -375,7 +375,7 @@ bool CvarManager::BindCvar(CvarInfo* info, CvarBind::CvarType type, AMX* amx, ce
 	cell* address = get_amxaddr(amx, varofs);
 
 	// To avoid unexpected behavior, probably better to error such situations.
-	for (size_t i = 0; i < info->binds.length(); ++i)
+	for (size_t i = 0; i < info->binds.size(); ++i)
 	{
 		CvarBind* bind = info->binds[i];
 
@@ -391,7 +391,7 @@ bool CvarManager::BindCvar(CvarInfo* info, CvarBind::CvarType type, AMX* amx, ce
 
 	CvarBind* bind = new CvarBind(pluginId, type, get_amxaddr(amx, varofs), varlen);
 
-	info->binds.append(bind);
+	info->binds.emplace_back(bind);
 
 	// Update right away variable with current cvar value.
 	switch (type)
@@ -499,7 +499,7 @@ void CvarManager::OnConsoleCommand()
 {
 	size_t index = 0;
 	size_t indexToSearch = 0;
-	ke::AString partialName;
+	std::string partialName;
 
 	int argcount = CMD_ARGC();
 
@@ -540,12 +540,12 @@ void CvarManager::OnConsoleCommand()
 		// List any cvars having a status either created, hooked or bound by a plugin.
 		bool in_list = ci->amxmodx || !ci->binds.empty() || !ci->hooks.empty() || ci->bound.hasMin || ci->bound.hasMax;
 
-		if (in_list && (!partialName.length() || strncmp(ci->plugin.chars(), partialName.chars(), partialName.length()) == 0))
+		if (in_list && (!partialName.size() || strncmp(ci->plugin.c_str(), partialName.c_str(), partialName.size()) == 0))
 		{
 			if (!indexToSearch)
 			{
-				print_srvconsole(" [%3d] %-24.23s %-24.23s %-18.17s %-8.7s ", ++index, ci->name.chars(), ci->var->string,
-								 ci->plugin.length() ? ci->plugin.chars() : "-",
+				print_srvconsole(" [%3d] %-24.23s %-24.23s %-18.17s %-8.7s ", ++index, ci->name.c_str(), ci->var->string,
+								 ci->plugin.size() ? ci->plugin.c_str() : "-",
 								 ci->hooks.empty() ? "no" : "yes");
 
 				(ci->bound.hasMin) ? print_srvconsole("%-8.2f ", ci->bound.minVal) : print_srvconsole("%-8.7s ", "-");
@@ -562,8 +562,8 @@ void CvarManager::OnConsoleCommand()
 				print_srvconsole("\nCvar details :\n\n");
 				print_srvconsole(" Cvar name   : %s\n", ci->var->name);
 				print_srvconsole(" Value       : %s\n", ci->var->string);
-				print_srvconsole(" Def. value  : %s\n", ci->defaultval.chars());
-				print_srvconsole(" Description : %s\n", ci->description.chars());
+				print_srvconsole(" Def. value  : %s\n", ci->defaultval.c_str());
+				print_srvconsole(" Description : %s\n", ci->description.c_str());
 				print_srvconsole(" Flags       : %s\n\n", convertFlagsToString(ci->var->flags).ptr());
 
 				print_srvconsole(" %-12s  %-26.25s %s\n", "STATUS", "PLUGIN", "INFOS");
@@ -571,7 +571,7 @@ void CvarManager::OnConsoleCommand()
 
 				if (ci->amxmodx)
 				{
-					print_srvconsole(" Registered    %-26.25s %s\n", ci->plugin.chars(), "-");
+					print_srvconsole(" Registered    %-26.25s %s\n", ci->plugin.c_str(), "-");
 				}
 
 				if (ci->bound.hasMin)
@@ -586,7 +586,7 @@ void CvarManager::OnConsoleCommand()
 
 				if (!ci->binds.empty())
 				{
-					for (size_t i = 0; i < ci->binds.length(); ++i)
+					for (size_t i = 0; i < ci->binds.size(); ++i)
 					{
 						print_srvconsole(" Bound        %-26.25s %s\n", g_plugins.findPlugin(ci->binds[i]->pluginId)->getName(), "-");
 					}
@@ -594,12 +594,12 @@ void CvarManager::OnConsoleCommand()
 
 				if (!ci->hooks.empty())
 				{
-					for (size_t i = 0; i < ci->hooks.length(); ++i)
+					for (size_t i = 0; i < ci->hooks.size(); ++i)
 					{
 						CvarHook* hook = ci->hooks[i];
 
 						print_srvconsole(" Hooked        %-26.25s %s (%s)\n", g_plugins.findPlugin(hook->pluginId)->getName(),
-										 hook->forward->callback.chars(),
+										 hook->forward->callback.c_str(),
 										 hook->forward->state == AutoForward::FSTATE_OK ? "active" : "inactive");
 					}
 				}
@@ -614,12 +614,12 @@ void CvarManager::OnPluginUnloaded()
 	// Clear only plugin hooks list.
 	for (CvarsList::iterator cvar = m_Cvars.begin(); cvar != m_Cvars.end(); cvar++)
 	{
-		for (size_t i = 0; i < (*cvar)->binds.length(); ++i)
+		for (size_t i = 0; i < (*cvar)->binds.size(); ++i)
 		{
 			delete (*cvar)->binds[i];
 		}
 
-		for (size_t i = 0; i < (*cvar)->hooks.length(); ++i)
+		for (size_t i = 0; i < (*cvar)->hooks.size(); ++i)
 		{
 			delete (*cvar)->hooks[i];
 		}
@@ -648,12 +648,12 @@ void CvarManager::OnAmxxShutdown()
 	{
 		CvarInfo* cvar = (*iter);
 
-		for (size_t i = 0; i < cvar->binds.length(); ++i)
+		for (size_t i = 0; i < cvar->binds.size(); ++i)
 		{
 			delete cvar->binds[i];
 		}
 
-		for (size_t i = 0; i < cvar->hooks.length(); ++i)
+		for (size_t i = 0; i < cvar->hooks.size(); ++i)
 		{
 			delete cvar->hooks[i];
 		}

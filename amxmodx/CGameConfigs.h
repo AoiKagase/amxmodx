@@ -12,7 +12,6 @@
 
 #include <IGameConfigs.h>
 #include "CLibrarySys.h"
-#include <amtl/am-autoptr.h>
 #include <amtl/am-vector.h>
 #include <amtl/am-string.h>
 #include <amtl/am-refcounting.h>
@@ -65,7 +64,7 @@ class CGameConfig
 			StringHashMap<TypeDescription> list;
 		};
 
-		typedef StringHashMap<ke::AutoPtr<OffsetClass>> OffsetClassMap;
+		typedef StringHashMap<std::unique_ptr<OffsetClass>> OffsetClassMap;
 		typedef StringHashMap<TypeDescription> OffsetMap;
 
 		char                       m_File[PLATFORM_MAX_PATH];
@@ -73,7 +72,7 @@ class CGameConfig
 
 		OffsetMap                  m_Offsets;
 		OffsetClassMap             m_OffsetsByClass;
-		StringHashMap<ke::AString> m_Keys;
+		StringHashMap<std::string> m_Keys;
 		StringHashMap<void*>       m_Sigs;
 
 		int                        m_ParseState;
@@ -126,7 +125,7 @@ class CGameMasterReader : public ITextListener_SMC
 
 	public:
 
-		ke::Vector<ke::AString>* m_FileList;
+		std::vector<std::string>* m_FileList;
 
 		unsigned int m_State;
 		unsigned int m_IgnoreLevel;

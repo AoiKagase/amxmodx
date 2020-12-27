@@ -15,7 +15,6 @@
 #include "amxxfile.h"
 #include <amtl/am-string.h>
 #include <amtl/am-vector.h>
-#include <amtl/am-autoptr.h>
 
 // *****************************************************
 // class CPluginMngr
@@ -33,8 +32,8 @@ enum
 
 struct AutoConfig
 {
-	ke::AString autocfg;
-	ke::AString folder;
+	std::string autocfg;
+	std::string folder;
 	bool create;
 };
 
@@ -52,13 +51,13 @@ public:
 		AMX amx;
 		void* code;
 		
-		ke::AString name;
-		ke::AString version;
-		ke::AString title;
-		ke::AString author;
-		ke::AString url;
-		ke::AString description;
-		ke::AString errorMsg;
+		std::string name;
+		std::string version;
+		std::string title;
+		std::string author;
+		std::string url;
+		std::string description;
+		std::string errorMsg;
 		
 		unsigned int failcounter;
 		int m_PauseFwd;
@@ -74,15 +73,15 @@ public:
 		bool m_Debug;
 		cell* m_pNullStringOfs;
 		cell* m_pNullVectorOfs;
-		ke::Vector<ke::AutoPtr<AutoConfig>> m_configs;
+		std::vector<std::unique_ptr<AutoConfig>> m_configs;
 	public:
-		inline const char* getName() { return name.chars();}
-		inline const char* getVersion() { return version.chars();}
-		inline const char* getTitle() { return title.chars();}
-		inline const char* getAuthor() { return author.chars();}
-		inline const char* getUrl() { return url.chars(); }
-		inline const char* getDescription() { return description.chars(); }
-		inline const char* getError() { return errorMsg.chars();}
+		inline const char* getName() { return name.c_str();}
+		inline const char* getVersion() { return version.c_str();}
+		inline const char* getTitle() { return title.c_str();}
+		inline const char* getAuthor() { return author.c_str();}
+		inline const char* getUrl() { return url.c_str(); }
+		inline const char* getDescription() { return description.c_str(); }
+		inline const char* getError() { return errorMsg.c_str();}
 		inline int getStatusCode() { return status; }
 		inline int getId() const { return id; }
 		inline AMX* getAMX() { return &amx; }
@@ -161,7 +160,7 @@ public:
 		CAmxxReader *file;
 		size_t bufsize;
 		char *buffer;
-		ke::AString path;
+		std::string path;
 	};
 	char *ReadIntoOrFromCache(const char *file, size_t &bufsize);
 	void InvalidateCache();
@@ -170,7 +169,7 @@ public:
 	void CALMFromFile(const char *file);
 private:
 	List<plcache_entry *> m_plcache;
-	List<ke::AString *> m_BlockList;
+	List<std::string *> m_BlockList;
 };
 
 #endif //PLUGIN_H

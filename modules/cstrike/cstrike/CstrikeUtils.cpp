@@ -12,7 +12,7 @@
 //
 
 #include "amxxmodule.h"
-#include <amtl/am-algorithm.h>
+#include <algorithm>
 #include <amtl/am-string.h>
 
 extern int MessageIdTextMsg;
@@ -52,7 +52,7 @@ bool UTIL_CheckForPublic(const char *publicname)
 
 void UTIL_StringToLower(const char *str, char *buffer, size_t maxlength)
 {
-	auto length = ke::Min(strlen(str), maxlength - 1);
+	auto length = min(strlen(str), maxlength - 1);
 
 	for (size_t i = 0; i < length; ++i)
 	{

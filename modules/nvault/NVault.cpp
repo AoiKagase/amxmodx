@@ -29,10 +29,10 @@ NVault::NVault(const char *file)
 	m_Journal = NULL;
 	m_Open = false;
 
-	FILE *fp = fopen(m_File.chars(), "rb");
+	FILE *fp = fopen(m_File.c_str(), "rb");
 	if (!fp)
 	{
-		fp = fopen(m_File.chars(), "wb");
+		fp = fopen(m_File.c_str(), "wb");
 		if (!fp)
 		{
 			this->m_Valid = false;
@@ -51,7 +51,7 @@ NVault::~NVault()
 
 VaultError NVault::_ReadFromFile()
 {
-	FILE *fp = fopen(m_File.chars(), "rb");
+	FILE *fp = fopen(m_File.c_str(), "rb");
 
 	if (!fp)
 	{
@@ -153,7 +153,7 @@ success:
 
 bool NVault::_SaveToFile()
 {
-	FILE *fp = fopen(m_File.chars(), "wb");
+	FILE *fp = fopen(m_File.c_str(), "wb");
 
 	if (!fp)
 	{
@@ -168,8 +168,8 @@ bool NVault::_SaveToFile()
 	uint16_t version = VAULT_VERSION;
 
 	time_t stamp;
-	ke::AString key;
-	ke::AString val;
+	std::string key;
+	std::string val;
 
 	StringHashMap<ArrayInfo>::iterator iter = m_Hash.iter();
 
@@ -185,10 +185,10 @@ bool NVault::_SaveToFile()
 		stamp = (*iter).value.stamp;
 		
 		if (!bw.WriteInt32(static_cast<int32_t>(stamp))) goto fail;;
-		if (!bw.WriteUInt8( key.length() )) goto fail;
-		if (!bw.WriteUInt16( val.length() )) goto fail;
-		if (!bw.WriteChars( key.chars(), key.length() )) goto fail;
-		if (!bw.WriteChars( val.chars(), val.length() )) goto fail;
+		if (!bw.WriteUInt8( key.size() )) goto fail;
+		if (!bw.WriteUInt16( val.size() )) goto fail;
+		if (!bw.WriteChars( key.c_str(), key.size() )) goto fail;
+		if (!bw.WriteChars( val.c_str(), val.size() )) goto fail;
 
 		iter.next();
 	}
@@ -215,15 +215,15 @@ const char *NVault::GetValue(const char *key)
 		return "";
 	}
 
-	return r->value.value.chars();
+	return r->value.value.c_str();
 }
 
 bool NVault::Open()
 {
 	_ReadFromFile();
 
-	char *journal_name = new char[m_File.length() + 10];
-	strcpy(journal_name, m_File.chars());
+	char *journal_name = new char[m_File.size() + 10];
+	strcpy(journal_name, m_File.c_str());
 
 	char *pos = strstr(journal_name, ".vault");
 	if (pos)
@@ -290,7 +290,7 @@ void NVault::Remove(const char *key)
 	if (m_Journal)
 		m_Journal->Write_Remove(key);
 
-	m_Hash.remove(ke::AString(key).chars());
+	m_Hash.remove(std::string(key).c_str());
 }
 
 void NVault::Clear()
@@ -367,7 +367,7 @@ bool NVault::GetValue(const char *key, time_t &stamp, char buffer[], size_t len)
 	}
 
 	stamp = result.stamp;
-	ke::SafeSprintf(buffer, len, "%s", result.value.chars());
+	ke::SafeSprintf(buffer, len, "%s", result.value.c_str());
 
 	return true;
 }

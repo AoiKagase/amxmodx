@@ -72,7 +72,7 @@ public:
 		{
 			int paramId;				// the message parameter id
 
-			ke::AString sValue;				// value (string)
+			std::string sValue;				// value (string)
 			float fValue;				// value (float)
 			int iValue;					// value (int)
 			int type;					// type (can be int, float, string)
@@ -108,8 +108,8 @@ private:
 	int m_ReadVaultSize;
 	void NextParam();			// make sure a new parameter can be added
 
-	ke::Vector<ke::AutoPtr<ClEvent>> m_Events[MAX_AMX_REG_MSG];
-	ke::Vector<ke::AutoPtr<ClEvent>> *m_ParseFun; // current Event vector
+	std::vector<std::unique_ptr<ClEvent>> m_Events[MAX_AMX_REG_MSG];
+	std::vector<std::unique_ptr<ClEvent>> *m_ParseFun; // current Event vector
 
 	bool m_ParseNotDone;
 	int m_ParsePos;				// is args. num. - 1

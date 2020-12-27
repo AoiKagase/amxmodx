@@ -73,7 +73,7 @@ class CForward
 	const char *m_FuncName;
 	ForwardExecType m_ExecType;
 	int m_NumParams;
-	ke::AString m_Name;
+	std::string m_Name;
 	
 	struct AMXForward
 	{
@@ -81,7 +81,7 @@ class CForward
 		int func;
 	};
 	
-	typedef ke::Vector<AMXForward> AMXForwardList;
+	typedef std::vector<AMXForward> AMXForwardList;
 	
 	AMXForwardList m_Funcs;
 	ForwardParam m_ParamTypes[FORWARD_MAX_PARAMS];
@@ -99,12 +99,12 @@ public:
 	
 	int getFuncsNum() const
 	{
-		return m_Funcs.length();
+		return m_Funcs.size();
 	}
 
 	const char *getFuncName() const
 	{
-		return m_Name.chars();
+		return m_Name.c_str();
 	}
 	
 	ForwardParam getParamType(int paramId) const
@@ -127,7 +127,7 @@ class CSPForward
 	
 	int m_Func;
 	bool m_HasFunc;
-	ke::AString m_Name;
+	std::string m_Name;
 	bool m_InExec;
 	bool m_ToDelete;
 
@@ -152,7 +152,7 @@ public:
 
 	const char *getFuncName() const
 	{
-		return m_Name.chars();
+		return m_Name.c_str();
 	}
 	
 	ForwardParam getParamType(int paramId) const
@@ -166,8 +166,8 @@ public:
 
 class CForwardMngr
 {
-	typedef ke::Vector<CForward*> ForwardVec;
-	typedef ke::Vector<CSPForward*> SPForwardVec;
+	typedef std::vector<CForward*> ForwardVec;
+	typedef std::vector<CSPForward*> SPForwardVec;
 	typedef CStack<int> FreeSPVec;							// Free SP Forwards
 
 	ForwardVec m_Forwards;

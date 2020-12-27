@@ -27,7 +27,7 @@ enum LibType
 
 struct Library
 {
-	ke::AString name;
+	std::string name;
 	LibSource src;
 	LibType type;
 	void *parent;

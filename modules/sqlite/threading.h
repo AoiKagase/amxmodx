@@ -64,7 +64,7 @@ private:
 	unsigned int m_RowCount;
 	unsigned int m_FieldCount;
 	size_t m_AllocSize;
-	ke::AString **m_Table;
+	std::string **m_Table;
 	unsigned int m_CurRow;
 	bool m_IsFree;
 };
@@ -85,8 +85,8 @@ public:
 	void RunThread(IThreadHandle *pHandle);
 	void OnTerminate(IThreadHandle *pHandle, bool cancel);
 private:
-	ke::AString m_query;
-	ke::AString m_db;
+	std::string m_query;
+	std::string m_db;
 	cell *m_data;
 	ucell m_datalen;
 	size_t m_maxdatalen;

@@ -14,7 +14,6 @@
 #include <sm_stringhashmap.h>
 #include <sm_memtable.h>
 #include "natives_handles.h"
-#include <amtl/am-uniqueptr.h>
 
 enum EntryType
 {
@@ -275,7 +274,7 @@ struct TrieSnapshot
 	}
 
 	size_t length;
-	ke::AutoPtr<int[]> keys;
+	std::unique_ptr<int[]> keys;
 	BaseStringTable strings;
 };
 

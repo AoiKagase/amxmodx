@@ -329,7 +329,7 @@ int load_amxscript_internal(AMX *amx, void **program, const char *filename, char
 		return (amx->error = AMX_ERR_MEMORY);
 	}
 
-	g_loadedscripts.append(script);
+	g_loadedscripts.Append(script);
 
 	set_amxnatives(amx, error);
 
@@ -501,12 +501,12 @@ int set_amxnatives(AMX* amx, char error[128])
 {
 	for (auto module : g_modules)
 	{
-		for (size_t i = 0; i < module->m_Natives.length(); i++)
+		for (size_t i = 0; i < module->m_Natives.size(); i++)
 		{
 			amx_Register(amx, module->m_Natives[i], -1);
 		}
 
-		for (size_t i = 0; i < module->m_NewNatives.length(); i++)
+		for (size_t i = 0; i < module->m_NewNatives.size(); i++)
 		{
 			amx_Register(amx, module->m_NewNatives[i], -1);
 		}
@@ -687,13 +687,13 @@ const char* get_amxscriptname(AMX* amx)
 
 void get_modname(char* buffer)
 {
-	strcpy(buffer, g_mod_name.chars());
+	strcpy(buffer, g_mod_name.c_str());
 }
 
 char *build_pathname(const char *fmt, ...)
 {
 	static char string[PLATFORM_MAX_PATH];
-	auto len = ke::path::Format(string, sizeof(string), "%s/", g_mod_name.chars());
+	auto len = ke::path::Format(string, sizeof(string), "%s/", g_mod_name.c_str());
 
 	va_list argptr;
 	va_start(argptr, fmt);
@@ -705,7 +705,7 @@ char *build_pathname(const char *fmt, ...)
 
 char *build_pathname_r(char *buffer, size_t maxlen, const char *fmt, ...)
 {
-	auto len = ke::path::Format(buffer, maxlen, "%s/", g_mod_name.chars());
+	auto len = ke::path::Format(buffer, maxlen, "%s/", g_mod_name.c_str());
 
 	va_list argptr;
 	va_start(argptr, fmt);
@@ -893,14 +893,14 @@ bool LoadModule(const char *shortname, PLUG_LOADTIME now, bool simplify, bool no
 		report_error(1, "[AMXX] Module \"%s\" is not 64 bit compatible.", path);
 		break;
 	case MODULE_BADGAME:
-		report_error(1, "[AMXX] Module \"%s\" cannot load on game \"%s\"", path, g_mod_name.chars());
+		report_error(1, "[AMXX] Module \"%s\" cannot load on game \"%s\"", path, g_mod_name.c_str());
 		break;
 	default:
 		error = false;
 		break;
 	}
 
-	g_modules.append(module);
+	g_modules.Append(module);
 
 	if (error)
 	{
@@ -1091,7 +1091,7 @@ int MNF_AddNatives(AMX_NATIVE_INFO* natives)
 	if (!g_CurrentlyCalledModule || g_ModuleCallReason != ModuleCall_Attach)
 		return FALSE;				// may only be called from attach
 
-	g_CurrentlyCalledModule->m_Natives.append(natives);
+	g_CurrentlyCalledModule->m_Natives.emplace_back(natives);
 
 	return TRUE;
 }
@@ -1101,14 +1101,14 @@ int MNF_AddNewNatives(AMX_NATIVE_INFO *natives)
 	if (!g_CurrentlyCalledModule || g_ModuleCallReason != ModuleCall_Attach)
 		return FALSE;				// may only be called from attach
 
-	g_CurrentlyCalledModule->m_NewNatives.append(natives);
+	g_CurrentlyCalledModule->m_NewNatives.emplace_back(natives);
 
 	return TRUE;
 }
 
 const char *MNF_GetModname(void)
 {
-	return g_mod_name.chars();
+	return g_mod_name.c_str();
 }
 
 AMX *MNF_GetAmxScript(int id)
@@ -1263,7 +1263,7 @@ const char * MNF_GetPlayerName(int id)
 	if (id < 1 || id > gpGlobals->maxClients)
 		return NULL;
 
-	return GET_PLAYER_POINTER_I(id)->name.chars();
+	return GET_PLAYER_POINTER_I(id)->name.c_str();
 }
 
 void MNF_OverrideNatives(AMX_NATIVE_INFO *natives, const char *name)
@@ -1288,7 +1288,7 @@ const char * MNF_GetPlayerIP(int id)
 	if (id < 1 || id > gpGlobals->maxClients)
 		return NULL;
 
-	return GET_PLAYER_POINTER_I(id)->ip.chars();
+	return GET_PLAYER_POINTER_I(id)->ip.c_str();
 }
 
 int MNF_IsPlayerInGame(int id)
@@ -1562,7 +1562,7 @@ const char *MNF_GetPlayerTeam(int id)
 	if (id < 1 || id > gpGlobals->maxClients)
 		return NULL;
 
-	return (GET_PLAYER_POINTER_I(id)->team.chars());
+	return (GET_PLAYER_POINTER_I(id)->team.c_str());
 }
 
 #ifndef MEMORY_TEST
@@ -1593,16 +1593,16 @@ cell MNF_PrepareCharArray(char *ptr, unsigned int size)
 	return prepareCharArray(ptr, size, false);
 }
 
-ke::Vector<ke::AutoPtr<func_s>> g_functions;
+std::vector<std::unique_ptr<func_s>> g_functions;
 
 // Fnptr Request function for the new interface
 const char *g_LastRequestedFunc = NULL;
 #define REGISTER_FUNC(name, func) \
 	{ \
-		auto pFunc = ke::AutoPtr<func_s>(new func_s); \
+		auto pFunc = std::unique_ptr<func_s>(new func_s); \
 		pFunc->pfn = (void *)func; \
 		pFunc->desc = name; \
-		g_functions.append(ke::Move(pFunc)); \
+		g_functions.emplace_back(std::move(pFunc)); \
 	}
 
 void MNF_RegisterFunction(void *pfn, const char *description)

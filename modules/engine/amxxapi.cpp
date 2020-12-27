@@ -31,11 +31,11 @@ void ClearHooks()
 {
 	size_t i;
 
-	for (i=0; i<Touches.length(); i++)
+	for (i=0; i<Touches.size(); i++)
 		delete Touches[i];
-	for (i=0; i<Impulses.length(); i++)
+	for (i=0; i<Impulses.size(); i++)
 		delete Impulses[i];
-	for (i=0; i<Thinks.length(); i++)
+	for (i=0; i<Thinks.size(); i++)
 		delete Thinks[i];
 
 	Touches.clear();

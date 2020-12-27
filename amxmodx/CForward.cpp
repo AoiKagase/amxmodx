@@ -30,7 +30,7 @@ CForward::CForward(const char *name, ForwardExecType et, int numParams, const Fo
 			AMXForward tmp;
 			tmp.pPlugin = &(*iter);
 			tmp.func = func;
-			m_Funcs.append(tmp);
+			m_Funcs.emplace_back(tmp);
 		}
 	}
 
@@ -46,7 +46,7 @@ cell CForward::execute(cell *params, ForwardPreparedArray *preparedArrays)
 
 	cell globRetVal = 0;
 
-	for (size_t i = 0; i < m_Funcs.length(); ++i)
+	for (size_t i = 0; i < m_Funcs.size(); ++i)
 	{
 		auto iter = &m_Funcs[i];
 
@@ -402,7 +402,7 @@ cell CSPForward::execute(cell *params, ForwardPreparedArray *preparedArrays)
 
 int CForwardMngr::registerForward(const char *funcName, ForwardExecType et, int numParams, const ForwardParam * paramTypes)
 {
-	int retVal = m_Forwards.length() << 1;
+	int retVal = m_Forwards.size() << 1;
 	CForward *tmp = new CForward(funcName, et, numParams, paramTypes);
 	
 	if (!tmp)
@@ -410,7 +410,7 @@ int CForwardMngr::registerForward(const char *funcName, ForwardExecType et, int 
 		return -1;				// should be invalid
 	}
 	
-	m_Forwards.append(tmp);
+	m_Forwards.emplace_back(tmp);
 	
 	return retVal;
 }
@@ -431,7 +431,7 @@ int CForwardMngr::registerSPForward(int func, AMX *amx, int numParams, const For
 		
 		m_FreeSPForwards.pop();
 	} else {
-		retVal = (m_SPForwards.length() << 1) | 1;
+		retVal = (m_SPForwards.size() << 1) | 1;
 		pForward = new CSPForward();
 		
 		if (!pForward)
@@ -445,7 +445,7 @@ int CForwardMngr::registerSPForward(int func, AMX *amx, int numParams, const For
 			return -1;
 		}
 					 
-		m_SPForwards.append(pForward);
+		m_SPForwards.emplace_back(pForward);
 	}
 	
 	return retVal;
@@ -453,7 +453,7 @@ int CForwardMngr::registerSPForward(int func, AMX *amx, int numParams, const For
 
 int CForwardMngr::registerSPForward(const char *funcName, AMX *amx, int numParams, const ForwardParam *paramTypes)
 {
-	int retVal = (m_SPForwards.length() << 1) | 1;
+	int retVal = (m_SPForwards.size() << 1) | 1;
 	CSPForward *pForward;
 	
 	if (!m_FreeSPForwards.empty())
@@ -480,7 +480,7 @@ int CForwardMngr::registerSPForward(const char *funcName, AMX *amx, int numParam
 			return -1;
 		}
 		
-		m_SPForwards.append(pForward);
+		m_SPForwards.emplace_back(pForward);
 	}
 	
 	return retVal;
@@ -488,7 +488,7 @@ int CForwardMngr::registerSPForward(const char *funcName, AMX *amx, int numParam
 
 bool CForwardMngr::isIdValid(int id) const
 {
-	return (id >= 0) && ((id & 1) ? (static_cast<size_t>(id >> 1) < m_SPForwards.length()) : (static_cast<size_t>(id >> 1) < m_Forwards.length()));
+	return (id >= 0) && ((id & 1) ? (static_cast<size_t>(id >> 1) < m_SPForwards.size()) : (static_cast<size_t>(id >> 1) < m_Forwards.size()));
 }
 
 cell CForwardMngr::executeForwards(int id, cell *params)
@@ -548,12 +548,12 @@ void CForwardMngr::clear()
 {
 	size_t i;
 
-	for (i = 0; i < m_Forwards.length(); ++i)
+	for (i = 0; i < m_Forwards.size(); ++i)
 	{
 		delete m_Forwards[i];
 	}
 
-	for (i = 0; i < m_SPForwards.length(); ++i)
+	for (i = 0; i < m_SPForwards.size(); ++i)
 	{
 		delete m_SPForwards[i];
 	}

@@ -168,13 +168,13 @@ void MysqlThread::RunThread(IThreadHandle *pHandle)
 {
 	DatabaseInfo info;
 
-	info.database = m_db.chars();
-	info.pass = m_pass.chars();
-	info.user = m_user.chars();
-	info.host = m_host.chars();
+	info.database = m_db.c_str();
+	info.pass = m_pass.c_str();
+	info.user = m_user.c_str();
+	info.host = m_host.c_str();
 	info.port = m_port;
 	info.max_timeout = m_max_timeout;
-	info.charset = m_charset.chars();
+	info.charset = m_charset.c_str();
 
 	float save_time = m_qrInfo.queue_time;
 
@@ -192,7 +192,7 @@ void MysqlThread::RunThread(IThreadHandle *pHandle)
 	else 
 	{
 		m_qrInfo.connect_success = true;
-		pQuery = pDatabase->PrepareQuery(m_query.chars());
+		pQuery = pDatabase->PrepareQuery(m_query.c_str());
 		if (!pQuery->Execute2(&m_qrInfo.amxinfo.info, m_qrInfo.amxinfo.error, 254))
 		{
 			m_qrInfo.query_success = false;
@@ -216,8 +216,8 @@ void MysqlThread::RunThread(IThreadHandle *pHandle)
 	} 
 
 	m_qrInfo.amxinfo.pQuery = NULL;
-	m_qrInfo.amxinfo.opt_ptr = new char[m_query.length() + 1];
-	strcpy(m_qrInfo.amxinfo.opt_ptr, m_query.chars());
+	m_qrInfo.amxinfo.opt_ptr = new char[m_query.size() + 1];
+	strcpy(m_qrInfo.amxinfo.opt_ptr, m_query.c_str());
 
 	if (pDatabase)
 	{
@@ -443,7 +443,7 @@ bool AtomicResult::FieldNameToNum(const char *name, unsigned int *columnId)
 	for (unsigned int i=0; i<m_FieldCount; i++)
 	{
 		assert(m_Table[i] != NULL);
-		if (strcmp(m_Table[i]->chars(), name) == 0)
+		if (strcmp(m_Table[i]->c_str(), name) == 0)
 		{
 			if (columnId)
 			{
@@ -463,7 +463,7 @@ const char *AtomicResult::FieldNumToName(unsigned int num)
 
 	assert(m_Table[num] != NULL);
 
-	return m_Table[num]->chars();
+	return m_Table[num]->c_str();
 }
 
 double AtomicResult::GetDouble(unsigned int columnId)
@@ -504,7 +504,7 @@ const char *AtomicResult::GetString(unsigned int columnId)
 
 	assert(m_Table[idx] != NULL);
 
-	return m_Table[idx]->chars();
+	return m_Table[idx]->c_str();
 }
 
 IResultRow *AtomicResult::GetRow()
@@ -554,11 +554,11 @@ void AtomicResult::CopyFrom(IResultSet *rs)
 	size_t newTotal = (m_RowCount * m_FieldCount) + m_FieldCount;
 	if (newTotal > m_AllocSize)
 	{
-		ke::AString **table = new ke::AString *[newTotal];
-		memset(table, 0, newTotal * sizeof(ke::AString *));
+		std::string **table = new std::string *[newTotal];
+		memset(table, 0, newTotal * sizeof(std::string *));
 		if (m_Table)
 		{
-			memcpy(table, m_Table, m_AllocSize * sizeof(ke::AString *));
+			memcpy(table, m_Table, m_AllocSize * sizeof(std::string *));
 			delete [] m_Table;
 		}
 		m_Table = table;
@@ -572,7 +572,7 @@ void AtomicResult::CopyFrom(IResultSet *rs)
 			*m_Table[i] = rs->FieldNumToName(i);
 		} else {
 			const char* string = rs->FieldNumToName(i);
-			m_Table[i] = new ke::AString(string ? string : "");
+			m_Table[i] = new std::string(string ? string : "");
 		}
 	}
 
@@ -588,7 +588,7 @@ void AtomicResult::CopyFrom(IResultSet *rs)
 				*m_Table[idx] = row->GetString(i);
 			} else {
 				const char* string = row->GetString(i);
-				m_Table[idx] = new ke::AString(string ? string : "");
+				m_Table[idx] = new std::string(string ? string : "");
 			}
 		}
 		rs->NextRow();

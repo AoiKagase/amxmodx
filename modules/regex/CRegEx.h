@@ -37,7 +37,7 @@ public:
 	};
 
 	struct NamedGroup {
-		ke::AString name;
+		std::string name;
 		size_t index;
 	};
 
@@ -59,16 +59,16 @@ public:
 public:
 	int mErrorOffset;
 	const char *mError;
-	int Count() { return mSubStrings.length(); }
+	int Count() { return mSubStrings.size(); }
 
 private:
 	pcre *re;
 	bool mFree;
 	int ovector[REGEX_MAX_SUBPATTERNS];
 	char *subject;
-	ke::Vector<RegExSub> mSubStrings;
-	ke::Vector<size_t> mMatchesSubs;
-	ke::Vector<NamedGroup> mSubsNameTable;
+	std::vector<RegExSub> mSubStrings;
+	std::vector<size_t> mMatchesSubs;
+	std::vector<NamedGroup> mSubsNameTable;
 	int mNumSubpatterns;
 };
 

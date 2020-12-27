@@ -12,7 +12,6 @@
 #include <amxxmodule.h>
 #include <IGameConfigs.h>
 #include <HLTypeConversion.h>
-#include <amtl/am-algorithm.h>
 
 extern HLTypeConversion TypeConversion;
 
@@ -333,7 +332,7 @@ public:
 			case FieldType::FIELD_STRING:
 			{
 				auto buffer = get_pdata_direct<char*>(pObject, data.fieldOffset);
-				return strncopy(buffer, value, ke::Min<int>(maxlen + 1, data.fieldSize));
+				return strncopy(buffer, value, std::min<int>(maxlen + 1, data.fieldSize));
 			}
 			case FieldType::FIELD_STRINGPTR:
 			{

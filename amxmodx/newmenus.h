@@ -38,7 +38,7 @@ typedef int (*MENUITEM_CALLBACK)(int, int, int);
 class BlankItem
 {
 private:
-	ke::AString m_text;
+	std::string m_text;
 	bool m_num;
 public:
 	BlankItem() : m_num(false) 
@@ -47,21 +47,21 @@ public:
 
 	BlankItem(BlankItem &&other) 
 	{
-		m_text = ke::Forward<ke::AString>(other.m_text);
+		m_text = std::forward<std::string>(other.m_text);
 		m_num = other.m_num;
 	}
 
 	/* is this text instead of a blank */
-	bool IsText() { return m_text.chars() != nullptr; }
+	bool IsText() { return m_text.c_str() != nullptr; }
 
 	/* is this a blank instead of text */
-	bool IsBlank() { return m_text.chars() == nullptr; }
+	bool IsBlank() { return m_text.c_str() == nullptr; }
 
 	/* does this item take up a number */
 	bool EatNumber() { return m_num; }
 
 	/* the text this item is to display */
-	const char *GetDisplay() { return m_text.chars(); }
+	const char *GetDisplay() { return m_text.c_str(); }
 
 	/* sets this item to use a blank */
 	void SetBlank() { m_text = nullptr; }
@@ -75,8 +75,8 @@ public:
 };
 struct menuitem
 {
-	ke::AString name;
-	ke::AString cmd;
+	std::string name;
+	std::string cmd;
 	
 	int access;
 	int handler;
@@ -85,7 +85,7 @@ struct menuitem
 	MENUITEM_CALLBACK pfn;
 	size_t id;
 
-	ke::Vector<BlankItem> blanks;
+	std::vector<BlankItem> blanks;
 };
 
 typedef unsigned int menu_t;
@@ -110,12 +110,12 @@ public:
 	int PagekeyToItem(page_t page, item_t key);
 	int GetMenuMenuid();
 public:
-	ke::Vector<menuitem * > m_Items;
+	std::vector<menuitem * > m_Items;
 
-	ke::AString m_Title;
+	std::string m_Title;
 	ke::AutoString m_Text;
-	ke::AString m_OptNames[4];
-	ke::AString m_ItemColor;
+	std::string m_OptNames[4];
+	std::string m_ItemColor;
 
 	bool m_NeverExit;
 	bool m_ForceExit;
@@ -137,7 +137,7 @@ void ClearMenus();
 Menu *get_menu_by_id(int id);
 bool CloseNewMenus(CPlayer *pPlayer);
 
-extern ke::Vector<Menu *> g_NewMenus;
+extern std::vector<Menu *> g_NewMenus;
 extern AMX_NATIVE_INFO g_NewMenuNatives[];
 
 #endif //_INCLUDE_NEWMENUS_H

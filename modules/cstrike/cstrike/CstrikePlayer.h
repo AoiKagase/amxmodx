@@ -20,7 +20,7 @@
 #include <amtl/am-vector.h>
 #include <resdk/mod_rehlds_api.h>
 
-extern ke::Vector<int> ModelsUpdateQueue;
+extern std::vector<int> ModelsUpdateQueue;
 
 void StartFrame();
 void ClientUserInfoChanged(edict_t *pEntity, char *infobuffer);
@@ -133,7 +133,7 @@ class CPlayer
 
 			ServerStatic->clients[index].sendinfo = false;
 
-			ModelsUpdateQueue.append(index);
+			ModelsUpdateQueue.emplace_back(index);
 		}
 
 	private:

@@ -62,7 +62,7 @@ private:
 	};
 
 	/*** CTaskMngr priv members ***/
-	ke::Vector<ke::AutoPtr<CTask>> m_Tasks;
+	std::vector<std::unique_ptr<CTask>> m_Tasks;
 	
 	float *m_pTmr_CurrentTime;
 	float *m_pTmr_TimeLimit;

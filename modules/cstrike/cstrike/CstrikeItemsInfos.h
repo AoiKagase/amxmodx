@@ -40,7 +40,7 @@ struct ItemInfos
 		return *this;
 	}
 
-	ke::AString name;
+	std::string name;
 	int         ammoIndex1;
 	int         maxAmmo1;
 	int         ammoIndex2;
@@ -68,8 +68,8 @@ struct AliasInfo
 
 	int itemid;
 	int classid;
-	ke::AString classname;
-	ke::AString alt_alias;
+	std::string classname;
+	std::string alt_alias;
 };
 
 enum class Equipments
@@ -108,7 +108,7 @@ class CsItemInfo : public ITextListener_SMC
 
 		bool GetAliasInfos(const char *alias, AliasInfo *info);
 		bool GetAliasInfosFromName(const char *classname, AliasInfo *info);
-		bool GetAliasFromId(size_t id, ke::AString &name, ke::AString &altname);
+		bool GetAliasFromId(size_t id, std::string &name, std::string &altname);
 
 		CsWeaponClassType WeaponIdToClass(int id);
 
@@ -126,8 +126,8 @@ class CsItemInfo : public ITextListener_SMC
 	private: // Config parsing
 
 		int          m_ParseState;
-		ke::AString  m_Alias;
-		ke::AString  m_AliasAlt;
+		std::string  m_Alias;
+		std::string  m_AliasAlt;
 		AliasInfo    m_AliasInfo;
 		bool         m_ListsRetrievedFromConfig;
 		int          m_EquipmentsPrice[static_cast<size_t>(Equipments::Count)];

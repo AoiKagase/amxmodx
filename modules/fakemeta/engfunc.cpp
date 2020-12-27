@@ -16,7 +16,7 @@
 
 TraceResult g_tr;
 
-ke::AString LightStyleBuffers[MAX_LIGHTSTYLES];
+std::string LightStyleBuffers[MAX_LIGHTSTYLES];
 
 //by mahnsawce from his NS module
 static cell AMX_NATIVE_CALL engfunc(AMX *amx, cell *params)
@@ -604,7 +604,7 @@ static cell AMX_NATIVE_CALL engfunc(AMX *amx, cell *params)
 			return 0;
 		}
 		LightStyleBuffers[iparam1] = MF_GetAmxString(amx, params[3], 0, &len);
-		(*g_engfuncs.pfnLightStyle)(iparam1, LightStyleBuffers[iparam1].chars());
+		(*g_engfuncs.pfnLightStyle)(iparam1, LightStyleBuffers[iparam1].c_str());
 		return 1;
 
 

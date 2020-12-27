@@ -10,8 +10,8 @@
 #ifndef _INCLUDE_SOURCEMOD_BASEWORKER_H
 #define _INCLUDE_SOURCEMOD_BASEWORKER_H
 
-#include <amtl/am-linkedlist.h>
 #include "ThreadSupport.h"
+#include <list>
 
 #define SM_DEFAULT_THREADS_PER_FRAME	1
 
@@ -73,7 +73,7 @@ public:	//BaseWorker
 	virtual void SetMaxThreadsPerFrame(unsigned int threads);
 	virtual unsigned int GetMaxThreadsPerFrame();
 protected:
-	ke::LinkedList<SWThreadHandle *> m_ThreadQueue;
+	std::list<SWThreadHandle *> m_ThreadQueue;
 	unsigned int m_perFrame;
 	volatile WorkerState m_state;
 };

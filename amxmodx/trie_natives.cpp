@@ -393,12 +393,12 @@ static cell AMX_NATIVE_CALL TrieSnapshotCreate(AMX *amx, cell *params)
 	int index = TrieSnapshotHandles.create();
 	TrieSnapshot *snapshot = TrieSnapshotHandles.lookup(index);
 	snapshot->length = t->map.elements();
-	snapshot->keys = ke::MakeUnique<int[]>(snapshot->length);
+	snapshot->keys = std::make_unique<int[]>(snapshot->length);
 
 	size_t i = 0;
 	for (StringHashMap<Entry>::iterator iter = t->map.iter(); !iter.empty(); iter.next(), i++)
 	{
-		snapshot->keys[i] = snapshot->strings.AddString(iter->key.chars(), iter->key.length());
+		snapshot->keys[i] = snapshot->strings.AddString(iter->key.c_str(), iter->key.size());
 	}
 	assert(i == snapshot->length);
 
@@ -564,7 +564,7 @@ static cell AMX_NATIVE_CALL TrieIterGetKey(AMX *amx, cell *params)
 		return 0;
 	}
 
-	return set_amxstring_utf8(amx, params[arg_output], iter->key.chars(), iter->key.length(), params[arg_outputsize]);
+	return set_amxstring_utf8(amx, params[arg_output], iter->key.c_str(), iter->key.size(), params[arg_outputsize]);
 }
 
 // native TrieIterGetSize(TrieIter:handle)

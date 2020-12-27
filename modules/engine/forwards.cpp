@@ -28,9 +28,9 @@ int CmdStartForward = 0;
 int StartFrameForward = 0;
 int VexdTouchForward = 0;
 int VexdServerForward = 0;
-ke::Vector<Impulse *> Impulses;
-ke::Vector<EntClass *> Thinks;
-ke::Vector<Touch *> Touches;
+std::vector<Impulse *> Impulses;
+std::vector<EntClass *> Thinks;
+std::vector<Touch *> Touches;
 KeyValueData *g_pkvd;
 bool g_inKeyValue=false;
 bool g_precachedStuff = false;
@@ -132,7 +132,7 @@ void CmdStart(const edict_t *player, const struct usercmd_s *_cmd, unsigned int 
 
 	auto index = TypeConversion.edict_to_id(pEntity);
 
-	for (i=0; i<Impulses.length(); i++)
+	for (i=0; i<Impulses.size(); i++)
 	{
 		if (Impulses[i]->Check == g_cmd->impulse)
 		{
@@ -250,11 +250,11 @@ void pfnTouch(edict_t *pToucher, edict_t *pTouched)
 	int ptrIndex = TypeConversion.edict_to_id(pToucher);
 	int ptdIndex = TypeConversion.edict_to_id(pTouched);
 	META_RES res=MRES_IGNORED;
-	for (i=0; i<Touches.length(); i++)
+	for (i=0; i<Touches.size(); i++)
 	{
-		if (Touches[i]->Toucher.length() == 0)
+		if (Touches[i]->Toucher.size() == 0)
 		{
-			if (Touches[i]->Touched.length() == 0)
+			if (Touches[i]->Touched.size() == 0)
 			{
 				retVal = MF_ExecuteForward(Touches[i]->Forward, (cell)ptrIndex, (cell)ptdIndex);
 				if (retVal & 2/*PLUGIN_HANDLED_MAIN*/)
@@ -269,7 +269,7 @@ void pfnTouch(edict_t *pToucher, edict_t *pTouched)
 					res=MRES_SUPERCEDE;
 			}
 		} else if (Touches[i]->Toucher.compare(ptrClass)==0) {
-			if (Touches[i]->Touched.length() == 0)
+			if (Touches[i]->Touched.size() == 0)
 			{
 				retVal = MF_ExecuteForward(Touches[i]->Forward, (cell)ptrIndex, (cell)ptdIndex);
 				if (retVal & 2/*PLUGIN_HANDLED_MAIN*/)
@@ -306,7 +306,7 @@ void Think(edict_t *pent)
 	const char *cls = STRING(pent->v.classname);
 	META_RES res=MRES_IGNORED;
 	int retVal=0;
-	for (i=0; i<Thinks.length(); i++)
+	for (i=0; i<Thinks.size(); i++)
 	{
 		if (Thinks[i]->Class.compare(cls)==0)
 		{

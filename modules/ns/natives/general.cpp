@@ -229,7 +229,7 @@ static cell AMX_NATIVE_CALL ns_get_locationname(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL ns_lookup_title(AMX *amx, cell *params)
 {
 	// FIX: some keys have upper case characters; to fix i store all keys as lower case
-	ke::AString Input(UTIL_ToLowerCase(MF_GetAmxString(amx,params[1],0,NULL)));
+	std::string Input(UTIL_ToLowerCase(MF_GetAmxString(amx,params[1],0,NULL)));
 
 	const char *Output=TitleMan.Lookup(Input);
 

@@ -325,7 +325,7 @@ SMCResult CGameConfig::ReadSMC_KeyValue(const SMCStates *states, const char *key
 			}
 			else if (!strcmp(key, "size"))
 			{
-				TempType.fieldSize = ke::Max<int>(0, strtol(value, nullptr, 0));
+				TempType.fieldSize = std::max<int>(0, strtol(value, nullptr, 0));
 			}
 			else if (!strcmp(key, "unsigned"))
 			{
@@ -340,8 +340,8 @@ SMCResult CGameConfig::ReadSMC_KeyValue(const SMCStates *states, const char *key
 		}
 		case PSTATE_GAMEDEFS_KEYS:
 		{
-			ke::AString vstr(value);
-			m_Keys.replace(key, ke::Move(vstr));
+			std::string vstr(value);
+			m_Keys.replace(key, std::move(vstr));
 			break;
 		}
 		case PSTATE_GAMEDEFS_SUPPORTED:
@@ -490,7 +490,7 @@ SMCResult CGameConfig::ReadSMC_LeavingSection(const SMCStates *states)
 					}
 					else if (m_OffsetsByClass.add(ic, m_Class))
 					{
-						ic->value = new OffsetClass;
+						ic->value = std::make_unique<OffsetClass>();
 						ic->value->list.insert(m_Offset, TempType);
 					}
 				}
@@ -667,7 +667,7 @@ bool CGameConfig::Reparse(char *error, size_t maxlength)
 	SMCError err;
 	SMCStates state = { 0, 0 };
 
-	ke::Vector<ke::AString> fileList;
+	std::vector<std::string> fileList;
 	MasterReader.m_FileList = &fileList;
 
 	err = textparsers->ParseSMCFile(path, &MasterReader, &state, error, maxlength);
@@ -682,9 +682,9 @@ bool CGameConfig::Reparse(char *error, size_t maxlength)
 		return false;
 	}
 
-	for (size_t i = 0; i < fileList.length(); ++i)
+	for (size_t i = 0; i < fileList.size(); ++i)
 	{
-		g_LibSys.PathFormat(path, sizeof(path), "%s/%s", m_File, fileList[i].chars());
+		g_LibSys.PathFormat(path, sizeof(path), "%s/%s", m_File, fileList[i].c_str());
 
 		if (!EnterFile(path, error, maxlength))
 		{
@@ -793,7 +793,7 @@ const char *CGameConfig::GetKeyValue(const char *key)
 		return nullptr;
 	}
 
-	return r->value.chars();
+	return r->value.c_str();
 }
 
 //memory addresses below 0x10000 are automatically considered invalid for dereferencing
@@ -956,7 +956,7 @@ SMCResult CGameMasterReader::ReadSMC_LeavingSection(const SMCStates *states)
 			(!m_HadGame      && m_MatchedEngine) ||
 			(m_MatchedEngine && m_MatchedGame))
 		{
-			m_FileList->append(m_CurrentPath);
+			m_FileList->emplace_back(m_CurrentPath);
 		}
 
 		m_State = MSTATE_MAIN;

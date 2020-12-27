@@ -53,7 +53,7 @@ void CoreConfig::ExecuteMainConfig()
 	char path[PLATFORM_MAX_PATH];
 	char command[PLATFORM_MAX_PATH + sizeof(CommandFormat)];
 
-	ke::SafeSprintf(path, sizeof(path), "%s/%s/%s", g_mod_name.chars(), get_localinfo("amxx_configsdir", "addons/amxmodx/configs"), MainConfigFile);
+	ke::SafeSprintf(path, sizeof(path), "%s/%s/%s", g_mod_name.c_str(), get_localinfo("amxx_configsdir", "addons/amxmodx/configs"), MainConfigFile);
 	ke::SafeSprintf(command, sizeof(command), CommandFormat, path);
 
 	SERVER_COMMAND(command);
@@ -86,7 +86,7 @@ bool CoreConfig::ExecuteAutoConfig(CPluginMngr::CPlugin *plugin, AutoConfig *con
 	{
 		will_create = true;
 
-		const char *folder = config->folder.chars();
+		const char *folder = config->folder.c_str();
 
 		char path[PLATFORM_MAX_PATH];
 		char build[PLATFORM_MAX_PATH];
@@ -138,13 +138,13 @@ bool CoreConfig::ExecuteAutoConfig(CPluginMngr::CPlugin *plugin, AutoConfig *con
 
 	char file[PLATFORM_MAX_PATH];
 
-	if (config->folder.length())
+	if (config->folder.size())
 	{
-		ke::SafeSprintf(file, sizeof(file), "%s/%s%s/%s/%s.cfg", g_mod_name.chars(), configsDir, AutoConfigDir, config->folder.chars(), config->autocfg.chars());
+		ke::SafeSprintf(file, sizeof(file), "%s/%s%s/%s/%s.cfg", g_mod_name.c_str(), configsDir, AutoConfigDir, config->folder.c_str(), config->autocfg.c_str());
 	}
 	else
 	{
-		ke::SafeSprintf(file, sizeof(file), "%s/%s%s/%s.cfg", g_mod_name.chars(), configsDir, AutoConfigDir, config->autocfg.chars());
+		ke::SafeSprintf(file, sizeof(file), "%s/%s%s/%s.cfg", g_mod_name.c_str(), configsDir, AutoConfigDir, config->autocfg.c_str());
 	}
 
 	bool file_exists = g_LibSys.IsPathFile(file);
@@ -185,7 +185,7 @@ bool CoreConfig::ExecuteAutoConfig(CPluginMngr::CPlugin *plugin, AutoConfig *con
 					char *ptr = description;
 
 					// Print comments until there is no more
-					strncopy(description, info->description.chars(), sizeof(description));
+					strncopy(description, info->description.c_str(), sizeof(description));
 
 					while (*ptr != '\0')
 					{
@@ -210,7 +210,7 @@ bool CoreConfig::ExecuteAutoConfig(CPluginMngr::CPlugin *plugin, AutoConfig *con
 					}
 
 					fprintf(fp, "// -\n");
-					fprintf(fp, "// Default: \"%s\"\n", info->defaultval.chars());
+					fprintf(fp, "// Default: \"%s\"\n", info->defaultval.c_str());
 
 					if (info->bound.hasMin)
 					{
@@ -222,7 +222,7 @@ bool CoreConfig::ExecuteAutoConfig(CPluginMngr::CPlugin *plugin, AutoConfig *con
 						fprintf(fp, "// Maximum: \"%02f\"\n", info->bound.maxVal);
 					}
 
-					fprintf(fp, "%s \"%s\"\n", info->var->name, info->defaultval.chars());
+					fprintf(fp, "%s \"%s\"\n", info->var->name, info->defaultval.c_str());
 					fprintf(fp, "\n");
 				}
 			}
@@ -266,7 +266,7 @@ void CoreConfig::ExecuteMapConfig()
 
 	if ((mapPrefix = strtok(mapName, "_")))
 	{
-		ke::SafeSprintf(cfgPath, sizeof(cfgPath), "%s/%s%s/prefix_%s.cfg", g_mod_name.chars(), configsDir, MapConfigDir, mapPrefix);
+		ke::SafeSprintf(cfgPath, sizeof(cfgPath), "%s/%s%s/prefix_%s.cfg", g_mod_name.c_str(), configsDir, MapConfigDir, mapPrefix);
 
 		if (g_LibSys.IsPathFile(cfgPath))
 		{
@@ -276,7 +276,7 @@ void CoreConfig::ExecuteMapConfig()
 	}
 
 	strncopy(mapName, STRING(gpGlobals->mapname), sizeof(mapName));
-	ke::SafeSprintf(cfgPath, sizeof(cfgPath), "%s/%s%s/%s.cfg", g_mod_name.chars(), configsDir, MapConfigDir, mapName);
+	ke::SafeSprintf(cfgPath, sizeof(cfgPath), "%s/%s%s/%s.cfg", g_mod_name.c_str(), configsDir, MapConfigDir, mapName);
 
 	if (g_LibSys.IsPathFile(cfgPath))
 	{

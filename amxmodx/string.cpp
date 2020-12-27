@@ -787,7 +787,7 @@ static cell AMX_NATIVE_CALL mb_strtolower(AMX *amx, cell *params)
 
 	auto output = get_amxbuffer(1);
 	auto outputLength = utf8tolower(source, sourceLength, output, MAX_BUFFER_LENGTH - 1, UTF8_LOCALE_DEFAULT, nullptr, TRUE);
-	
+
 	output[outputLength] = '\0';
 
 	return set_amxstring_utf8(amx, params[arg_string], output, outputLength, outputMaxLength);
@@ -1364,7 +1364,7 @@ static cell AMX_NATIVE_CALL mb_ucfirst(AMX *amx, cell *params)
 		if (firstChLength != outputLength)
 		{
 			// Calculates the new string length and makes sure we don't go over the buffer size (fairly unlikely).
-			sourceLength = ke::Min<int>(sourceLength + (outputLength - firstChLength), outputMaxLength);
+			sourceLength = std::min<int>(sourceLength + (outputLength - firstChLength), outputMaxLength);
 
 			// Move data forward or backward minus the first character (whathever its size).
 			memmove(source + outputLength, source + firstChLength, (sourceLength - outputLength) * sizeof(char));	
@@ -1643,7 +1643,7 @@ static cell AMX_NATIVE_CALL is_string_category(AMX *amx, cell *params)
 	auto inputLength = 0;
 	auto input = get_amxstring(amx, params[arg_input], 0, inputLength);
 
-	auto inputMaxLength = ke::Min(params[arg_inputsize], inputLength);
+	auto inputMaxLength = min(params[arg_inputsize], inputLength);
 	auto outputSize = get_amxaddr(amx, params[arg_outputsize]);
 
 	// User wants to check only one character whatever its size.

@@ -81,7 +81,7 @@ int CPluginMngr::loadPluginsFromFile(const char* filename, bool warn)
 
 	char line[512];
 
-	List<ke::AString *>::iterator block_iter;
+	List<std::string *>::iterator block_iter;
 
 	while (!feof(fp))
 	{
@@ -218,7 +218,7 @@ void CPluginMngr::clear()
 		pNatives = NULL;
 	}
 
-	List<ke::AString *>::iterator iter = m_BlockList.begin();
+	List<std::string *>::iterator iter = m_BlockList.begin();
 	while (iter != m_BlockList.end())
 	{
 		delete (*iter);
@@ -259,7 +259,7 @@ CPluginMngr::CPlugin* CPluginMngr::findPlugin(const char* name)
 
 	CPlugin*a = head;
 
-	while (a && strncmp(a->name.chars(), name, len))
+	while (a && strncmp(a->name.c_str(), name, len))
 		a = a->next;
 
 	return a;
@@ -430,7 +430,7 @@ void CPluginMngr::CPlugin::Finalize()
 
 	if (old_status != status)
 	{
-		AMXXLOG_Log("[AMXX] Plugin \"%s\" failed to load: %s", name.chars(), errorMsg.chars());
+		AMXXLOG_Log("[AMXX] Plugin \"%s\" failed to load: %s", name.c_str(), errorMsg.c_str());
 	}
 }
 
@@ -480,9 +480,9 @@ void CPluginMngr::CPlugin::unpausePlugin()
 void CPluginMngr::CPlugin::AddConfig(bool create, const char *name, const char *folder)
 {
 	// Do a check for duplicates to prevent double-execution
-	for (size_t i = 0; i < m_configs.length(); ++i)
+	for (size_t i = 0; i < m_configs.size(); ++i)
 	{
-		AutoConfig *config = m_configs[i];
+		AutoConfig *config = m_configs[i].get();
 
 		if (config->autocfg.compare(name) == 0 && config->folder.compare(folder) == 0)
 		{
@@ -500,12 +500,12 @@ void CPluginMngr::CPlugin::AddConfig(bool create, const char *name, const char *
 	c->folder = folder;
 	c->create = create;
 
-	m_configs.append(c);
+	m_configs.emplace_back(c);
 }
 
 size_t CPluginMngr::CPlugin::GetConfigCount()
 {
-	return m_configs.length();
+	return m_configs.size();
 }
 
 AutoConfig *CPluginMngr::CPlugin::GetConfig(size_t i)
@@ -515,7 +515,7 @@ AutoConfig *CPluginMngr::CPlugin::GetConfig(size_t i)
 		return nullptr;
 	}
 
-	return m_configs[i];
+	return m_configs[i].get();
 }
 
 
@@ -672,8 +672,8 @@ void CPluginMngr::CacheAndLoadModules(const char *plugin)
 	cell tag_id;
 	amx_NumTags(&amx, &num);
 
-	ke::Vector<LibDecoder *> expects;
-	ke::Vector<LibDecoder *> defaults;
+	std::vector<LibDecoder *> expects;
+	std::vector<LibDecoder *> defaults;
 	CStack<LibDecoder *> delstack;
 	for (int i=0; i<num; i++)
 	{
@@ -690,19 +690,19 @@ void CPluginMngr::CacheAndLoadModules(const char *plugin)
 				} else if ( (dc->cmd == LibCmd_ExpectClass) ||
 							(dc->cmd == LibCmd_ExpectLib) )
 				{
-					expects.append(dc);
+					expects.emplace_back(dc);
 				} else if (dc->cmd == LibCmd_DefaultLib) {
-					defaults.append(dc);
+					defaults.emplace_back(dc);
 				}
 			}
 		}
 	}
 
-	for (size_t i=0; i<expects.length(); i++)
+	for (size_t i=0; i<expects.size(); i++)
 	{
 		RunLibCommand(expects[i]);
 	}
-	for (size_t i=0; i<defaults.length(); i++)
+	for (size_t i=0; i<defaults.size(); i++)
 	{
 		RunLibCommand(defaults[i]);
 	}
@@ -773,7 +773,7 @@ void CPluginMngr::CALMFromFile(const char *file)
 			}
 			if ((*_ptr != '\0') && !strcmp(_ptr, "disabled"))
 			{
-				ke::AString *pString = new ke::AString(pluginName);
+				std::string *pString = new std::string(pluginName);
 				m_BlockList.push_back(pString);
 				continue;
 			}

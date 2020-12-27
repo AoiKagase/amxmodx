@@ -213,13 +213,13 @@ void CTaskMngr::registerTask(CPluginMngr::CPlugin *pPlugin, int iFunc, int iFlag
 		}
 	}
 	// not found: make a new one
-	auto task = ke::AutoPtr<CTask>(new CTask);
+	auto task = std::unique_ptr<CTask>(new CTask);
 		
 	if (!task)
 		return;
 		
 	task->set(pPlugin, iFunc, iFlags, iId, fBase, iParamsLen, pParams, iRepeat, *m_pTmr_CurrentTime);
-	m_Tasks.append(ke::Move(task));
+	m_Tasks.emplace_back(std::move(task));
 }
 
 int CTaskMngr::removeTasks(int iId, AMX *pAmx)
@@ -269,7 +269,7 @@ bool CTaskMngr::taskExists(int iId, AMX *pAmx)
 
 void CTaskMngr::startFrame()
 {
-	auto lastSize = m_Tasks.length();
+	auto lastSize = m_Tasks.size();
 	for(auto i = 0u; i < lastSize; i++)
 	{
 		auto &task = m_Tasks[i];

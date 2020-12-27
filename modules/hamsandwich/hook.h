@@ -27,8 +27,8 @@
 class Hook
 {
 public:
-	ke::Vector<Forward *> pre;     // pre forwards
-	ke::Vector<Forward *> post;    // post forwards
+	std::vector<Forward *> pre;     // pre forwards
+	std::vector<Forward *> post;    // post forwards
 	void			*func;    // original function
 	void           **vtable;  // vtable of the original location
 	int              entry;   // vtable entry of the function
@@ -91,12 +91,12 @@ public:
 
 		delete[] ent;
 
-		for (size_t i = 0; i < pre.length(); ++i)
+		for (size_t i = 0; i < pre.size(); ++i)
 		{
 			pre.at(i)->Release();
 		}
 
-		for (size_t i = 0; i < post.length(); ++i)
+		for (size_t i = 0; i < post.size(); ++i)
 		{
 			post.at(i)->Release();
 		}

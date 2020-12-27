@@ -14,7 +14,6 @@
 #ifndef _INCLUDE_NVAULT_H
 #define _INCLUDE_NVAULT_H
 
-#include <amtl/am-linkedlist.h>
 #include <sm_stringhashmap.h>
 #include "IVault.h"
 #include "Journal.h"
@@ -60,12 +59,12 @@ public:
 	bool Open();
 	bool Close();
 	size_t Items();
-	const char *GetFilename() { return m_File.chars(); }
+	const char *GetFilename() { return m_File.c_str(); }
 private:
 	VaultError _ReadFromFile();
 	bool _SaveToFile();
 private:
-	ke::AString m_File;
+	std::string m_File;
 	StringHashMap<ArrayInfo> m_Hash;
 	Journal *m_Journal;
 	bool m_Open;

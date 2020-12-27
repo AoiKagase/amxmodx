@@ -42,7 +42,7 @@ public:
 		friend class CLogEvent;
 		
 		LogEventsMngr* parent;
-		ke::AString text;
+		std::string text;
 		
 		int logid;
 		int pos;

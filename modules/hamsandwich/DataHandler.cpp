@@ -23,7 +23,7 @@
 
 CStack< Data * > ReturnStack;
 CStack< Data * > OrigReturnStack;
-CStack< ke::Vector< Data * > * > ParamStack;
+CStack< std::vector< Data * > * > ParamStack;
 CStack< int * > ReturnStatus;
 #define CHECK_STACK(__STACK__)								\
 	if (  ( __STACK__ ).size() <= 0)						\
@@ -179,10 +179,10 @@ static cell AMX_NATIVE_CALL SetHamReturnString(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL SetHamParamInteger(AMX *amx, cell *params)
 {
 	CHECK_STACK(ParamStack);
-	ke::Vector<Data *> *vec = ParamStack.front();
-	if (vec->length() < (unsigned)params[1]) 
+	std::vector<Data *> *vec = ParamStack.front();
+	if (vec->size() < (unsigned)params[1]) 
 	{ 
-		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->length()); 
+		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->size()); 
 		return 0; 
 	} 
 	Data *dat=vec->at(params[1] - 1);
@@ -199,10 +199,10 @@ static cell AMX_NATIVE_CALL SetHamParamTraceResult(AMX *amx, cell *params)
 		return 0;
 	}
 	CHECK_STACK(ParamStack);
-	ke::Vector<Data *> *vec = ParamStack.front();
-	if (vec->length() < (unsigned)params[1]) 
+	std::vector<Data *> *vec = ParamStack.front();
+	if (vec->size() < (unsigned)params[1]) 
 	{ 
-		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->length()); 
+		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->size()); 
 		return 0; 
 	} 
 	Data *dat=vec->at(params[1] - 1);
@@ -213,10 +213,10 @@ static cell AMX_NATIVE_CALL SetHamParamTraceResult(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL SetHamParamFloat(AMX *amx, cell *params)
 {
 	CHECK_STACK(ParamStack);
-	ke::Vector<Data *> *vec = ParamStack.front();
-	if (vec->length() < (unsigned)params[1] || params[1] < 1) 
+	std::vector<Data *> *vec = ParamStack.front();
+	if (vec->size() < (unsigned)params[1] || params[1] < 1) 
 	{ 
-		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->length()); 
+		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->size()); 
 		return 0; 
 	} 
 	Data *dat=vec->at(params[1] - 1);
@@ -227,10 +227,10 @@ static cell AMX_NATIVE_CALL SetHamParamFloat(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL SetHamParamVector(AMX *amx, cell *params)
 {
 	CHECK_STACK(ParamStack);
-	ke::Vector<Data *> *vec = ParamStack.front();
-	if (vec->length() < (unsigned)params[1]) 
+	std::vector<Data *> *vec = ParamStack.front();
+	if (vec->size() < (unsigned)params[1]) 
 	{ 
-		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->length()); 
+		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->size()); 
 		return 0; 
 	} 
 	Data *dat=vec->at(params[1] - 1);
@@ -242,10 +242,10 @@ static cell AMX_NATIVE_CALL SetHamParamVector(AMX *amx, cell *params)
 cell SetParamEntity(AMX *amx, cell *params, bool updateIndex)
 {
 	CHECK_STACK(ParamStack);
-	ke::Vector<Data *> *vec = ParamStack.front();
-	if (vec->length() < (unsigned)params[1])
+	std::vector<Data *> *vec = ParamStack.front();
+	if (vec->size() < (unsigned)params[1])
 	{
-		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->length());
+		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->size());
 		return 0;
 	}
 	Data *dat = vec->at(params[1] - 1);
@@ -267,10 +267,10 @@ static cell AMX_NATIVE_CALL SetHamParamEntity2(AMX *amx, cell *params)
 static cell AMX_NATIVE_CALL SetHamParamString(AMX *amx, cell *params)
 {
 	CHECK_STACK(ParamStack);
-	ke::Vector<Data *> *vec=ParamStack.front(); 
-	if (vec->length() < (unsigned)params[1]) 
+	std::vector<Data *> *vec=ParamStack.front(); 
+	if (vec->size() < (unsigned)params[1]) 
 	{ 
-		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->length()); 
+		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->size()); 
 		return 0; 
 	} 
 	Data *dat=vec->at(params[1] - 1);
@@ -288,11 +288,11 @@ static cell AMX_NATIVE_CALL SetHamParamItemInfo(AMX *amx, cell *params)
 	}
 
 	CHECK_STACK(ParamStack);
-	ke::Vector<Data *> *vec = ParamStack.front();
+	std::vector<Data *> *vec = ParamStack.front();
 
-	if (vec->length() < (unsigned)params[1])
+	if (vec->size() < (unsigned)params[1])
 	{
-		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->length());
+		MF_LogError(amx, AMX_ERR_NATIVE, "Invalid parameter number, got %d, expected %d", params[1], vec->size());
 		return 0;
 	}
 

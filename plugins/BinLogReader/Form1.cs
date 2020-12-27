@@ -305,7 +305,7 @@ namespace BinLogReader
 				{
 					ble = (BinLogEntry)al[i];
 					BinLogEntry.BinLogString(sb, ble, flags);
-					sb.Append("\n");
+					sb.emplace_back("\n");
 				}
 				TextLog.Text = sb.ToString();
 			}

@@ -19,8 +19,8 @@ TraceResult g_tr_2;
 KVD_Wrapper g_kvd_glb;
 KVD_Wrapper g_kvd_ext;
 
-ke::Vector<KVD_Wrapper *>g_KVDWs;
-ke::Vector<KVD_Wrapper *>g_FreeKVDWs;
+std::vector<KVD_Wrapper *>g_KVDWs;
+std::vector<KVD_Wrapper *>g_FreeKVDWs;
 
 clientdata_t g_cd_glb;
 entity_state_t g_es_glb;
@@ -273,7 +273,7 @@ static cell AMX_NATIVE_CALL set_kvd(AMX *amx, cell *params)
 		kvdw = &g_kvd_glb;
 		kvd = &(kvdw->kvd);
 	} else {
-		for (size_t i = 0; i < g_KVDWs.length(); ++i) {
+		for (size_t i = 0; i < g_KVDWs.size(); ++i) {
 			if (g_KVDWs[i] == tmpw) {
 				kvdw = tmpw;
 				kvd = &(kvdw->kvd);
@@ -306,21 +306,21 @@ static cell AMX_NATIVE_CALL set_kvd(AMX *amx, cell *params)
 	case KV_ClassName:
 		{
 			kvdw->cls = MF_GetAmxString(amx, params[3], 0, &len);
-			kvd->szClassName = const_cast<char *>(kvdw->cls.chars());
+			kvd->szClassName = const_cast<char *>(kvdw->cls.c_str());
 			return 1;
 			break;
 		}
 	case KV_KeyName:
 		{
 			kvdw->key = MF_GetAmxString(amx, params[3], 0, &len);
-			kvd->szKeyName = const_cast<char *>(kvdw->key.chars());
+			kvd->szKeyName = const_cast<char *>(kvdw->key.c_str());
 			return 1;
 			break;
 		}
 	case KV_Value:
 		{
 			kvdw->val = MF_GetAmxString(amx, params[3], 0, &len);
-			kvd->szValue = const_cast<char *>(kvdw->val.chars());
+			kvd->szValue = const_cast<char *>(kvdw->val.c_str());
 			return 1;
 			break;
 		}
@@ -1278,18 +1278,18 @@ static cell AMX_NATIVE_CALL create_kvd(AMX *amx, cell *params)
 	if (g_FreeKVDWs.empty()) {
 		kvdw = new KVD_Wrapper;
 	} else {
-		kvdw = g_FreeKVDWs.popCopy();
+		kvdw = ke::PopBack(&g_FreeKVDWs);
 	}
 
 	kvdw->cls = "";
-	kvdw->kvd.szClassName = const_cast<char*>(kvdw->cls.chars());
+	kvdw->kvd.szClassName = const_cast<char*>(kvdw->cls.c_str());
 	kvdw->key = "";
-	kvdw->kvd.szKeyName = const_cast<char*>(kvdw->key.chars());
+	kvdw->kvd.szKeyName = const_cast<char*>(kvdw->key.c_str());
 	kvdw->val = "";
-	kvdw->kvd.szValue = const_cast<char*>(kvdw->val.chars());
+	kvdw->kvd.szValue = const_cast<char*>(kvdw->val.c_str());
 	kvdw->kvd.fHandled = 0;
 
-	g_KVDWs.append(kvdw);
+	g_KVDWs.emplace_back(kvdw);
 
 	return reinterpret_cast<cell>(kvdw);
 }
@@ -1301,10 +1301,10 @@ static cell AMX_NATIVE_CALL free_kvd(AMX *amx, cell *params) {
 
 	KVD_Wrapper *kvdw = reinterpret_cast<KVD_Wrapper *>(params[1]);
 
-	for (size_t i = 0; i < g_KVDWs.length(); ++i) {
+	for (size_t i = 0; i < g_KVDWs.size(); ++i) {
 		if (g_KVDWs[i] == kvdw) {
-			g_KVDWs.remove(i);
-			g_FreeKVDWs.append(kvdw);
+			g_KVDWs.erase(g_KVDWs.begin() + i);
+			g_FreeKVDWs.emplace_back(kvdw);
 
 			return 1;
 		}

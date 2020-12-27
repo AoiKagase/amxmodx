@@ -29,7 +29,7 @@ private:
 
 	// Use a string pointer for the data type because the location manager
 	// stores a direct pointer to the c_str() of the title
-	Hash<ke::AString, ke::AString*>	m_Hash;
+	Hash<std::string, std::string*>	m_Hash;
 
 public:
 
@@ -38,9 +38,9 @@ public:
 		m_Loaded=0;
 	};
 
-	inline const char *Lookup(ke::AString &input)
+	inline const char *Lookup(std::string &input)
 	{
-		ke::AString** ret = m_Hash.find(input);
+		std::string** ret = m_Hash.find(input);
 
 		if (ret == NULL || *ret == NULL)
 		{
@@ -48,7 +48,7 @@ public:
 			return NULL;
 		}
 
-		return (*ret)->chars();
+		return (*ret)->c_str();
 	};
 	void LoadTitles(void);
 };

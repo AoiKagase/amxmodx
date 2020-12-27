@@ -11,8 +11,7 @@
 #define _NATIVES_NATIVES_HANDLES_H_
 
 #include <amtl/am-vector.h>
-#include <amtl/am-autoptr.h>
-
+#include <memory>
 // Note: All handles start at 1. 0 and below are invalid handles.
 //       This way, a plugin that doesn't initialize a vector or
 //       string will not be able to modify another plugin's data
@@ -23,7 +22,7 @@ class NativeHandle
 {
 	private:
 
-		ke::Vector<ke::AutoPtr<T>> m_handles;
+		std::vector<std::unique_ptr<T>> m_handles;
 
 	public:
 
@@ -40,14 +39,14 @@ class NativeHandle
 
 		size_t size()
 		{
-			return m_handles.length();
+			return m_handles.size();
 		}
 
 		T *lookup(size_t handle)
 		{
 			--handle;
 
-			if (handle >= m_handles.length())
+			if (handle >= m_handles.size())
 			{
 				return nullptr;
 			}
@@ -58,43 +57,43 @@ class NativeHandle
 		template <typename... Targs>
 		size_t create(Targs... Fargs)
 		{
-			for (size_t i = 0; i < m_handles.length(); ++i)
+			for (size_t i = 0; i < m_handles.size(); ++i)
 			{
 				if (!m_handles[i])
 				{
-					m_handles[i] = ke::AutoPtr<T>(new T(Fargs...));
+					m_handles[i] = std::unique_ptr<T>(new T(Fargs...));
 
 					return i + 1;
 				}
 			}
 
-			m_handles.append(ke::AutoPtr<T>(new T(Fargs...)));
+			m_handles.emplace_back(std::unique_ptr<T>(new T(Fargs...)));
 
-			return m_handles.length();
+			return m_handles.size();
 		}
 
 		size_t clone(T *data)
 		{
-			for (size_t i = 0; i < m_handles.length(); ++i)
+			for (size_t i = 0; i < m_handles.size(); ++i)
 			{
 				if (!m_handles[i])
 				{
-					m_handles[i] = ke::AutoPtr<T>(data);
+					m_handles[i] = std::unique_ptr<T>(data);
 
 					return i + 1;
 				}
 			}
 
-			m_handles.append(ke::AutoPtr<T>(data));
+			m_handles.emplace_back(std::unique_ptr<T>(data));
 
-			return m_handles.length();
+			return m_handles.size();
 		}
 
 		bool destroy(size_t handle)
 		{
 			--handle;
 
-			if (handle >= m_handles.length())
+			if (handle >= m_handles.size())
 			{
 				return false;
 			}

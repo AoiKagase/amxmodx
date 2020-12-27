@@ -27,9 +27,9 @@
 
 CLog::CLog()
 {
-	m_LogType = 0;
-	m_LogFile = nullptr;
-	m_FoundError = false;
+	m_LogType	   = 0;
+	m_LogFile	   = "";
+	m_FoundError   = false;
 	m_LoggedErrMap = false;
 }
 
@@ -41,14 +41,14 @@ CLog::~CLog()
 void CLog::CloseFile()
 {
 	// log "log file closed" to old file, if any
-	if (m_LogFile.length())
+	if (m_LogFile.size())
 	{
-		FILE *fp = fopen(m_LogFile.chars(), "r");
+		FILE *fp = fopen(m_LogFile.c_str(), "r");
 
 		if (fp)
 		{
 			fclose(fp);
-			fp = fopen(m_LogFile.chars(), "a+");
+			fp = fopen(m_LogFile.c_str(), "a+");
 
 			// get time
 			time_t td;
@@ -81,7 +81,7 @@ void CLog::CreateNewFile()
 
 	while (true)
 	{
-		ke::SafeSprintf(name, sizeof(name), "%s/L%02d%02d%03d.log", g_log_dir.chars(), curTime->tm_mon + 1, curTime->tm_mday, i);
+		ke::SafeSprintf(name, sizeof(name), "%s/L%02d%02d%03d.log", g_log_dir.c_str(), curTime->tm_mon + 1, curTime->tm_mday, i);
 		build_pathname_r(file, sizeof(file), "%s", name);
 		FILE *pTmpFile = fopen(file, "r");			// open for reading to check whether the file exists
 
@@ -94,7 +94,7 @@ void CLog::CreateNewFile()
 	m_LogFile = file;
 
 	// Log logfile start
-	FILE *fp = fopen(m_LogFile.chars(), "w");
+	FILE *fp = fopen(m_LogFile.c_str(), "w");
 
 	if (!fp)
 	{
@@ -106,10 +106,10 @@ void CLog::CreateNewFile()
 	}
 }
 
-void CLog::UseFile(const ke::AString &fileName)
+void CLog::UseFile(const std::string &fileName)
 {
 	static char file[PLATFORM_MAX_PATH];
-	m_LogFile = build_pathname_r(file, sizeof(file), "%s/%s", g_log_dir.chars(), fileName.chars());
+	m_LogFile = build_pathname_r(file, sizeof(file), "%s/%s", g_log_dir.c_str(), fileName.c_str());
 }
 
 void CLog::SetLogType(const char* localInfo)
@@ -130,9 +130,9 @@ void CLog::MapChange()
 	// create dir if not existing
 	char file[PLATFORM_MAX_PATH];
 #if defined(__linux__) || defined(__APPLE__)
-	mkdir(build_pathname_r(file, sizeof(file), "%s", g_log_dir.chars()), 0700);
+	mkdir(build_pathname_r(file, sizeof(file), "%s", g_log_dir.c_str()), 0700);
 #else
-	mkdir(build_pathname_r(file, sizeof(file), "%s", g_log_dir.chars()));
+	mkdir(build_pathname_r(file, sizeof(file), "%s", g_log_dir.c_str()));
 #endif
 
 	SetLogType("amxx_logging");
@@ -175,21 +175,21 @@ void CLog::Log(const char *fmt, ...)
 		FILE *pF = NULL;
 		if (m_LogType == 2)
 		{
-			pF = fopen(m_LogFile.chars(), "a+");
+			pF = fopen(m_LogFile.c_str(), "a+");
 			if (!pF)
 			{
 				CreateNewFile();
-				pF = fopen(m_LogFile.chars(), "a+");
+				pF = fopen(m_LogFile.c_str(), "a+");
 
 				if (!pF)
 				{
-					ALERT(at_logged, "[AMXX] Unexpected fatal logging error (couldn't open %s for a+). AMXX Logging disabled for this map.\n", m_LogFile.chars());
+					ALERT(at_logged, "[AMXX] Unexpected fatal logging error (couldn't open %s for a+). AMXX Logging disabled for this map.\n", m_LogFile.c_str());
 					m_LogType = 0;
 					return;
 				}
 			}
 		} else {
-			build_pathname_r(file, sizeof(file), "%s/L%04d%02d%02d.log", g_log_dir.chars(), (curTime->tm_year + 1900), curTime->tm_mon + 1, curTime->tm_mday);
+			build_pathname_r(file, sizeof(file), "%s/L%04d%02d%02d.log", g_log_dir.c_str(), (curTime->tm_year + 1900), curTime->tm_mon + 1, curTime->tm_mday);
 			pF = fopen(file, "a+");
 		}
 
@@ -243,7 +243,7 @@ void CLog::LogError(const char *fmt, ...)
 	va_end(arglst);
 
 	FILE *pF = NULL;
-	ke::SafeSprintf(name, sizeof(name), "%s/error_%04d%02d%02d.log", g_log_dir.chars(), curTime->tm_year + 1900, curTime->tm_mon + 1, curTime->tm_mday);
+	ke::SafeSprintf(name, sizeof(name), "%s/error_%04d%02d%02d.log", g_log_dir.c_str(), curTime->tm_year + 1900, curTime->tm_mon + 1, curTime->tm_mday);
 	build_pathname_r(file, sizeof(file), "%s", name);
 	pF = fopen(file, "a+");
 

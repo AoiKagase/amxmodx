@@ -43,7 +43,7 @@ public:
 private:
 	void RegisterChecked(AMX *amx, int &func, const char *function, int &post, Forward *pfwd);
 
-	ke::Vector<CRegisterHamParams*> m_RHP_list;
+	std::vector<CRegisterHamParams*> m_RHP_list;
 	void **m_specialbot_vtable;
 };
 

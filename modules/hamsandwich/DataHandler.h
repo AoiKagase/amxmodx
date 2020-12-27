@@ -184,7 +184,7 @@ public:
 			return -1;
 		}
 
-		ke::AString *str=reinterpret_cast<ke::AString *>(m_data);
+		std::string *str=reinterpret_cast<std::string *>(m_data);
 
 		cell *i=data;
 		size_t len=0;
@@ -330,7 +330,7 @@ public:
 		{
 			return -1;
 		}
-		const char *i=(reinterpret_cast<ke::AString *>(m_data)->chars());
+		const char *i=(reinterpret_cast<std::string *>(m_data)->c_str());
 
 		while (len-- &&
 			  (*data++=*i++)!='\0')
@@ -369,6 +369,6 @@ public:
 
 extern CStack< Data * > ReturnStack;
 extern CStack< Data * > OrigReturnStack;
-extern CStack< ke::Vector< Data * > * > ParamStack;
+extern CStack< std::vector< Data * > * > ParamStack;
 extern CStack< int * > ReturnStatus;
 #endif

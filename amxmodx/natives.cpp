@@ -28,7 +28,7 @@
 //With the exception for param_convert, which was written by
 // Julien "dJeyL" Laurent
 
-ke::Vector<regnative *> g_RegNatives;
+std::vector<regnative *> g_RegNatives;
 static char g_errorStr[512] = {0};
 bool g_Initialized = false;
 
@@ -40,7 +40,7 @@ int g_CurError = AMX_ERR_NONE;
 
 int amxx_DynaCallback(int idx, AMX *amx, cell *params)
 {
-	if (idx < 0 || idx >= (int)g_RegNatives.length())
+	if (idx < 0 || idx >= (int)g_RegNatives.size())
 	{
 		LogError(amx, AMX_ERR_NATIVE, "Invalid dynamic native called");
 		return 0;
@@ -152,24 +152,24 @@ int amxx_DynaCallback(int idx, AMX *amx, cell *params)
 
 AMX_NATIVE_INFO *BuildNativeTable()
 {
-	if (g_RegNatives.length() < 1)
+	if (g_RegNatives.size() < 1)
 	{
 		return NULL;
 	}
 
-	AMX_NATIVE_INFO *pNatives = new AMX_NATIVE_INFO[g_RegNatives.length() + 1];
+	AMX_NATIVE_INFO *pNatives = new AMX_NATIVE_INFO[g_RegNatives.size() + 1];
 
 	AMX_NATIVE_INFO info;
 	regnative *pNative;
-	for (size_t i=0; i<g_RegNatives.length(); i++)
+	for (size_t i=0; i<g_RegNatives.size(); i++)
 	{
 		pNative = g_RegNatives[i];
-		info.name = pNative->name.chars();
+		info.name = pNative->name.c_str();
 		info.func = (AMX_NATIVE)((void *)(pNative->pfn));
 		pNatives[i] = info;
 	}
-	pNatives[g_RegNatives.length()].name = NULL;
-	pNatives[g_RegNatives.length()].func = NULL;
+	pNatives[g_RegNatives.size()].name = NULL;
+	pNatives[g_RegNatives.size()].func = NULL;
 
 	//this needs to be deleted
 	return pNatives;
@@ -474,13 +474,13 @@ static cell AMX_NATIVE_CALL register_native(AMX *amx, cell *params)
 # endif
 #endif
 
-	int id = (int)g_RegNatives.length();
+	int id = (int)g_RegNatives.size();
 	
 	amxx_DynaMake(pNative->pfn, id);
 	pNative->func = idx;
 	pNative->style = params[3];
 
-	g_RegNatives.append(pNative);
+	g_RegNatives.emplace_back(pNative);
 
 	pNative->name = name;
 
@@ -490,7 +490,7 @@ static cell AMX_NATIVE_CALL register_native(AMX *amx, cell *params)
 void ClearPluginLibraries()
 {
 	ClearLibraries(LibSource_Plugin);
-	for (size_t i=0; i<g_RegNatives.length(); i++)
+	for (size_t i=0; i<g_RegNatives.size(); i++)
 	{
 #ifdef __linux__
 		munmap(g_RegNatives[i]->pfn, amxx_DynaCodesize() + 10);

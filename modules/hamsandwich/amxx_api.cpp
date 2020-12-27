@@ -27,7 +27,7 @@
 
 HLTypeConversion TypeConversion;
 
-extern ke::Vector<Hook*> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
+extern std::vector<Hook*> hooks[HAM_LAST_ENTRY_DONT_USE_ME_LOL];
 extern CHamSpecialBotHandler SpecialbotHandler;
 
 extern AMX_NATIVE_INFO RegisterNatives[];
@@ -111,7 +111,7 @@ void OnPluginsUnloaded(void)
 {
 	for (size_t i = 0; i < HAM_LAST_ENTRY_DONT_USE_ME_LOL; i++)
 	{
-		for (size_t j = 0; j < hooks[i].length(); ++j)
+		for (size_t j = 0; j < hooks[i].size(); ++j)
 		{
 			delete hooks[i].at(j);
 		}

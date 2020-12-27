@@ -26,7 +26,7 @@
 struct regnative
 {
 	AMX *amx;
-	ke::AString name;
+	std::string name;
 	char *pfn;
 	int func;
 	int style;
