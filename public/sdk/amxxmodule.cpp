@@ -38,32 +38,32 @@ static DLL_FUNCTIONS g_EntityAPI_Table =
 #ifdef FN_GameDLLInit
 	FN_GameDLLInit,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchSpawn
 	FN_DispatchSpawn,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchThink
 	FN_DispatchThink,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchUse
 	FN_DispatchUse,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchTouch
 	FN_DispatchTouch,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchBlocked
 	FN_DispatchBlocked,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchKeyValue
 	FN_DispatchKeyValue,
@@ -73,47 +73,47 @@ static DLL_FUNCTIONS g_EntityAPI_Table =
 #ifdef FN_DispatchSave
 	FN_DispatchSave,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchRestore
 	FN_DispatchRestore,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchObjectCollsionBox
 	FN_DispatchObjectCollsionBox,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveWriteFields
 	FN_SaveWriteFields,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveReadFields
 	FN_SaveReadFields,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveGlobalState
 	FN_SaveGlobalState,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RestoreGlobalState
 	FN_RestoreGlobalState,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ResetGlobalState
 	FN_ResetGlobalState,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientConnect
 	FN_ClientConnect,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientDisconnect
 	FN_ClientDisconnect,
@@ -123,27 +123,27 @@ static DLL_FUNCTIONS g_EntityAPI_Table =
 #ifdef FN_ClientKill
 	FN_ClientKill,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientPutInServer
 	FN_ClientPutInServer,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientCommand
 	FN_ClientCommand,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientUserInfoChanged
 	FN_ClientUserInfoChanged,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerActivate
 	FN_ServerActivate,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerDeactivate
 	FN_ServerDeactivate,
@@ -153,137 +153,137 @@ static DLL_FUNCTIONS g_EntityAPI_Table =
 #ifdef FN_PlayerPreThink
 	FN_PlayerPreThink,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PlayerPostThink
 	FN_PlayerPostThink,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_StartFrame
 	FN_StartFrame,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ParmsNewLevel
 	FN_ParmsNewLevel,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ParmsChangeLevel
 	FN_ParmsChangeLevel,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetGameDescription
 	FN_GetGameDescription,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PlayerCustomization
 	FN_PlayerCustomization,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SpectatorConnect
 	FN_SpectatorConnect,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SpectatorDisconnect
 	FN_SpectatorDisconnect,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SpectatorThink
 	FN_SpectatorThink,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Sys_Error
 	FN_Sys_Error,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PM_Move
 	FN_PM_Move,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PM_Init
 	FN_PM_Init,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PM_FindTextureType
 	FN_PM_FindTextureType,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetupVisibility
 	FN_SetupVisibility,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_UpdateClientData
 	FN_UpdateClientData,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AddToFullPack
 	FN_AddToFullPack,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateBaseline
 	FN_CreateBaseline,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RegisterEncoders
 	FN_RegisterEncoders,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetWeaponData
 	FN_GetWeaponData,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CmdStart
 	FN_CmdStart,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CmdEnd
 	FN_CmdEnd,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ConnectionlessPacket
 	FN_ConnectionlessPacket,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetHullBounds
 	FN_GetHullBounds,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateInstancedBaselines
 	FN_CreateInstancedBaselines,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_InconsistentFile
 	FN_InconsistentFile,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AllowLagCompensation
 	FN_AllowLagCompensation
 #else
-	NULL
+	nullptr
 #endif
 }; // g_EntityAPI2_Table
 
@@ -293,77 +293,77 @@ static DLL_FUNCTIONS g_EntityAPI_Post_Table =
 #ifdef FN_GameDLLInit_Post
 	FN_GameDLLInit_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchSpawn_Post
 	FN_DispatchSpawn_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchThink_Post
 	FN_DispatchThink_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchUse_Post
 	FN_DispatchUse_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchTouch_Post
 	FN_DispatchTouch_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchBlocked_Post
 	FN_DispatchBlocked_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchKeyValue_Post
 	FN_DispatchKeyValue_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchSave_Post
 	FN_DispatchSave_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchRestore_Post
 	FN_DispatchRestore_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DispatchObjectCollsionBox_Post
 	FN_DispatchObjectCollsionBox_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveWriteFields_Post
 	FN_SaveWriteFields_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveReadFields_Post
 	FN_SaveReadFields_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveGlobalState_Post
 	FN_SaveGlobalState_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RestoreGlobalState_Post
 	FN_RestoreGlobalState_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ResetGlobalState_Post
 	FN_ResetGlobalState_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientConnect_Post
 	FN_ClientConnect_Post,
@@ -373,12 +373,12 @@ static DLL_FUNCTIONS g_EntityAPI_Post_Table =
 #ifdef FN_ClientDisconnect_Post
 	FN_ClientDisconnect_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientKill_Post
 	FN_ClientKill_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientPutInServer_Post
 	FN_ClientPutInServer_Post,
@@ -388,7 +388,7 @@ static DLL_FUNCTIONS g_EntityAPI_Post_Table =
 #ifdef FN_ClientCommand_Post
 	FN_ClientCommand_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientUserInfoChanged_Post
 	FN_ClientUserInfoChanged_Post,
@@ -403,7 +403,7 @@ static DLL_FUNCTIONS g_EntityAPI_Post_Table =
 #ifdef FN_ServerDeactivate_Post
 	FN_ServerDeactivate_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PlayerPreThink_Post
 	FN_PlayerPreThink_Post,
@@ -413,132 +413,132 @@ static DLL_FUNCTIONS g_EntityAPI_Post_Table =
 #ifdef FN_PlayerPostThink_Post
 	FN_PlayerPostThink_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_StartFrame_Post
 	FN_StartFrame_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ParmsNewLevel_Post
 	FN_ParmsNewLevel_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ParmsChangeLevel_Post
 	FN_ParmsChangeLevel_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetGameDescription_Post
 	FN_GetGameDescription_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PlayerCustomization_Post
 	FN_PlayerCustomization_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SpectatorConnect_Post
 	FN_SpectatorConnect_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SpectatorDisconnect_Post
 	FN_SpectatorDisconnect_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SpectatorThink_Post
 	FN_SpectatorThink_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Sys_Error_Post
 	FN_Sys_Error_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PM_Move_Post
 	FN_PM_Move_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PM_Init_Post
 	FN_PM_Init_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PM_FindTextureType_Post
 	FN_PM_FindTextureType_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetupVisibility_Post
 	FN_SetupVisibility_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_UpdateClientData_Post
 	FN_UpdateClientData_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AddToFullPack_Post
 	FN_AddToFullPack_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateBaseline_Post
 	FN_CreateBaseline_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RegisterEncoders_Post
 	FN_RegisterEncoders_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetWeaponData_Post
 	FN_GetWeaponData_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CmdStart_Post
 	FN_CmdStart_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CmdEnd_Post
 	FN_CmdEnd_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ConnectionlessPacket_Post
 	FN_ConnectionlessPacket_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetHullBounds_Post
 	FN_GetHullBounds_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateInstancedBaselines_Post
 	FN_CreateInstancedBaselines_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_InconsistentFile_Post
 	FN_InconsistentFile_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AllowLagCompensation
 	FN_AllowLagCompensation,
 #else
-	NULL,
+	nullptr,
 #endif
 }; // g_EntityAPI2_Table
 
@@ -547,722 +547,722 @@ static enginefuncs_t g_EngineFuncs_Table =
 #ifdef FN_PrecacheModel
 	FN_PrecacheModel,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PrecacheSound
 	FN_PrecacheSound,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetModel
 	FN_SetModel,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ModelIndex
 	FN_ModelIndex,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ModelFrames
 	FN_ModelFrames,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetSize
 	FN_SetSize,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ChangeLevel
 	FN_ChangeLevel,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetSpawnParms
 	FN_GetSpawnParms,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveSpawnParms
 	FN_SaveSpawnParms,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_VecToYaw
 	FN_VecToYaw,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_VecToAngles
 	FN_VecToAngles,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MoveToOrigin
 	FN_MoveToOrigin,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ChangeYaw
 	FN_ChangeYaw,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ChangePitch
 	FN_ChangePitch,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindEntityByString
 	FN_FindEntityByString,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetEntityIllum
 	FN_GetEntityIllum,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindEntityInSphere
 	FN_FindEntityInSphere,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindClientInPVS
 	FN_FindClientInPVS,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EntitiesInPVS
 	FN_EntitiesInPVS,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MakeVectors
 	FN_MakeVectors,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AngleVectors
 	FN_AngleVectors,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateEntity
 	FN_CreateEntity,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RemoveEntity
 	FN_RemoveEntity,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateNamedEntity
 	FN_CreateNamedEntity,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MakeStatic
 	FN_MakeStatic,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EntIsOnFloor
 	FN_EntIsOnFloor,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DropToFloor
 	FN_DropToFloor,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WalkMove
 	FN_WalkMove,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetOrigin
 	FN_SetOrigin,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EmitSound
 	FN_EmitSound,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EmitAmbientSound
 	FN_EmitAmbientSound,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceLine
 	FN_TraceLine,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceToss
 	FN_TraceToss,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceMonsterHull
 	FN_TraceMonsterHull,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceHull
 	FN_TraceHull,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceModel
 	FN_TraceModel,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceTexture
 	FN_TraceTexture,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceSphere
 	FN_TraceSphere,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetAimVector
 	FN_GetAimVector,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerCommand
 	FN_ServerCommand,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerExecute
 	FN_ServerExecute,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_engClientCommand
 	FN_engClientCommand,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ParticleEffect
 	FN_ParticleEffect,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_LightStyle
 	FN_LightStyle,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DecalIndex
 	FN_DecalIndex,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PointContents
 	FN_PointContents,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MessageBegin
 	FN_MessageBegin,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MessageEnd
 	FN_MessageEnd,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteByte
 	FN_WriteByte,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteChar
 	FN_WriteChar,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteShort
 	FN_WriteShort,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteLong
 	FN_WriteLong,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteAngle
 	FN_WriteAngle,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteCoord
 	FN_WriteCoord,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteString
 	FN_WriteString,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WriteEntity
 	FN_WriteEntity,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarRegister
 	FN_CVarRegister,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarGetFloat
 	FN_CVarGetFloat,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarGetString
 	FN_CVarGetString,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarSetFloat
 	FN_CVarSetFloat,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarSetString
 	FN_CVarSetString,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AlertMessage
 	FN_AlertMessage,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EngineFprintf
 	FN_EngineFprintf,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PvAllocEntPrivateData
 	FN_PvAllocEntPrivateData,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PvEntPrivateData
 	FN_PvEntPrivateData,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FreeEntPrivateData
 	FN_FreeEntPrivateData,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SzFromIndex
 	FN_SzFromIndex,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AllocString
 	FN_AllocString,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetVarsOfEnt
 	FN_GetVarsOfEnt,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PEntityOfEntOffset
 	FN_PEntityOfEntOffset,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EntOffsetOfPEntity
 	FN_EntOffsetOfPEntity,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_IndexOfEdict
 	FN_IndexOfEdict,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PEntityOfEntIndex
 	FN_PEntityOfEntIndex,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindEntityByVars
 	FN_FindEntityByVars,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetModelPtr
 	FN_GetModelPtr,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RegUserMsg
 	FN_RegUserMsg,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AnimationAutomove
 	FN_AnimationAutomove,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetBonePosition
 	FN_GetBonePosition,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FunctionFromName
 	FN_FunctionFromName,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_NameForFunction
 	FN_NameForFunction,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientPrintf
 	FN_ClientPrintf,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerPrint
 	FN_ServerPrint,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cmd_Args
 	FN_Cmd_Args,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cmd_Argv
 	FN_Cmd_Argv,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cmd_Argc
 	FN_Cmd_Argc,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetAttachment
 	FN_GetAttachment,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_Init
 	FN_CRC32_Init,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_ProcessBuffer
 	FN_CRC32_ProcessBuffer,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_ProcessByte
 	FN_CRC32_ProcessByte,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_Final
 	FN_CRC32_Final,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RandomLong
 	FN_RandomLong,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RandomFloat
 	FN_RandomFloat,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetView
 	FN_SetView,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Time
 	FN_Time,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CrosshairAngle
 	FN_CrosshairAngle,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_LoadFileForMe
 	FN_LoadFileForMe,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FreeFile
 	FN_FreeFile,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EndSection
 	FN_EndSection,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CompareFileTime
 	FN_CompareFileTime,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetGameDir
 	FN_GetGameDir,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cvar_RegisterVariable
 	FN_Cvar_RegisterVariable,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FadeClientVolume
 	FN_FadeClientVolume,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetClientMaxspeed
 	FN_SetClientMaxspeed,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateFakeClient
 	FN_CreateFakeClient,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RunPlayerMove
 	FN_RunPlayerMove,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_NumberOfEntities
 	FN_NumberOfEntities,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetInfoKeyBuffer
 	FN_GetInfoKeyBuffer,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_InfoKeyValue
 	FN_InfoKeyValue,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetKeyValue
 	FN_SetKeyValue,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetClientKeyValue
 	FN_SetClientKeyValue,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_IsMapValid
 	FN_IsMapValid,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_StaticDecal
 	FN_StaticDecal,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PrecacheGeneric
 	FN_PrecacheGeneric,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerUserId
 	FN_GetPlayerUserId,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_BuildSoundMsg
 	FN_BuildSoundMsg,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_IsDedicatedServer
 	FN_IsDedicatedServer,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarGetPointer
 	FN_CVarGetPointer,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerWONId
 	FN_GetPlayerWONId,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Info_RemoveKey
 	FN_Info_RemoveKey,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPhysicsKeyValue
 	FN_GetPhysicsKeyValue,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetPhysicsKeyValue
 	FN_SetPhysicsKeyValue,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPhysicsInfoString
 	FN_GetPhysicsInfoString,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PrecacheEvent
 	FN_PrecacheEvent,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PlaybackEvent
 	FN_PlaybackEvent,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetFatPVS
 	FN_SetFatPVS,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetFatPAS
 	FN_SetFatPAS,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CheckVisibility
 	FN_CheckVisibility,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaSetField
 	FN_DeltaSetField,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaUnsetField
 	FN_DeltaUnsetField,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaAddEncoder
 	FN_DeltaAddEncoder,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetCurrentPlayer
 	FN_GetCurrentPlayer,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CanSkipPlayer
 	FN_CanSkipPlayer,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaFindField
 	FN_DeltaFindField,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaSetFieldByIndex
 	FN_DeltaSetFieldByIndex,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaUnsetFieldByIndex
 	FN_DeltaUnsetFieldByIndex,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetGroupMask
 	FN_SetGroupMask,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_engCreateInstancedBaseline
 	FN_engCreateInstancedBaseline,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cvar_DirectSet
 	FN_Cvar_DirectSet,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ForceUnmodified
 	FN_ForceUnmodified,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerStats
 	FN_GetPlayerStats,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AddServerCommand
 	FN_AddServerCommand,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Voice_GetClientListening
 	FN_Voice_GetClientListening,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Voice_SetClientListening
 	FN_Voice_SetClientListening,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerAuthId
 	FN_GetPlayerAuthId
 #else
-	NULL
+	nullptr
 #endif
 }; // g_EngineFuncs_Table
 
@@ -1272,12 +1272,12 @@ static enginefuncs_t g_EngineFuncs_Post_Table =
 #ifdef FN_PrecacheModel_Post
 	FN_PrecacheModel_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PrecacheSound_Post
 	FN_PrecacheSound_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetModel_Post
 	FN_SetModel_Post,
@@ -1287,142 +1287,142 @@ static enginefuncs_t g_EngineFuncs_Post_Table =
 #ifdef FN_ModelIndex_Post
 	FN_ModelIndex_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ModelFrames_Post
 	FN_ModelFrames_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetSize_Post
 	FN_SetSize_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ChangeLevel_Post
 	FN_ChangeLevel_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetSpawnParms_Post
 	FN_GetSpawnParms_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SaveSpawnParms_Post
 	FN_SaveSpawnParms_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_VecToYaw_Post
 	FN_VecToYaw_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_VecToAngles_Post
 	FN_VecToAngles_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MoveToOrigin_Post
 	FN_MoveToOrigin_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ChangeYaw_Post
 	FN_ChangeYaw_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ChangePitch_Post
 	FN_ChangePitch_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindEntityByString_Post
 	FN_FindEntityByString_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetEntityIllum_Post
 	FN_GetEntityIllum_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindEntityInSphere_Post
 	FN_FindEntityInSphere_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindClientInPVS_Post
 	FN_FindClientInPVS_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EntitiesInPVS_Post
 	FN_EntitiesInPVS_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MakeVectors_Post
 	FN_MakeVectors_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AngleVectors_Post
 	FN_AngleVectors_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateEntity_Post
 	FN_CreateEntity_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RemoveEntity_Post
 	FN_RemoveEntity_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateNamedEntity_Post
 	FN_CreateNamedEntity_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MakeStatic_Post
 	FN_MakeStatic_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EntIsOnFloor_Post
 	FN_EntIsOnFloor_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DropToFloor_Post
 	FN_DropToFloor_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_WalkMove_Post
 	FN_WalkMove_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetOrigin_Post
 	FN_SetOrigin_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EmitSound_Post
 	FN_EmitSound_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EmitAmbientSound_Post
 	FN_EmitAmbientSound_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceLine_Post
 	FN_TraceLine_Post,
@@ -1432,72 +1432,72 @@ static enginefuncs_t g_EngineFuncs_Post_Table =
 #ifdef FN_TraceToss_Post
 	FN_TraceToss_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceMonsterHull_Post
 	FN_TraceMonsterHull_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceHull_Post
 	FN_TraceHull_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceModel_Post
 	FN_TraceModel_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceTexture_Post
 	FN_TraceTexture_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_TraceSphere_Post
 	FN_TraceSphere_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetAimVector_Post
 	FN_GetAimVector_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerCommand_Post
 	FN_ServerCommand_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerExecute_Post
 	FN_ServerExecute_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_engClientCommand_Post
 	FN_engClientCommand_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ParticleEffect_Post
 	FN_ParticleEffect_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_LightStyle_Post
 	FN_LightStyle_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DecalIndex_Post
 	FN_DecalIndex_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PointContents_Post
 	FN_PointContents_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_MessageBegin_Post
 	FN_MessageBegin_Post,
@@ -1552,97 +1552,97 @@ static enginefuncs_t g_EngineFuncs_Post_Table =
 #ifdef FN_CVarRegister_Post
 	FN_CVarRegister_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarGetFloat_Post
 	FN_CVarGetFloat_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarGetString_Post
 	FN_CVarGetString_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarSetFloat_Post
 	FN_CVarSetFloat_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarSetString_Post
 	FN_CVarSetString_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AlertMessage_Post
 	FN_AlertMessage_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EngineFprintf_Post
 	FN_EngineFprintf_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PvAllocEntPrivateData_Post
 	FN_PvAllocEntPrivateData_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PvEntPrivateData_Post
 	FN_PvEntPrivateData_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FreeEntPrivateData_Post
 	FN_FreeEntPrivateData_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SzFromIndex_Post
 	FN_SzFromIndex_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AllocString_Post
 	FN_AllocString_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetVarsOfEnt_Post
 	FN_GetVarsOfEnt_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PEntityOfEntOffset_Post
 	FN_PEntityOfEntOffset_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EntOffsetOfPEntity_Post
 	FN_EntOffsetOfPEntity_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_IndexOfEdict_Post
 	FN_IndexOfEdict_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PEntityOfEntIndex_Post
 	FN_PEntityOfEntIndex_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FindEntityByVars_Post
 	FN_FindEntityByVars_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetModelPtr_Post
 	FN_GetModelPtr_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RegUserMsg_Post
 	FN_RegUserMsg_Post,
@@ -1652,342 +1652,342 @@ static enginefuncs_t g_EngineFuncs_Post_Table =
 #ifdef FN_AnimationAutomove_Post
 	FN_AnimationAutomove_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetBonePosition_Post
 	FN_GetBonePosition_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FunctionFromName_Post
 	FN_FunctionFromName_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_NameForFunction_Post
 	FN_NameForFunction_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ClientPrintf_Post
 	FN_ClientPrintf_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ServerPrint_Post
 	FN_ServerPrint_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cmd_Args_Post
 	FN_Cmd_Args_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cmd_Argv_Post
 	FN_Cmd_Argv_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cmd_Argc_Post
 	FN_Cmd_Argc_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetAttachment_Post
 	FN_GetAttachment_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_Init_Post
 	FN_CRC32_Init_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_ProcessBuffer_Post
 	FN_CRC32_ProcessBuffer_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_ProcessByte_Post
 	FN_CRC32_ProcessByte_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CRC32_Final_Post
 	FN_CRC32_Final_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RandomLong_Post
 	FN_RandomLong_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RandomFloat_Post
 	FN_RandomFloat_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetView_Post
 	FN_SetView_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Time_Post
 	FN_Time_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CrosshairAngle_Post
 	FN_CrosshairAngle_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_LoadFileForMe_Post
 	FN_LoadFileForMe_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FreeFile_Post
 	FN_FreeFile_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_EndSection_Post
 	FN_EndSection_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CompareFileTime_Post
 	FN_CompareFileTime_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetGameDir_Post
 	FN_GetGameDir_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cvar_RegisterVariable_Post
 	FN_Cvar_RegisterVariable_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_FadeClientVolume_Post
 	FN_FadeClientVolume_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetClientMaxspeed_Post
 	FN_SetClientMaxspeed_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CreateFakeClient_Post
 	FN_CreateFakeClient_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_RunPlayerMove_Post
 	FN_RunPlayerMove_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_NumberOfEntities_Post
 	FN_NumberOfEntities_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetInfoKeyBuffer_Post
 	FN_GetInfoKeyBuffer_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_InfoKeyValue_Post
 	FN_InfoKeyValue_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetKeyValue_Post
 	FN_SetKeyValue_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetClientKeyValue_Post
 	FN_SetClientKeyValue_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_IsMapValid_Post
 	FN_IsMapValid_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_StaticDecal_Post
 	FN_StaticDecal_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PrecacheGeneric_Post
 	FN_PrecacheGeneric_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerUserId_Post
 	FN_GetPlayerUserId_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_BuildSoundMsg_Post
 	FN_BuildSoundMsg_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_IsDedicatedServer_Post
 	FN_IsDedicatedServer_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CVarGetPointer_Post
 	FN_CVarGetPointer_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerWONId_Post
 	FN_GetPlayerWONId_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Info_RemoveKey_Post
 	FN_Info_RemoveKey_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPhysicsKeyValue_Post
 	FN_GetPhysicsKeyValue_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetPhysicsKeyValue_Post
 	FN_SetPhysicsKeyValue_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPhysicsInfoString_Post
 	FN_GetPhysicsInfoString_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PrecacheEvent_Post
 	FN_PrecacheEvent_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_PlaybackEvent_Post
 	FN_PlaybackEvent_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetFatPVS_Post
 	FN_SetFatPVS_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetFatPAS_Post
 	FN_SetFatPAS_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CheckVisibility_Post
 	FN_CheckVisibility_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaSetField_Post
 	FN_DeltaSetField_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaUnsetField_Post
 	FN_DeltaUnsetField_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaAddEncoder_Post
 	FN_DeltaAddEncoder_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetCurrentPlayer_Post
 	FN_GetCurrentPlayer_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_CanSkipPlayer_Post
 	FN_CanSkipPlayer_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaFindField_Post
 	FN_DeltaFindField_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaSetFieldByIndex_Post
 	FN_DeltaSetFieldByIndex_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_DeltaUnsetFieldByIndex_Post
 	FN_DeltaUnsetFieldByIndex_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_SetGroupMask_Post
 	FN_SetGroupMask_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_engCreateInstancedBaseline_Post
 	FN_engCreateInstancedBaseline_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Cvar_DirectSet_Post
 	FN_Cvar_DirectSet_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ForceUnmodified_Post
 	FN_ForceUnmodified_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerStats_Post
 	FN_GetPlayerStats_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_AddServerCommand_Post
 	FN_AddServerCommand_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Voice_GetClientListening_Post
 	FN_Voice_GetClientListening_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_Voice_SetClientListening_Post
 	FN_Voice_SetClientListening_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GetPlayerAuthId_Post
 	FN_GetPlayerAuthId_Post
 #else
-	NULL
+	nullptr
 #endif
 }; // g_EngineFuncs_Post_Table
 
@@ -1997,17 +1997,17 @@ static NEW_DLL_FUNCTIONS g_NewFuncs_Table =
 #ifdef FN_OnFreeEntPrivateData
 	FN_OnFreeEntPrivateData,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GameShutdown
 	FN_GameShutdown,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ShouldCollide
 	ShouldCollide,
 #else
-	NULL,
+	nullptr,
 #endif
 };
 
@@ -2017,17 +2017,17 @@ static NEW_DLL_FUNCTIONS g_NewFuncs_Post_Table =
 #ifdef FN_OnFreeEntPrivateData_Post
 	FN_OnFreeEntPrivateData_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_GameShutdown_Post
 	FN_GameShutdown_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 #ifdef FN_ShouldCollide_Post
 	ShouldCollide_Post,
 #else
-	NULL,
+	nullptr,
 #endif
 };
 
@@ -2210,8 +2210,8 @@ C_DLLEXPORT int GetNewDLLFunctions_Post( NEW_DLL_FUNCTIONS *pNewFunctionTable, i
 
 static META_FUNCTIONS g_MetaFunctions_Table =
 {
-	NULL,
-	NULL,
+	nullptr,
+	nullptr,
 	GetEntityAPI2,
 	GetEntityAPI2_Post,
 	GetNewDLLFunctions,
@@ -2222,7 +2222,7 @@ static META_FUNCTIONS g_MetaFunctions_Table =
 
 C_DLLEXPORT int Meta_Query(const char *ifvers, plugin_info_t **pPlugInfo, mutil_funcs_t *pMetaUtilFuncs)
 {
-	if ((int) CVAR_GET_FLOAT("developer") != 0)
+	if (static_cast<int>(CVAR_GET_FLOAT("developer")) != 0)
 		UTIL_LogPrintf("[%s] dev: called: Meta_Query; version=%s, ours=%s\n", 
 				Plugin_info.logtag, ifvers, Plugin_info.ifvers);
 
@@ -2646,32 +2646,32 @@ void ValidateMacros_DontCallThis_Smiley()
 {
 	const cell str[] = { 's', 't', 'r', '\0' };
 	MF_BuildPathname("str", "str", 0);
-	MF_BuildPathnameR(NULL, 0, "%d", 0);
-	MF_FormatAmxString(NULL, 0, 0, NULL);
-	MF_GetAmxAddr(NULL, 0);
-	MF_GetAmxVectorNull(NULL, 0);
+	MF_BuildPathnameR(nullptr, 0, "%d", 0);
+	MF_FormatAmxString(nullptr, nullptr, 0, nullptr);
+	MF_GetAmxAddr(nullptr, 0);
+	MF_GetAmxVectorNull(nullptr, 0);
 	MF_PrintSrvConsole("str", "str", 0);
 	MF_GetModname();
 	MF_GetScriptName(0);
 	MF_GetScriptAmx(0);
-	MF_FindScriptByAmx(NULL);
+	MF_FindScriptByAmx(nullptr);
 	MF_FindScriptByName("str");
-	MF_SetAmxString(NULL, 0, "str", 0);
-	MF_SetAmxStringUTF8Char(NULL, 0, "str", 0, 0);
-	MF_SetAmxStringUTF8Cell(NULL, 0, str, 0, 0);
-	MF_GetAmxString(NULL, 0, 0, NULL);
-	MF_GetAmxStringNull(NULL, 0, 0, NULL);
-	MF_GetAmxStringLen(NULL);
-	MF_CopyAmxMemory(NULL, NULL, 0);
+	MF_SetAmxString(nullptr, 0, "str", 0);
+	MF_SetAmxStringUTF8Char(nullptr, 0, "str", 0, 0);
+	MF_SetAmxStringUTF8Cell(nullptr, 0, str, 0, 0);
+	MF_GetAmxString(nullptr, 0, 0, nullptr);
+	MF_GetAmxStringNull(nullptr, 0, 0, nullptr);
+	MF_GetAmxStringLen(nullptr);
+	MF_CopyAmxMemory(nullptr, nullptr, 0);
 	MF_Log("str", "str", 0);
-	MF_LogError(NULL, 0, NULL);
-	MF_RaiseAmxError(NULL, 0);
-	MF_RegisterForward("str", (ForwardExecType)0, 0, 0, 0);
+	MF_LogError(nullptr, 0, nullptr);
+	MF_RaiseAmxError(nullptr, 0);
+	MF_RegisterForward("str", static_cast<ForwardExecType>(0), 0, 0, 0);
 	MF_ExecuteForward(0, 0, 0);
-	MF_PrepareCellArray(NULL, 0);
-	MF_PrepareCharArray(NULL, 0);
-	MF_PrepareCellArrayA(NULL, 0, true);
-	MF_PrepareCharArrayA(NULL, 0, true);
+	MF_PrepareCellArray(nullptr, 0);
+	MF_PrepareCharArray(nullptr, 0);
+	MF_PrepareCellArrayA(nullptr, 0, true);
+	MF_PrepareCharArrayA(nullptr, 0, true);
 	MF_IsPlayerValid(0);
 	MF_GetPlayerName(0);
 	MF_GetPlayerIP(0);
@@ -2692,30 +2692,30 @@ void ValidateMacros_DontCallThis_Smiley()
 	MF_IsPlayerHLTV(0);
 	MF_GetPlayerArmor(0);
 	MF_GetPlayerHealth(0);
-	MF_AmxExec(0, 0, 0);
-	MF_AmxExecv(0, 0, 0, 0, 0);
-	MF_AmxFindPublic(0, 0, 0);
-	MF_AmxAllot(0, 0, 0, 0);
-	MF_LoadAmxScript(0, 0, 0, 0, 0);
-	MF_LoadAmxScriptEx(0, 0, 0, 0, 0, 0);
-	MF_UnloadAmxScript(0, 0);
-	MF_RegisterSPForward(0, 0, 0, 0, 0, 0);
-	MF_RegisterSPForwardByName(0, 0, 0, 0, 0, 0);
+	MF_AmxExec(nullptr, nullptr, 0);
+	MF_AmxExecv(nullptr, nullptr, 0, 0, nullptr);
+	MF_AmxFindPublic(nullptr, nullptr, nullptr);
+	MF_AmxAllot(nullptr, 0, nullptr, nullptr);
+	MF_LoadAmxScript(nullptr, nullptr, nullptr, nullptr, 0);
+	MF_LoadAmxScriptEx(nullptr, nullptr, nullptr, nullptr, 0, 0);
+	MF_UnloadAmxScript(nullptr, nullptr);
+	MF_RegisterSPForward(nullptr, 0, 0, 0, 0, 0);
+	MF_RegisterSPForwardByName(nullptr, nullptr, 0, 0, 0, 0);
 	MF_UnregisterSPForward(0);
 	MF_GetPlayerFrags(0);
 	MF_GetPlayerEdict(0);
 	MF_Format("", 4, "str");
-	MF_RegisterFunction(NULL, "");
-	MF_RegisterFunctionEx(NULL, "");
+	MF_RegisterFunction(nullptr, "");
+	MF_RegisterFunctionEx(nullptr, "");
 	MF_SetPlayerTeamInfo(0, 0, "");
 	MF_PlayerPropAddr(0, 0);
-	MF_RegAuthFunc(NULL);
-	MF_UnregAuthFunc(NULL);
-	MF_FindLibrary(NULL, LibType_Class);
-	MF_AddLibraries(NULL, LibType_Class, NULL);
-	MF_RemoveLibraries(NULL);
-	MF_OverrideNatives(NULL, NULL);
-	MF_MessageBlock(0, 0, NULL);
+	MF_RegAuthFunc(nullptr);
+	MF_UnregAuthFunc(nullptr);
+	MF_FindLibrary(nullptr, LibType_Class);
+	MF_AddLibraries(nullptr, LibType_Class, nullptr);
+	MF_RemoveLibraries(nullptr);
+	MF_OverrideNatives(nullptr, nullptr);
+	MF_MessageBlock(0, 0, nullptr);
 	MF_GetConfigManager();
 }
 #endif
@@ -2993,7 +2993,7 @@ void UTIL_HudMessage(CBaseEntity *pEntity, const hudtextparms_t &textparms,
 	if ( !pEntity )
 		return;
 
-	MESSAGE_BEGIN( MSG_ONE, SVC_TEMPENTITY, NULL, ENT(pEntity->pev) );
+	MESSAGE_BEGIN( MSG_ONE, SVC_TEMPENTITY, nullptr, ENT(pEntity->pev) );
 		WRITE_BYTE( TE_TEXTMESSAGE );
 		WRITE_BYTE( textparms.channel & 0xFF );
 
@@ -3036,7 +3036,7 @@ short FixedSigned16( float value, float scale )
 {
 	int output;
 
-	output = (int) (value * scale);
+	output = static_cast<int>(value * scale);
 
 	if ( output > 32767 )
 		output = 32767;
@@ -3044,20 +3044,20 @@ short FixedSigned16( float value, float scale )
 	if ( output < -32768 )
 		output = -32768;
 
-	return (short)output;
+	return static_cast<short>(output);
 }
 
 unsigned short FixedUnsigned16( float value, float scale )
 {
 	int output;
 
-	output = (int) (value * scale);
+	output = static_cast<int>(value * scale);
 	if ( output < 0 )
 		output = 0;
 	if ( output > 0xFFFF )
 		output = 0xFFFF;
 
-	return (unsigned short)output;
+	return static_cast<unsigned short>(output);
 }
 #endif // USE_METAMOD
 

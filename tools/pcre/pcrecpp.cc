@@ -423,7 +423,7 @@ int RE::GlobalReplace(const StringPiece& rewrite,
         }
 #endif
         if (start < static_cast<int>(str->length()))
-          out.emplace_back(*str, start, matchend - start);
+          out.append(*str, start, matchend - start);
         start = matchend;
         last_match_was_empty_string = false;
         continue;
@@ -436,7 +436,7 @@ int RE::GlobalReplace(const StringPiece& rewrite,
     int matchstart = vec[0], matchend = vec[1];
     assert(matchstart >= start);
     assert(matchend >= matchstart);
-    out.emplace_back(*str, start, matchstart - start);
+    out.append(*str, start, matchstart - start);
     Rewrite(&out, rewrite, *str, vec, matches);
     start = matchend;
     count++;
@@ -447,7 +447,7 @@ int RE::GlobalReplace(const StringPiece& rewrite,
     return 0;
 
   if (start < static_cast<int>(str->length()))
-    out.emplace_back(*str, start, str->length() - start);
+    out.append(*str, start, str->length() - start);
   swap(out, *str);
   return count;
 }
@@ -628,7 +628,7 @@ bool RE::Rewrite(string *out, const StringPiece &rewrite,
         }
         int start = vec[2 * n];
         if (start >= 0)
-          out->.emplace_back(text.data() + start, vec[2 * n + 1] - start);
+          out->append(text.data() + start, vec[2 * n + 1] - start);
       } else if (c == '\\') {
         *out += '\\';
       } else {

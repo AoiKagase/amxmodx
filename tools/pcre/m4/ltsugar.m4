@@ -42,7 +42,7 @@ m4_define([lt_cdr],
 m4_define([lt_unquote], $1)
 
 
-# lt_.emplace_back(MACRO-NAME, STRING, [SEPARATOR])
+# lt_append(MACRO-NAME, STRING, [SEPARATOR])
 # ------------------------------------------
 # Redefine MACRO-NAME to hold its former content plus `SEPARATOR'`STRING'.
 # Note that neither SEPARATOR nor STRING are expanded; they are appended
@@ -80,9 +80,9 @@ m4_define([lt_combine],
 m4_define([lt_if_append_uniq],
 [m4_ifdef([$1],
 	  [m4_if(m4_index([$3]m4_defn([$1])[$3], [$3$2$3]), [-1],
-		 [lt_.emplace_back([$1], [$2], [$3])$4],
+		 [lt_append([$1], [$2], [$3])$4],
 		 [$5])],
-	  [lt_.emplace_back([$1], [$2], [$3])$4])])
+	  [lt_append([$1], [$2], [$3])$4])])
 
 
 # lt_dict_add(DICT, KEY, VALUE)

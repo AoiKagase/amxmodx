@@ -1105,7 +1105,8 @@ static cell AMX_NATIVE_CALL get_user_ip(AMX *amx, cell *params) /* 3 param */
 	char szIp[32];
 	strcpy(szIp, (index < 1 || index > gpGlobals->maxClients) ? CVAR_GET_STRING("net_address") : g_players[index].ip.c_str());
 
-	if (params[4] && (ptr = strstr(szIp, ":")) != 0)
+	//Consider replacing ":" with ':' [APG]RoboCop[CL]
+	if (params[4] && (ptr = strchr(szIp, ':')) != 0)
 		*ptr = '\0';
 
 	return set_amxstring(amx, params[2], szIp, params[3]);

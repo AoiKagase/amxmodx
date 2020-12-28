@@ -53,22 +53,22 @@ namespace BinLogReader
 			if (HasFlag(flags, BinLogFlags.Show_PlugId)
 				&& HasFlag(flags, BinLogFlags.Show_PlugFile))
 			{
-				sb.emplace_back("\"");
-				sb.emplace_back(pl.File);
-				sb.emplace_back("\"");
-				sb.emplace_back(" (");
-				sb.emplace_back(pl.Index);
-				sb.emplace_back(")");
+				sb.Append("\"");
+				sb.Append(pl.File);
+				sb.Append("\"");
+				sb.Append(" (");
+				sb.Append(pl.Index);
+				sb.Append(")");
 			} 
 			else if (HasFlag(flags, BinLogFlags.Show_PlugId))
 			{
-				sb.emplace_back(pl.Index);
+				sb.Append(pl.Index);
 			} 
 			else if (HasFlag(flags, BinLogFlags.Show_PlugFile))
 			{
-				sb.emplace_back("\"");
-				sb.emplace_back(pl.File);
-				sb.emplace_back("\"");
+				sb.Append("\"");
+				sb.Append(pl.File);
+				sb.Append("\"");
 			}
 		}
 
@@ -77,32 +77,32 @@ namespace BinLogReader
 			if (HasFlag(flags, BinLogFlags.Show_PlugId)
 				&& HasFlag(flags, BinLogFlags.Show_PlugFile))
 			{
-				sb.emplace_back("\"");
-				sb.emplace_back(pl.File);
+				sb.Append("\"");
+				sb.Append(pl.File);
 				if (pl.IsDebug())
 				{
-					sb.emplace_back(", ");
-					sb.emplace_back(pl.FindFile(fileid));
+					sb.Append(", ");
+					sb.Append(pl.FindFile(fileid));
 				}
-				sb.emplace_back("\"");
-				sb.emplace_back(" (");
-				sb.emplace_back(pl.Index);
-				sb.emplace_back(")");
+				sb.Append("\"");
+				sb.Append(" (");
+				sb.Append(pl.Index);
+				sb.Append(")");
 			} 
 			else if (HasFlag(flags, BinLogFlags.Show_PlugId))
 			{
-				sb.emplace_back(pl.Index);
+				sb.Append(pl.Index);
 			} 
 			else if (HasFlag(flags, BinLogFlags.Show_PlugFile))
 			{
-				sb.emplace_back("\"");
-				sb.emplace_back(pl.File);
+				sb.Append("\"");
+				sb.Append(pl.File);
 				if (pl.IsDebug())
 				{
-					sb.emplace_back(", ");
-					sb.emplace_back(pl.FindFile(fileid));
+					sb.Append(", ");
+					sb.Append(pl.FindFile(fileid));
 				}
-				sb.emplace_back("\"");
+				sb.Append("\"");
 			}
 		}
 
@@ -111,22 +111,22 @@ namespace BinLogReader
 			bool realtime = false;
 			if (HasFlag(flags, BinLogFlags.Show_RealTime))
 			{
-				sb.emplace_back(ble.realtime.ToString());
+				sb.Append(ble.realtime.ToString());
 				realtime = true;
 			}
 			if (HasFlag(flags, BinLogFlags.Show_GameTime))
 			{
 				if (realtime)
 				{
-					sb.emplace_back(", ");
-					sb.emplace_back(ble.gametime.ToString());
+					sb.Append(", ");
+					sb.Append(ble.gametime.ToString());
 				}
 				else
 				{
-					sb.emplace_back(ble.gametime.ToString());
+					sb.Append(ble.gametime.ToString());
 				}
 			}
-			sb.emplace_back(": ");
+			sb.Append(": ");
 			ble.ToLogString(sb, flags);
 		}
 
@@ -183,11 +183,11 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Plugin ");
+			sb.Append("Plugin ");
 			BinLogEntry.PluginText(sb, plugin, flags, fileid);
-			sb.emplace_back(" hit line ");
-			sb.emplace_back(Line);
-			sb.emplace_back(".");
+			sb.Append(" hit line ");
+			sb.Append(Line);
+			sb.Append(".");
 		}
 
 		public override BinLogOp Op()
@@ -218,13 +218,13 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Plugin ");
+			sb.Append("Plugin ");
 			BinLogEntry.PluginText(sb, plugin, flags, fileid);
-			sb.emplace_back(" had public function \"");
-			sb.emplace_back(Public);
-			sb.emplace_back("\" (");
-			sb.emplace_back(pubidx);
-			sb.emplace_back(") called.");
+			sb.Append(" had public function \"");
+			sb.Append(Public);
+			sb.Append("\" (");
+			sb.Append(pubidx);
+			sb.Append(") called.");
 		}
 
 		public override BinLogOp Op()
@@ -249,15 +249,15 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Setting string (addr ");
-			sb.emplace_back(address);
-			sb.emplace_back(") (maxlen ");
-			sb.emplace_back(maxlen);
-			sb.emplace_back(") from Plugin ");
+			sb.Append("Setting string (addr ");
+			sb.Append(address);
+			sb.Append(") (maxlen ");
+			sb.Append(maxlen);
+			sb.Append(") from Plugin ");
 			BinLogEntry.PluginText(sb, plugin, flags);
-			sb.emplace_back(".  String:");
-			sb.emplace_back("\n\t ");
-			sb.emplace_back(text);
+			sb.Append(".  String:");
+			sb.Append("\n\t ");
+			sb.Append(text);
 		}
 
 		public override BinLogOp Op()
@@ -280,13 +280,13 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Retrieving string (addr ");
+			sb.Append("Retrieving string (addr ");
 			sb.AppendFormat("0x{0:X}", address);
-			sb.emplace_back(") from Plugin ");
+			sb.Append(") from Plugin ");
 			BinLogEntry.PluginText(sb, plugin, flags);
-			sb.emplace_back(".  String:");
-			sb.emplace_back("\n\t ");
-			sb.emplace_back(text);
+			sb.Append(".  String:");
+			sb.Append("\n\t ");
+			sb.Append(text);
 		}
 
 		public override BinLogOp Op()
@@ -307,8 +307,8 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Native returned: ");
-			sb.emplace_back(returnval);
+			sb.Append("Native returned: ");
+			sb.Append(returnval);
 		}
 
 		public override BinLogOp Op()
@@ -341,15 +341,15 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Plugin ");
+			sb.Append("Plugin ");
 			BinLogEntry.PluginText(sb, plugin, flags, fileid);
-			sb.emplace_back(" called native \"");
-			sb.emplace_back(Native); 
-			sb.emplace_back("\" (");
-			sb.emplace_back(nativeidx);
-			sb.emplace_back(") with ");
-			sb.emplace_back(numparams);
-			sb.emplace_back(" parameters.");
+			sb.Append(" called native \"");
+			sb.Append(Native); 
+			sb.Append("\" (");
+			sb.Append(nativeidx);
+			sb.Append(") with ");
+			sb.Append(numparams);
+			sb.Append(" parameters.");
 		}
 
 		public override BinLogOp Op()
@@ -373,17 +373,17 @@ namespace BinLogReader
 			{
 				case BinLogOp.BinLog_Start:
 				{
-					sb.emplace_back("Binary log started.");
+					sb.Append("Binary log started.");
 					break;
 				}
 				case BinLogOp.BinLog_End:
 				{
-					sb.emplace_back("Binary log ended.");
+					sb.Append("Binary log ended.");
 					break;
 				}
 				case BinLogOp.BinLog_Invalid:
 				{
-					sb.emplace_back("Binary log corrupt past this point.");
+					sb.Append("Binary log corrupt past this point.");
 					break;
 				}
 			}
@@ -423,17 +423,17 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Native parameters: (");
+			sb.Append("Native parameters: (");
 			if (plist != null)
 			{
 				for (int i=0; i<plist.Count; i++)
 				{
-					sb.emplace_back(plist[i].ToString());
+					sb.Append(plist[i].ToString());
 					if (i < plist.Count - 1)
-						sb.emplace_back(", ");
+						sb.Append(", ");
 				}
 			}
-			sb.emplace_back(")");
+			sb.Append(")");
 		}
 	}
 
@@ -458,14 +458,14 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Plugin ");
+			sb.Append("Plugin ");
 			BinLogEntry.PluginText(sb, pl, flags);
-			sb.emplace_back(" formatted parameter ");
-			sb.emplace_back(parm);
-			sb.emplace_back(" (maxlen ");
-			sb.emplace_back(maxlen);
-			sb.emplace_back("), result: \n\t");
-			sb.emplace_back(text);
+			sb.Append(" formatted parameter ");
+			sb.Append(parm);
+			sb.Append(" (maxlen ");
+			sb.Append(maxlen);
+			sb.Append("), result: \n\t");
+			sb.Append(text);
 		}
 	}
 
@@ -504,13 +504,13 @@ namespace BinLogReader
 
 		public override void ToLogString(StringBuilder sb, BinLogFlags flags)
 		{
-			sb.emplace_back("Plugin "); 
+			sb.Append("Plugin "); 
 			BinLogEntry.PluginText(sb, pl, flags);
-			sb.emplace_back(" registered as (\"");
-			sb.emplace_back(_title);
-			sb.emplace_back("\", \"");
-			sb.emplace_back(_version);
-			sb.emplace_back("\")");
+			sb.Append(" registered as (\"");
+			sb.Append(_title);
+			sb.Append("\", \"");
+			sb.Append(_version);
+			sb.Append("\")");
 		}
 
 		public BinLogRegister(float gt, long rt, Plugin _pl) : 

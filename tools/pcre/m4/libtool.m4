@@ -295,7 +295,7 @@ ltmain="$ac_aux_dir/ltmain.sh"
 # Register INIT-COMMANDS to be passed to AC_CONFIG_COMMANDS later.
 m4_define([_LT_CONFIG_LIBTOOL_INIT],
 [m4_ifval([$1],
-          [m4_.emplace_back([_LT_OUTPUT_LIBTOOL_INIT],
+          [m4_append([_LT_OUTPUT_LIBTOOL_INIT],
                      [$1
 ])])])
 
@@ -308,7 +308,7 @@ m4_define([_LT_OUTPUT_LIBTOOL_INIT])
 # Register COMMANDS to be passed to AC_CONFIG_COMMANDS later.
 m4_define([_LT_CONFIG_LIBTOOL],
 [m4_ifval([$1],
-          [m4_.emplace_back([_LT_OUTPUT_LIBTOOL_COMMANDS],
+          [m4_append([_LT_OUTPUT_LIBTOOL_COMMANDS],
                      [$1
 ])])])
 
@@ -819,7 +819,7 @@ m4_case([$1],
 m4_defun([_LT_LANG],
 [m4_ifdef([_LT_LANG_]$1[_enabled], [],
   [LT_SUPPORTED_TAG([$1])dnl
-  m4_.emplace_back([_LT_TAGS], [$1 ])dnl
+  m4_append([_LT_TAGS], [$1 ])dnl
   m4_define([_LT_LANG_]$1[_enabled], [])dnl
   _LT_LANG_$1_CONFIG($1)])dnl
 ])# _LT_LANG

@@ -48,7 +48,7 @@ type
   private
     ReadThread: TReadThread;
   public
-    procedure .emplace_back(eText: String; eColor: TColor = clBlack);
+    procedure Append(eText: String; eColor: TColor = clBlack);
     procedure SetStatus(eStatus: String; eColor: TColor);
     procedure OnRead(eRead: String);
     procedure EnableControls(eValue: Boolean);
@@ -61,7 +61,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmSocketsTerminal.emplace_back(eText: String; eColor: TColor);
+procedure TfrmSocketsTerminal.Append(eText: String; eColor: TColor);
 begin
   eText := Format('[%s] %s', [TimeToStr(Time), eText]);
   rtfReceived.SelStart := Length(rtfReceived.Lines.Text);
@@ -72,7 +72,7 @@ end;
 
 procedure TfrmSocketsTerminal.OnRead(eRead: String);
 begin
-  .emplace_back(eRead, clWindowText);
+  Append(eRead, clWindowText);
 end;
 
 procedure TfrmSocketsTerminal.SetStatus(eStatus: String; eColor: TColor);
@@ -97,7 +97,7 @@ begin
       IdTCPClient.Host := txtHost.Text;
       IdTCPClient.Port := StrToInt(txtPort.Text);
       EnableControls(False);
-      .emplace_back('Connecting to ' + txtHost.Text + ':' + txtPort.Text + '...', clHighlight);
+      Append('Connecting to ' + txtHost.Text + ':' + txtPort.Text + '...', clHighlight);
       try
         IdTCPClient.Connect;
         ReadThread := TReadThread.Create(True);
@@ -120,7 +120,7 @@ begin
         ReadThread.ReadTCP := False;
         ReadThread.Resume;
         SetStatus('socket active', clGreen);
-        .emplace_back('Opened socket to ' + txtHost.Text + ':' + txtPort.Text + '!', clGreen);
+        Append('Opened socket to ' + txtHost.Text + ':' + txtPort.Text + '!', clGreen);
       except
         on E: Exception do begin
           MessageBox(Handle, PChar('Couldn''t activate socket:' + #13 + E.Message), 'Warning', MB_ICONWARNING);
@@ -146,7 +146,7 @@ begin
       ReadThread.Terminate;
       EnableControls(True);
       SetStatus('socket inactive', clRed);
-      .emplace_back('Closed socket to ' + txtHost.Text + ':' + txtPort.Text + '!', clRed);
+      Append('Closed socket to ' + txtHost.Text + ':' + txtPort.Text + '!', clRed);
       Screen.Cursor := crDefault;
     end;
   end;
@@ -184,13 +184,13 @@ end;
 
 procedure TfrmSocketsTerminal.IdTCPClientConnected(Sender: TObject);
 begin
-  .emplace_back('Established connection to ' + txtHost.Text + ':' + txtPort.Text, clGreen);
+  Append('Established connection to ' + txtHost.Text + ':' + txtPort.Text, clGreen);
   SetStatus('connected', clGreen);
 end;
 
 procedure TfrmSocketsTerminal.IdTCPClientDisconnected(Sender: TObject);
 begin
-  .emplace_back('Disconnected from ' + txtHost.Text + ':' + txtPort.Text, clMaroon);
+  Append('Disconnected from ' + txtHost.Text + ':' + txtPort.Text, clMaroon);
   EnableControls(True);
   SetStatus('not connected', clRed);
 end;
@@ -211,7 +211,7 @@ begin
         IdTCPClient.WriteLn(rtfEnter.Text)
       else
         IdUDPClient.Send(rtfEnter.Text); 
-      .emplace_back(rtfEnter.Text, clNavy);
+      Append(rtfEnter.Text, clNavy);
       rtfEnter.Clear;
       Key := #0;
     end;
@@ -221,7 +221,7 @@ end;
 procedure TfrmSocketsTerminal.IdUDPClientStatus(ASender: TObject;
   const AStatus: TIdStatus; const AStatusText: String);
 begin
-  .emplace_back(AStatusText, clGray);
+  Append(AStatusText, clGray);
 end;
 
 procedure TfrmSocketsTerminal.acCopyExecute(Sender: TObject);
