@@ -76,3 +76,8 @@ DROPPED_RES = U largua për shkak të rezervimit të vendit që është plugini 
 
 [pt]
 DROPPED_RES = Foste desconectado por causa da reservação de slots
+
+[ja]
+DROPPED_RES = スロット予約のために弾かれました
+CVAR_RESERVATION = 予約スロット数
+CVAR_HIDESLOTS = 1に設定すると、サーバーの予約スロットを非表示にすることができます。^nサーバーの公開スロットが一杯になった場合は、コンソールコマンド「connect」で手動で接続する必要があります。

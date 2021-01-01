@@ -19,6 +19,8 @@
 #include "string.h"
 #include <extdll.h>
 #include <meta_api.h>
+#undef max
+#undef min
 
 #ifdef _MSC_VER
 	// MSVC8 - replace POSIX functions with ISO C++ conformant ones as they are deprecated

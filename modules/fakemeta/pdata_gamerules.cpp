@@ -171,7 +171,7 @@ static cell AMX_NATIVE_CALL get_gamerules_string(AMX *amx, cell *params)
 
 	if (data.fieldSize)
 	{
-		maxlen = min(maxlen, data.fieldSize);
+		maxlen = std::min(maxlen, data.fieldSize);
 	}
 
 	return MF_SetAmxStringUTF8Char(amx, buffer, string ? string : "", string ? strlen(string) : 0, maxlen);

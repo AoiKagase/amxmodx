@@ -23,12 +23,12 @@ extern "C" {
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
+#define PACKAGE_VERSION "1.4.3"
 
 #ifdef _WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
 /* libmaxminddb package version from configure */
-#define PACKAGE_VERSION "1.4.3"
 
 typedef ADDRESS_FAMILY sa_family_t;
 

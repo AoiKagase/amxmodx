@@ -97,3 +97,7 @@ LANG_NAME_NATIVE = Shqipë
 [pt]
 LANG_NAME = European Portuguese
 LANG_NAME_NATIVE = Português de Portugal
+
+[ja]
+LANG_NAME        = Japanese
+LANG_NAME_NATIVE = 日本語

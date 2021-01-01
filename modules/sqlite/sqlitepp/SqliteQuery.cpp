@@ -15,6 +15,7 @@
 #include "SqliteQuery.h"
 #include "SqliteDatabase.h"
 #include "SqliteResultSet.h"
+#include <memory>
 #include <amtl/am-string.h>
 
 using namespace SourceMod;

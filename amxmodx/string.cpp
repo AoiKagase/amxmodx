@@ -12,6 +12,7 @@
 #include "format.h"
 #include "binlog.h"
 #include <utf8rewind.h>
+#include <algorithm>
 
 const char* stristr(const char* str, const char* substr)
 {
@@ -1643,7 +1644,7 @@ static cell AMX_NATIVE_CALL is_string_category(AMX *amx, cell *params)
 	auto inputLength = 0;
 	auto input = get_amxstring(amx, params[arg_input], 0, inputLength);
 
-	auto inputMaxLength = min(params[arg_inputsize], inputLength);
+	auto inputMaxLength = std::min(params[arg_inputsize], inputLength);
 	auto outputSize = get_amxaddr(amx, params[arg_outputsize]);
 
 	// User wants to check only one character whatever its size.
