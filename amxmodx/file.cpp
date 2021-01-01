@@ -10,7 +10,7 @@
 #include "amxmodx.h"
 #include "CFileSystem.h"
 #include "CLibrarySys.h"
-
+#include <algorithm>
 using namespace ke;
 
 // native read_dir(const dirname[], pos, output[], len, &outlen = 0);
@@ -27,7 +27,7 @@ static cell AMX_NATIVE_CALL read_dir(AMX *amx, cell *params)
 		return 0;
 	}
 
-	cell offset = max(0, params[2]);
+	cell offset = std::max(0, params[2]);
 
 	if (offset >= 0)
 	{
@@ -85,7 +85,7 @@ static cell AMX_NATIVE_CALL read_file(AMX *amx, cell *params)
 	static char buffer[2048];
 
 	size_t currentLine = 0;
-	size_t targetLine = max(0, params[2]);
+	size_t targetLine = std::max(0, params[2]);
 
 	while (currentLine <= targetLine && fp->ReadLine(buffer, sizeof(buffer) - 1))
 	{

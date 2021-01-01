@@ -170,7 +170,7 @@ static cell AMX_NATIVE_CALL amx_geoip_region_code(AMX *amx, cell *params)
 		}
 	}
 
-	return MF_SetAmxString(amx, params[2], finalLength ? code : "", min(finalLength, params[3]));
+	return MF_SetAmxString(amx, params[2], finalLength ? code : "", std::min(finalLength, params[3]));
 }
 
 // native geoip_region_name(const ip[], result[], len, id = -1);
@@ -194,7 +194,7 @@ static cell AMX_NATIVE_CALL amx_geoip_timezone(AMX *amx, cell *params)
 	const char *path[] = { "location", "time_zone", NULL };
 	const char *timezone = lookupString(ip, path, &length);
 
-	return MF_SetAmxString(amx, params[2], timezone ? timezone : "", min(length, params[3]));
+	return MF_SetAmxString(amx, params[2], timezone ? timezone : "", std::min(length, params[3]));
 }
 
 // native geoip_latitude(const ip[]);

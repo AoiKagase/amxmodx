@@ -409,7 +409,7 @@ static cell AMX_NATIVE_CALL client_print_color(AMX *amx, cell *params) /* 3 para
 
 				if (static_cast<byte>(*msg) > 4) // Insert default color code at the start if not present, otherwise message will not be colored.
 				{
-					memmove(msg + 1, msg, min(len++, 191));
+					memmove(msg + 1, msg, std::min(len++, 191));
 					*msg = 1;
 				}
 
@@ -446,7 +446,7 @@ static cell AMX_NATIVE_CALL client_print_color(AMX *amx, cell *params) /* 3 para
 
 			if (static_cast<byte>(*msg) > 4) // Insert default color code at the start if not present, otherwise message will not be colored.
 			{
-				memmove(msg + 1, msg, min(len++, 191));
+				memmove(msg + 1, msg, std::min(len++, 191));
 				*msg = 1;
 			}
 

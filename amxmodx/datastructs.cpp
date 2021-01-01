@@ -10,6 +10,7 @@
 #include "amxmodx.h"
 #include "datastructs.h"
 #include <amtl/am-utility.h>
+#include <algorithm>
 
 NativeHandle<CellArray> ArrayHandles;
 
@@ -333,7 +334,7 @@ static cell AMX_NATIVE_CALL ArraySetString(AMX* amx, cell* params)
 	int len;
 	char *str = get_amxstring(amx, params[3], 0, len);
 
-	return strncopy(blk, str, min((size_t)len + 1, vec->blocksize()));
+	return strncopy(blk, str, std::min((size_t)len + 1, vec->blocksize()));
 }
 
 // native ArrayPushArray(Array:which, const any:input[], size = -1);
@@ -519,7 +520,7 @@ static cell AMX_NATIVE_CALL ArrayInsertStringAfter(AMX* amx, cell* params)
 	int len;
 	const char *str = get_amxstring(amx, params[3], 0, len);
 
-	return strncopy(vec->insert_at(idx), str, min((size_t)len + 1, vec->blocksize()));
+	return strncopy(vec->insert_at(idx), str, std::min((size_t)len + 1, vec->blocksize()));
 }
 
 // native ArrayInsertArrayBefore(Array:which, item, const any:input[]);
@@ -593,7 +594,7 @@ static cell AMX_NATIVE_CALL ArrayInsertStringBefore(AMX* amx, cell* params)
 	int len;
 	const char *str = get_amxstring(amx, params[3], 0, len);
 
-	return strncopy(vec->insert_at(idx), str, min((size_t)len + 1, vec->blocksize()));
+	return strncopy(vec->insert_at(idx), str, std::min((size_t)len + 1, vec->blocksize()));
 }
 
 // native ArraySwap(Array:which, item1, item2);
@@ -863,7 +864,7 @@ static cell AMX_NATIVE_CALL ArrayFindString(AMX* amx, cell* params)
 
 	cell *b, *a = get_amxaddr(amx, params[2]);
 	size_t cellcount = vec->blocksize();
-	size_t a_len = max(1, amxstring_len(a));
+	size_t a_len = std::max(1, amxstring_len(a));
 	size_t len = a_len > cellcount ? cellcount : a_len;
 
 	for (size_t i = 0; i < vec->size(); i++)

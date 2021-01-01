@@ -1399,7 +1399,9 @@ static void setconfig(char *root)
       ptr = (char *)SELFPATH;
       if (!ptr)
         ptr = root;
-      strncpy(path,ptr,sizeof path);
+      len = strnlen(ptr, sizeof path);
+      if (len < sizeof path)
+        memcpy(path, ptr, len + 1);
     #else
       if (root!=NULL)
         strncpy(path,root,sizeof path); /* path + filename (hopefully) */

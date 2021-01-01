@@ -24,6 +24,8 @@
 // metamod include files
 #ifdef USE_METAMOD
 #include <extdll.h>
+#undef	max
+#undef	min
 #include <meta_api.h>
 #include "osdep.h"
 #endif // #ifdef USE_METAMOD

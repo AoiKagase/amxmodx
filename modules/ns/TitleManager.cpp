@@ -93,8 +93,8 @@ scan_for_key:
 		}
 
 		// have a valid key name here
-		strncpy(KeyName,TempBuffer,sizeof(KeyName)-1);
-		
+//		strncpy(KeyName,TempBuffer,sizeof(KeyName)-1);
+		memcpy(KeyName, TempBuffer, sizeof(KeyName)-1);
 		// keep looping (until we hit a '{')
 	};
 
@@ -143,7 +143,8 @@ scan_for_data:
 		}
 
 		// have valid data here
-		strncpy(Data,TempBuffer,sizeof(Data)-1);
+//		strncpy(Data,TempBuffer,sizeof(Data)-1);
+		memcpy(Data, TempBuffer, sizeof(Data)-1);
 	};
 end_of_file:
 

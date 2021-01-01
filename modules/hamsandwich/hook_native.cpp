@@ -17,6 +17,8 @@
 #include <string.h>
 
 #include <extdll.h>
+#undef	max
+#undef  min
 #include "amxxmodule.h"
 
 #include "hook.h"
