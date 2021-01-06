@@ -547,3 +547,25 @@ CANT_PERF_DEAD = Essa ação não pode ser executada no cliente morto "%s"
 CANT_PERF_BOT = Essa ação não pode ser executada no bot "%s"
 ON = Ativado
 OFF = Desativado
+
+[ja]
+BACK            = 戻る
+EXIT            = 終了
+MORE            = 他
+NONE            = 無
+ADMIN           = 管理者
+PLAYER          = プレイヤー
+ERROR           = エラー
+YES             = はい
+NO              = いいえ
+BAN             = アクセス禁止
+KICK            = キック
+NO_ACC_COM      = コマンドにアクセス出来ません
+USAGE           = 使用法
+MORE_CL_MATCHT  = 引数に一致するクライアントが複数あります
+CL_NOT_FOUND    = その名前またはユーザーIDのクライアントが見つかりません
+CLIENT_IMM      = クライアント "%s"は耐性があります
+CANT_PERF_DEAD  = クライアント "%s"は死亡しているためアクションを実行できません
+CANT_PERF_BOT   = BOT "%s"にはアクションを実行できません
+ON              = On
+OFF             = Off

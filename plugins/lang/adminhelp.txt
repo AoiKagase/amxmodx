@@ -239,3 +239,15 @@ TIME_INFO_2 = Sem Limite de Tempo. Próximo Mapa: %s
 HELP_CMD_INFO = <entrada no.> [no. de entradas para mostrar (do servidor)] - mostra informação acerca de comandos disponíveis
 SEARCH_CMD_INFO = <correspondência> <entrada no.> [no. de entradas para mostrar (do servidor)] - mostra informações acerca de comandos correspondentes á pesquisa
 NO_MATCHING_RESULTS = ^nSem resultados correspondentes^n
+
+[ja]
+HELP_COMS           = AMX Mod X Help: Commands
+HELP_ENTRIES        = エントリ %d - %d / %d
+HELP_USE_MORE       = さらに '%s %d' を使用
+HELP_USE_BEGIN      = 開始には '%s 1' を使用
+TYPE_HELP           = 使用可能なコマンドを表示するには、コンソールに '%s' '%s' と入力します
+TIME_INFO_1         = 制限時間: %d:%02d min. 次マップ: %s
+TIME_INFO_2         = 時間制限なし. 次マップ: %s
+HELP_CMD_INFO       = <entry no.> [表示項目数 (server only)] - 使用可能なコマンドに関する情報を表示します
+SEARCH_CMD_INFO     = <match> <entry no.> [表示項目数 (server only)] - 一致したコマンドに関する情報を表示します
+NO_MATCHING_RESULTS = ^n一致する結果が見つかりません^n
