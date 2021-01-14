@@ -73,7 +73,7 @@ class NameHashSet : public ke::SystemAllocatorPolicy
 
 		static bool matches(const CharsAndLength &key, const KeyType &value)
 		{
-			return KeyPolicyType::matches(key.c_str(), value);
+			return KeyPolicyType::matches(key.chars(), value);
 		}
 	};
 
@@ -91,7 +91,7 @@ class NameHashSet : public ke::SystemAllocatorPolicy
 
 		static bool matches(const CharsAndLength &key, const KeyType *value)
 		{
-			return KeyType::matches(key.c_str(), value);
+			return KeyType::matches(key.chars(), value);
 		}
 	};
 
@@ -121,7 +121,7 @@ public:
 	template <typename U>
 	bool add(Insert &i, U &&value)
 	{
-		return table_.add(i, std::forward<U>(value));
+		return table_.add(i, ke::Forward<U>(value));
 	}
 
 	bool retrieve(const char *aKey, T *value)

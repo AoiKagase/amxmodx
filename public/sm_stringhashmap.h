@@ -44,66 +44,58 @@
  * NameHashSet instead.
  */
 
+#include <amtl/am-allocator-policies.h>
+#include <amtl/am-hashmap.h>
+#include <amtl/am-string.h>
 #include <string.h>
 
-#include <utility>
-
-#include <am-allocator-policies.h>
-#include <am-hashmap.h>
-#include <am-string.h>
-
-// namespace SourceMod
-// {
+//namespace SourceMod
+//{
 
 namespace detail
 {
 	class CharsAndLength
 	{
-	public:
-		CharsAndLength(const char *str)
-			: str_(str),
-			  length_(0)
-		{
-			int c;
-			uint32_t hash = 0;
-			while ((c = *str++))
-				hash = c + (hash << 6) + (hash << 16) - hash;
-			hash_ = hash;
-			length_ = str - str_ - 1;
-		}
+	 public:
+	  CharsAndLength(const char *str)
+		: str_(str),
+		  length_(0)
+	  {
+		  int c;
+		  uint32_t hash = 0;
+		  while ((c = *str++))
+			  hash = c + (hash << 6) + (hash << 16) - hash;
+		  hash_ = hash;
+		  length_ = str - str_ - 1;
+	  }
 
-		uint32_t hash() const
-		{
-			return hash_;
-		}
-		const char *c_str() const
-		{
-			return str_;
-		}
-		size_t length() const
-		{
-			return length_;
-		}
+	  uint32_t hash() const {
+		  return hash_;
+	  }
+	  const char *chars() const {
+		  return str_;
+	  }
+	  size_t length() const {
+		  return length_;
+	  }
 
-	private:
-		const char *str_;
-		size_t length_;
-		uint32_t hash_;
+	 private:
+	  const char *str_;
+	  size_t length_;
+	  uint32_t hash_;
 	};
 
 	struct StringHashMapPolicy
 	{
-		static inline bool matches(const CharsAndLength &lookup, const std::string &key)
-		{
+		static inline bool matches(const CharsAndLength &lookup, const std::string &key) {
 			return lookup.length() == key.length() &&
-				   memcmp(lookup.c_str(), key.c_str(), key.length()) == 0;
+				   memcmp(lookup.chars(), key.c_str(), key.length()) == 0;
 		}
-		static inline uint32_t hash(const CharsAndLength &key)
-		{
+		static inline uint32_t hash(const CharsAndLength &key) {
 			return key.hash();
 		}
 	};
-} // namespace detail
+}
 
 template <typename T>
 class StringHashMap
@@ -136,16 +128,6 @@ public:
 		return true;
 	}
 
-	bool retrieve(const char *aKey, T **aResult)
-	{
-		CharsAndLength key(aKey);
-		Result r = internal_.find(key);
-		if (!r.found())
-			return false;
-		*aResult = &r->value;
-		return true;
-	}
-
 	Result find(const char *aKey)
 	{
 		CharsAndLength key(aKey);
@@ -159,8 +141,7 @@ public:
 		return r.found();
 	}
 
-	template <typename UV>
-	bool replace(const char *aKey, UV &&value)
+	bool replace(const char *aKey, const T &value)
 	{
 		CharsAndLength key(aKey);
 		Insert i = internal_.findForAdd(key);
@@ -170,18 +151,17 @@ public:
 			if (!internal_.add(i, aKey))
 				return false;
 		}
-		i->value = std::forward<UV>(value);
+		i->value = value;
 		return true;
 	}
 
-	template <typename UV>
-	bool insert(const char *aKey, UV &&value)
+	bool insert(const char *aKey, const T &value)
 	{
 		CharsAndLength key(aKey);
 		Insert i = internal_.findForAdd(key);
 		if (i.found())
 			return false;
-		if (!internal_.add(i, aKey, std::forward<UV>(value)))
+		if (!internal_.add(i, aKey, value))
 			return false;
 		memory_used_ += key.length() + 1;
 		return true;
@@ -223,6 +203,7 @@ public:
 		return internal_.elements();
 	}
 
+
 	Insert findForAdd(const char *aKey)
 	{
 		CharsAndLength key(aKey);
@@ -250,6 +231,6 @@ private:
 	size_t memory_used_;
 };
 
-// } // namespace SourceMod
+//}
 
 #endif // _include_sourcemod_hashtable_h_
