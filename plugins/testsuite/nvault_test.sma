@@ -26,4 +26,17 @@ public Command_TestNvault()
 	{
 		nvault_close(v)
 	}
+	new test = nvault_open("TEST");
+	new timestamp = 0, value[10];
+	nvault_set(test, "KEY", "16000");
+	new rt = nvault_get(test, "KEY", value, charsmax(value));
+	server_print("CODE: %d", rt);
+	server_print("Vault value: %s (expected: %d) time:%d", value, 16000, timestamp)
+	nvault_close(test);
+	test = nvault_open("TEST");
+	nvault_get(test, "KEY", value, charsmax(value));
+	server_print("Vault value: %s (expected: %d) time:%d", value, 16000, timestamp)
+	nvault_lookup(test, "KEY", value, charsmax(value), timestamp);
+	server_print("Vault value: %s (expected: %d) time:%d", value, 16000, timestamp)
+	nvault_close(test);
 }
