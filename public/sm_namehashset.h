@@ -73,7 +73,7 @@ class NameHashSet : public ke::SystemAllocatorPolicy
 
 		static bool matches(const CharsAndLength &key, const KeyType &value)
 		{
-			return KeyPolicyType::matches(key.chars(), value);
+			return KeyPolicyType::matches(key.c_str(), value);
 		}
 	};
 
@@ -91,7 +91,7 @@ class NameHashSet : public ke::SystemAllocatorPolicy
 
 		static bool matches(const CharsAndLength &key, const KeyType *value)
 		{
-			return KeyType::matches(key.chars(), value);
+			return KeyType::matches(key.c_str(), value);
 		}
 	};
 
