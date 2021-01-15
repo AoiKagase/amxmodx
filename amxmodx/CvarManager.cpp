@@ -243,7 +243,7 @@ CvarInfo* CvarManager::CreateCvar(const char* name, const char* value, const cha
 		}
 
 		// Add a new entry in the caches.
-		m_Cvars.append(info);
+		m_Cvars.Append(info);
 		m_Cache.insert(name, info);
 
 		// Make sure that whether an existing or new cvar is set to the given value.
@@ -294,7 +294,7 @@ CvarInfo* CvarManager::FindCvar(const char* name)
 	info->var = var;
 
 	// Add entry in the caches.
-	m_Cvars.append(info);
+	m_Cvars.Append(info);
 	m_Cache.insert(name, info);
 
 	return info;
@@ -339,7 +339,7 @@ AutoForward* CvarManager::HookCvarChange(cvar_t* var, AMX* amx, cell param, cons
 		info->var = var;
 
 		// Add entry in the caches.
-		m_Cvars.append(info);
+		m_Cvars.Append(info);
 		m_Cache.insert(info->name.c_str(), info);
 	}
 
