@@ -29,7 +29,6 @@
  * Version: $Id$
  */
 
-
 #ifndef _include_sourcemod_namehashset_h_
 #define _include_sourcemod_namehashset_h_
 

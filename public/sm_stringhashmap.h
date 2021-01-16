@@ -8,7 +8,7 @@
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, version 3.0, as published by the
  * Free Software Foundation.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
@@ -32,35 +32,35 @@
 #ifndef _include_sourcemod_hashtable_h_
 #define _include_sourcemod_hashtable_h_
 
- /**
-  * @file sm_stringhashmap.h
-  *
-  * @brief Generic Key -> Value map class, based on a hash table. The Key, in
-  * this case, is always an ASCII string, and the value type is a template
-  * parameter. This class is intended as a drop-in replacement for KTrie
-  * (though the retrieve() signature has been improved).
-  *
-  * If your Value type already contains the key string, consider using
-  * NameHashSet instead.
-  */
+/**
+ * @file sm_stringhashmap.h
+ *
+ * @brief Generic Key -> Value map class, based on a hash table. The Key, in
+ * this case, is always an ASCII string, and the value type is a template
+ * parameter. This class is intended as a drop-in replacement for KTrie
+ * (though the retrieve() signature has been improved).
+ *
+ * If your Value type already contains the key string, consider using
+ * NameHashSet instead.
+ */
 
 #include <amtl/am-allocator-policies.h>
 #include <amtl/am-hashmap.h>
 #include <amtl/am-string.h>
-
+#include <amtl/am-moveable.h>
 #include <string.h>
 
-  //namespace SourceMod
-  //{
+//namespace SourceMod
+//{
 
 namespace detail
 {
 	class CharsAndLength
 	{
 	public:
-		CharsAndLength(const char* str)
+		CharsAndLength(const char *str)
 			: str_(str),
-			length_(0)
+			  length_(0)
 		{
 			int c;
 			uint32_t hash = 0;
@@ -70,33 +70,38 @@ namespace detail
 			length_ = str - str_ - 1;
 		}
 
-		uint32_t hash() const {
+		uint32_t hash() const
+		{
 			return hash_;
 		}
-		const char* chars() const {
+		const char *chars() const
+		{
 			return str_;
 		}
-		size_t length() const {
+		size_t length() const
+		{
 			return length_;
 		}
 
 	private:
-		const char* str_;
+		const char *str_;
 		size_t length_;
 		uint32_t hash_;
 	};
 
 	struct StringHashMapPolicy
 	{
-		static inline bool matches(const CharsAndLength& lookup, const std::string& key) {
+		static inline bool matches(const CharsAndLength &lookup, const std::string &key)
+		{
 			return lookup.length() == key.length() &&
-				memcmp(lookup.chars(), key.c_str(), key.length()) == 0;
+				   memcmp(lookup.chars(), key.c_str(), key.length()) == 0;
 		}
-		static inline uint32_t hash(const CharsAndLength& key) {
+		static inline uint32_t hash(const CharsAndLength &key)
+		{
 			return key.hash();
 		}
 	};
-}
+} // namespace detail
 
 template <typename T>
 class StringHashMap
@@ -107,7 +112,7 @@ class StringHashMap
 public:
 	StringHashMap()
 		: internal_(ke::SystemAllocatorPolicy()),
-		memory_used_(0)
+		  memory_used_(0)
 	{
 		if (!internal_.init())
 			internal_.allocPolicy().reportOutOfMemory();
@@ -118,7 +123,7 @@ public:
 	typedef typename Internal::iterator iterator;
 
 	// Some KTrie-like helper functions.
-	bool retrieve(const char* aKey, T* aResult = NULL)
+	bool retrieve(const char *aKey, T *aResult = NULL)
 	{
 		CharsAndLength key(aKey);
 		Result r = internal_.find(key);
@@ -129,20 +134,20 @@ public:
 		return true;
 	}
 
-	Result find(const char* aKey)
+	Result find(const char *aKey)
 	{
 		CharsAndLength key(aKey);
 		return internal_.find(key);
 	}
 
-	bool contains(const char* aKey)
+	bool contains(const char *aKey)
 	{
 		CharsAndLength key(aKey);
 		Result r = internal_.find(key);
 		return r.found();
 	}
 
-	bool replace(const char* aKey, const T& value)
+	bool replace(const char *aKey, const T &value)
 	{
 		CharsAndLength key(aKey);
 		Insert i = internal_.findForAdd(key);
@@ -156,7 +161,7 @@ public:
 		return true;
 	}
 
-	bool insert(const char* aKey, const T& value)
+	bool insert(const char *aKey, const T &value)
 	{
 		CharsAndLength key(aKey);
 		Insert i = internal_.findForAdd(key);
@@ -168,7 +173,7 @@ public:
 		return true;
 	}
 
-	bool remove(const char* aKey)
+	bool remove(const char *aKey)
 	{
 		CharsAndLength key(aKey);
 		Result r = internal_.find(key);
@@ -179,7 +184,7 @@ public:
 		return true;
 	}
 
-	void remove(Result& r)
+	void remove(Result &r)
 	{
 		internal_.remove(r);
 	}
@@ -204,8 +209,7 @@ public:
 		return internal_.elements();
 	}
 
-
-	Insert findForAdd(const char* aKey)
+	Insert findForAdd(const char *aKey)
 	{
 		CharsAndLength key(aKey);
 		return internal_.findForAdd(key);
@@ -214,13 +218,13 @@ public:
 	// Note that |i->key| must be set after calling this, and the key must
 	// be the same as used with findForAdd(). It is best to avoid these two
 	// functions as the combined variants above are safer.
-	bool add(Insert& i)
+	bool add(Insert &i)
 	{
 		return internal_.add(i);
 	}
 
 	// Only value needs to be set after.
-	bool add(Insert& i, const char* aKey)
+	bool add(Insert &i, const char *aKey)
 	{
 		if (!internal_.add(i, aKey))
 			return false;
