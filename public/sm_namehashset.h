@@ -8,7 +8,7 @@
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, version 3.0, as published by the
  * Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
@@ -33,28 +33,28 @@
 #ifndef _include_sourcemod_namehashset_h_
 #define _include_sourcemod_namehashset_h_
 
-/**
- * @file sm_namehashset.h
- *
- * @brief Stores a set of uniquely named objects.
- */
+ /**
+  * @file sm_namehashset.h
+  *
+  * @brief Stores a set of uniquely named objects.
+  */
 
 #include <amtl/am-allocator-policies.h>
 #include <amtl/am-hashmap.h>
 #include <amtl/am-string.h>
 #include "sm_stringhashmap.h"
 
-//namespace SourceMod
-//{
+  //namespace SourceMod
+  //{
 
-// The HashPolicy type must have this method:
-// 		static bool matches(const char *key, const T &value);
-//
-// Depending on what lookup types are used.
-//
-// If these members are available on T, then the HashPolicy type can be left
-// default. It is okay to use |T *|, the functions will still be looked up
-// on |T|.
+  // The HashPolicy type must have this method:
+  // 		static bool matches(const char *key, const T &value);
+  //
+  // Depending on what lookup types are used.
+  //
+  // If these members are available on T, then the HashPolicy type can be left
+  // default. It is okay to use |T *|, the functions will still be looked up
+  // on |T|.
 template <typename T, typename KeyPolicy = T>
 class NameHashSet : public ke::SystemAllocatorPolicy
 {
@@ -66,32 +66,32 @@ class NameHashSet : public ke::SystemAllocatorPolicy
 	{
 		typedef KeyType Payload;
 
-		static uint32_t hash(const CharsAndLength &key)
+		static uint32_t hash(const CharsAndLength& key)
 		{
 			return key.hash();
 		}
 
-		static bool matches(const CharsAndLength &key, const KeyType &value)
+		static bool matches(const CharsAndLength& key, const KeyType& value)
 		{
-			return KeyPolicyType::matches(key.c_str(), value);
+			return KeyPolicyType::matches(key.chars(), value);
 		}
 	};
 
 	// Specialization: the types are equal, and T is a pointer. Strip the
 	// pointer off so we can access T:: for match functions.
 	template <typename KeyType>
-	struct Policy<KeyType *, KeyType *>
+	struct Policy<KeyType*, KeyType*>
 	{
-		typedef KeyType *Payload;
+		typedef KeyType* Payload;
 
-		static uint32_t hash(const detail::CharsAndLength &key)
+		static uint32_t hash(const detail::CharsAndLength& key)
 		{
 			return key.hash();
 		}
 
-		static bool matches(const CharsAndLength &key, const KeyType *value)
+		static bool matches(const CharsAndLength& key, const KeyType* value)
 		{
-			return KeyType::matches(key.c_str(), value);
+			return KeyType::matches(key.chars(), value);
 		}
 	};
 
@@ -108,23 +108,23 @@ public:
 	typedef typename Internal::Insert Insert;
 	typedef typename Internal::iterator iterator;
 
-	Result find(const char *aKey)
+	Result find(const char* aKey)
 	{
 		return table_.find(aKey);
 	}
 
-	Insert findForAdd(const char *aKey)
+	Insert findForAdd(const char* aKey)
 	{
 		return table_.findForAdd(aKey);
 	}
 
 	template <typename U>
-	bool add(Insert &i, U &&value)
+	bool add(Insert& i, U&& value)
 	{
 		return table_.add(i, std::forward<U>(value));
 	}
 
-	bool retrieve(const char *aKey, T *value)
+	bool retrieve(const char* aKey, T* value)
 	{
 		CharsAndLength key(aKey);
 		Result r = table_.find(aKey);
@@ -135,7 +135,7 @@ public:
 	}
 
 	template <typename U>
-	bool insert(const char *aKey, U &&value)
+	bool insert(const char* aKey, U&& value)
 	{
 		CharsAndLength key(aKey);
 		Insert i = table_.findForAdd(key);
@@ -144,14 +144,14 @@ public:
 		return table_.add(i, std::forward<U>(value));
 	}
 
-	bool contains(const char *aKey)
+	bool contains(const char* aKey)
 	{
 		CharsAndLength key(aKey);
 		Result r = table_.find(aKey);
 		return r.found();
 	}
 
-	bool remove(const char *aKey)
+	bool remove(const char* aKey)
 	{
 		CharsAndLength key(aKey);
 		Result r = table_.find(key);
@@ -161,7 +161,7 @@ public:
 		return true;
 	}
 
-	void remove(Result &r)
+	void remove(Result& r)
 	{
 		table_.remove(r);
 	}
