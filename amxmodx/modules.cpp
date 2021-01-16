@@ -329,7 +329,7 @@ int load_amxscript_internal(AMX *amx, void **program, const char *filename, char
 		return (amx->error = AMX_ERR_MEMORY);
 	}
 
-	g_loadedscripts.Append(script);
+	g_loadedscripts.append(script);
 
 	set_amxnatives(amx, error);
 
@@ -900,7 +900,7 @@ bool LoadModule(const char *shortname, PLUG_LOADTIME now, bool simplify, bool no
 		break;
 	}
 
-	g_modules.Append(module);
+	g_modules.append(module);
 
 	if (error)
 	{
