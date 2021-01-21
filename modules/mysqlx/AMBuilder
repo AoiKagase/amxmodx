@@ -20,7 +20,7 @@ if AMXX.mysql_path:
   if builder.target_platform == 'linux' or builder.target_platform == 'mac':
     binary.compiler.defines += ['stricmp=strcasecmp']
     binary.compiler.linkflags += [
-      os.path.join(AMXX.mysql_path, 'lib', 'libmysqlclient_r.a'),
+      os.path.join(AMXX.mysql_path, 'libmariadb', 'libmariadbclient.a'),
       '-lpthread',
       '-lm',
     ]
