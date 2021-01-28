@@ -63,7 +63,7 @@ private:
 	unsigned int m_RowCount;
 	unsigned int m_FieldCount;
 	size_t m_AllocSize;
-	std::string **m_Table;
+	std::vector<std::string> m_Table;
 	unsigned int m_CurRow;
 	bool m_IsFree;
 };

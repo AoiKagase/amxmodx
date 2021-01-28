@@ -401,7 +401,7 @@ AtomicResult::AtomicResult()
 	m_IsFree = true;
 	m_CurRow = 1;
 	m_RowCount = 0;
-	m_Table = NULL;
+	m_Table.clear();
 	m_AllocSize = 0;
 }
 
@@ -412,14 +412,8 @@ AtomicResult::~AtomicResult()
 		FreeHandle();
 	}
 
-	for (size_t i=0; i<=m_AllocSize; i++)
-	{
-		delete m_Table[i];
-	}
+	m_Table.clear();
 
-	delete [] m_Table;
-
-	m_Table = NULL;
 	m_IsFree = true;
 }
 
@@ -442,8 +436,8 @@ bool AtomicResult::FieldNameToNum(const char *name, unsigned int *columnId)
 {
 	for (unsigned int i=0; i<m_FieldCount; i++)
 	{
-		assert(m_Table[i] != NULL);
-		if (strcmp(m_Table[i]->c_str(), name) == 0)
+		assert(m_Table[i] != "");
+		if (strcmp(m_Table[i].c_str(), name) == 0)
 		{
 			if (columnId)
 			{
@@ -461,9 +455,9 @@ const char *AtomicResult::FieldNumToName(unsigned int num)
 	if (num >= m_FieldCount)
 		return NULL;
 
-	assert(m_Table[num] != NULL);
+	assert(m_Table[num] != "");
 
-	return m_Table[num]->c_str();
+	return m_Table[num].c_str();
 }
 
 double AtomicResult::GetDouble(unsigned int columnId)
@@ -502,9 +496,9 @@ const char *AtomicResult::GetString(unsigned int columnId)
 
 	size_t idx = (m_CurRow * m_FieldCount) + columnId;
 
-	assert(m_Table[idx] != NULL);
+	assert(m_Table[idx] != "");
 
-	return m_Table[idx]->c_str();
+	return m_Table[idx].c_str();
 }
 
 IResultRow *AtomicResult::GetRow()
@@ -551,28 +545,13 @@ void AtomicResult::CopyFrom(IResultSet *rs)
 	m_RowCount = rs->RowCount();
 	m_CurRow = 1;
 
-	size_t newTotal = (m_RowCount * m_FieldCount) + m_FieldCount;
-	if (newTotal > m_AllocSize)
+	for (unsigned int i = 0; i < m_FieldCount; i++)
 	{
-		std::string **table = new std::string *[newTotal];
-		memset(table, 0, newTotal * sizeof(std::string *));
-		if (m_Table)
+		if (i < m_Table.size())
 		{
-			memcpy(table, m_Table, m_AllocSize * sizeof(std::string *));
-			delete [] m_Table;
-		}
-		m_Table = table;
-		m_AllocSize = newTotal;
-	}
-
-	for (unsigned int i=0; i<m_FieldCount; i++)
-	{
-		if (m_Table[i])
-		{
-			*m_Table[i] = rs->FieldNumToName(i);
+			m_Table[i] = rs->FieldNumToName(i);
 		} else {
-			const char* string = rs->FieldNumToName(i);
-			m_Table[i] = new std::string(string ? string : "");
+			m_Table.emplace_back(rs->FieldNumToName(i));
 		}
 	}
 
@@ -581,14 +560,13 @@ void AtomicResult::CopyFrom(IResultSet *rs)
 	while (!rs->IsDone())
 	{
 		row = rs->GetRow();
-		for (unsigned int i=0; i<m_FieldCount; i++,idx++)
+		for (unsigned int i = 0; i < m_FieldCount; i++, idx++)
 		{
-			if (m_Table[idx])
+			if (idx < m_Table.size())
 			{
-				*m_Table[idx] = row->GetString(i);
+				m_Table[idx] = row->GetString(i);
 			} else {
-				const char* string = row->GetString(i);
-				m_Table[idx] = new std::string(string ? string : "");
+				m_Table.emplace_back(row->GetString(i));
 			}
 		}
 		rs->NextRow();
