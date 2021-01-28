@@ -63,7 +63,7 @@ private:
 	unsigned int m_RowCount;
 	unsigned int m_FieldCount;
 	size_t m_AllocSize;
-	std::vector<std::string> m_Table;
+	std::string **m_Table;
 	unsigned int m_CurRow;
 	bool m_IsFree;
 };
@@ -102,4 +102,3 @@ private:
 };
 
 #endif //_INCLUDE_MYSQL_THREADING_H
-
