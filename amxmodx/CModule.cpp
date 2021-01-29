@@ -195,6 +195,17 @@ bool CModule::queryModule()
 	{
 #if defined(__linux__) || defined(__APPLE__)
 		AMXXLOG_Log("[AMXX] Module \"%s\" failed to load (%s)", m_Filename.c_str(), dlerror());
+#elif defined(_WIN32)
+		DWORD dwErrorCode = GetLastError();
+		LPVOID lpMsgBuf;
+		DWORD bufLen = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, dwErrorCode, 0, (LPTSTR) &lpMsgBuf, 0, NULL);
+		if (bufLen)
+    	{
+			LPCSTR lpMsgStr = (LPCSTR)lpMsgBuf;
+			std::string result(lpMsgStr, lpMsgStr + bufLen);
+      		LocalFree(lpMsgBuf);
+			AMXXLOG_Log("[AMXX] Module \"%s\" failed to load (%d: %s)", m_Filename.c_str(), dwErrorCode, result.c_str());
+		}
 #endif
 		m_Status = MODULE_BADLOAD;
 		return false;
