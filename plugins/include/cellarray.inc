@@ -391,7 +391,7 @@ native ArrayDeleteItem(Array:which, item);
  * @return              Array index on success, -1 if the string can't be found
  * @error               Invalid handle.
  */
-native ArrayFindString(Array:which, const item[]);
+native ArrayFindString(Array:which, const item[], bool:exact = false);
 
 /**
  * Searches through the array and returns the index of the first occurence of

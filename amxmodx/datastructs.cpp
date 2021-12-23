@@ -849,9 +849,10 @@ static cell AMX_NATIVE_CALL ArraySortEx(AMX* amx, cell* params)
 }
 
 extern bool fastcellcmp(cell *a, cell *b, cell len);
+extern bool cellequals(cell *a, cell *b, cell len);
 extern int amxstring_len(cell* a);
 
-// native ArrayFindString(Array:which, const item[]);
+// native ArrayFindString(Array:which, const item[], bool:exact = false);
 static cell AMX_NATIVE_CALL ArrayFindString(AMX* amx, cell* params)
 {
 	CellArray* vec = ArrayHandles.lookup(params[1]);
@@ -863,6 +864,7 @@ static cell AMX_NATIVE_CALL ArrayFindString(AMX* amx, cell* params)
 	}
 
 	cell *b, *a = get_amxaddr(amx, params[2]);
+
 	size_t cellcount = vec->blocksize();
 	size_t a_len = std::max(1, amxstring_len(a));
 	size_t len = a_len > cellcount ? cellcount : a_len;
@@ -871,9 +873,19 @@ static cell AMX_NATIVE_CALL ArrayFindString(AMX* amx, cell* params)
 	{	
 		b = vec->at(i);
 
-		if (fastcellcmp(a, b, len))
+		if (params[3])
 		{
-			return static_cast<cell>(i);
+			if (cellequals(a, b, len))
+			{
+				return static_cast<cell>(i);
+			}
+		}
+		else
+		{
+			if (fastcellcmp(a, b, len))
+			{
+				return static_cast<cell>(i);
+			}
 		}
 	}
 

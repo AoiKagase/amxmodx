@@ -271,6 +271,23 @@ bool fastcellcmp(cell *a, cell *b, cell len)
 	return true;
 }
 
+bool cellequals(cell *a, cell *b, cell len)
+{
+	if (len)
+	{
+		while (--len && *a && (*a == *b))
+			++a, ++b;
+		return (*a-*b) ? false : true;
+	}
+
+	int ret;
+
+	while (!(ret = *a - *b) && *b)
+		++a, ++b;
+
+	return ret ? false : true;
+}
+
 static cell AMX_NATIVE_CALL replace(AMX *amx, cell *params) /* 4 param */
 {
 	cell *text = get_amxaddr(amx, params[1]);
