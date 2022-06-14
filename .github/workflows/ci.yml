@@ -119,7 +119,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          python3 ../configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT }}/metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT }}/hlsdk --mysql=${{ env.DEPENDENCIES_ROOT }}/mysql-5.5
+          python3 ../configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT }}/metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT }}/hlsdk --mysql=${{ env.DEPENDENCIES_ROOT }}/mysql-5.5 --disable-auto-versioning
           ambuild
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -132,6 +132,6 @@ jobs:
           cl.exe
           mkdir build
           cd build
-          python3 ../configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT_WIN }}\metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT_WIN }}\hlsdk --mysql=${{ env.DEPENDENCIES_ROOT_WIN }}\mysql-5.5
+          python3 ../configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT_WIN }}\metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT_WIN }}\hlsdk --mysql=${{ env.DEPENDENCIES_ROOT_WIN }}\mysql-5.5 --disable-auto-versioning
           ambuild
           
