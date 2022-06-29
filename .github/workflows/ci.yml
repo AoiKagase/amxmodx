@@ -87,11 +87,11 @@ jobs:
           git clone https://github.com/alliedmodders/metamod-hl1 metamod-am
           git clone https://github.com/alliedmodders/hlsdk
           
-          curl -L -o "mysql-connector-c-6.1.1-win32.zip" https://github.com/AoiKagase/mariadb-connector-c/archive/refs/heads/3.3.zip
-          7z x mysql-connector-c-6.1.1-win32.zip -o"mysql"
+          curl -L -o "mariadb-connector-c-3.3.zip" https://github.com/AoiKagase/mariadb-connector-c/archive/refs/heads/3.3.zip
+          7z x mariadb-connector-c-3.3.zip -o "mysql"
           cd mysql
           dir
-          ren mysql-connector-c-6.1.1-win32 mysql-5.5
+          ren mariadb-connector-c-3.3 mysql-5.5
           move /Y mysql-5.5 ..\
           
           cd ..\ambuild
