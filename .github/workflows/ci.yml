@@ -87,7 +87,7 @@ jobs:
           git clone https://github.com/alliedmodders/metamod-hl1 metamod-am
           git clone https://github.com/alliedmodders/hlsdk
           
-          curl -L -o "mysql-connector-c-6.1.1-win32.zip" https://downloads.mysql.com/archives/get/p/19/file/mysql-connector-c-6.1.1-win32.zip
+          curl -L -o "mysql-connector-c-6.1.1-win32.zip" https://github.com/AoiKagase/mariadb-connector-c/archive/refs/heads/3.3.zip
           7z x mysql-connector-c-6.1.1-win32.zip -o"mysql"
           cd mysql
           dir
