@@ -17,7 +17,7 @@
 #include "amxxmodule.h"
 #include "CRank.h"
 
-#define MAX_CWEAPONS		6
+#define MAX_CWEAPONS		99
 
 #define CSW_HEGRENADE		4
 #define CSW_C4				6
