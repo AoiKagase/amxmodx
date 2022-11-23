@@ -30,7 +30,7 @@ if AMXX.mysql_path:
       ]
   elif builder.target_platform == 'windows':
     binary.compiler.linkflags += [
-      os.path.join(AMXX.mysql_path, 'libmariadb', 'RelWithDebInfo', 'mariadbclient.lib'),
+      os.path.join(AMXX.mysql_path, 'libmariadb', 'RelWithDebInfo', 'libmariadb.lib'),
       'ws2_32.lib',
       'shlwapi.lib',
       '/EXPORT:GiveFnptrsToDll=_GiveFnptrsToDll@8,@1',
