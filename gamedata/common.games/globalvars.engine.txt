@@ -82,7 +82,7 @@
 			"g_pGameRules" // CGameRules *g_pGameRules
 			{
 				"library"   "server"
-				"windows"   "\x8B\x2A\x2A\x2A\x2A\x2A\x85\x2A\x74\x2A\x8B\x2A\xFF\x2A\x2A\xA1" // StartFrame()
+				"windows"   "\x8B\x2A\x2A\x2A\x2A\x2A\x85\x2A\x74\x2A\x8B\x2A\xFF\x2A\x2A\xB8" // StartFrame()
 				"linux"     "@g_pGameRules"
 				"mac"       "@g_pGameRules"
 			}
