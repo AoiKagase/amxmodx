@@ -37,7 +37,7 @@
 				"windows"
 				{
 					"signature"  "sv"
-					"read"       "2"
+					"read"       "6"
 				}
 			}
 
@@ -66,7 +66,7 @@
 			"sv"    // server_t sv
 			{
 				"library"   "engine"
-				"windows"   "\x8B\x2A\x2A\x2A\x2A\x2A\x8D\x2A\x2A\x2A\x2A\x2A\x53\x33\x2A\x89"  // SVC_PlayerInfo()
+				"windows"   "\x55\x8B\xEC\x51\x83\x3D\x2A\x2A\x2A\x2A\x00\x0F\x84\x2A\x2A\x2A\x2A\xF2\x0F\x10\x05\x2A\x2A\x2A\x2A"  // SV_Frame()
 				"linux"     "@sv"
 				"mac"       "@sv"
 			}
@@ -82,7 +82,7 @@
 			"g_pGameRules" // CGameRules *g_pGameRules
 			{
 				"library"   "server"
-				"windows"   "\x8B\x2A\x2A\x2A\x2A\x2A\x85\x2A\x74\x2A\x8B\x2A\xFF\x2A\x2A\xA1" // StartFrame()
+				"windows"   "\x8B\x0D\x2A\x2A\x2A\x2A\x85\xC9\x74\x2A\x8B\x01\xFF\x50\x04" // StartFrame()
 				"linux"     "@g_pGameRules"
 				"mac"       "@g_pGameRules"
 			}
