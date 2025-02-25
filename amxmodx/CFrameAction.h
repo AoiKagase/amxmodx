@@ -52,6 +52,15 @@ public:
 		}
 	}
 
+	void clear()
+	{
+		int count = m_requestedFrames.length();
+		while (count--)
+		{
+			m_requestedFrames.popFront();
+		}
+	}
+
 private:
 	std::deque<std::unique_ptr<CFrameAction>> m_requestedFrames;
 
