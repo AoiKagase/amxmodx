@@ -7,15 +7,12 @@
 class CFrameActionMngr
 {
 public:
-
 	class CFrameAction
 	{
 	public:
-		CFrameAction(int callbackForward, cell callbackData) :
-			m_callbackForward(callbackForward),
-			m_callbackData(callbackData)
+		CFrameAction(int callbackForward, cell callbackData) : m_callbackForward(callbackForward),
+															   m_callbackData(callbackData)
 		{
-
 		}
 
 		~CFrameAction()
@@ -34,7 +31,6 @@ public:
 	};
 
 public:
-
 	void AddFrameAction(int callbackForward, cell callbackData)
 	{
 		m_requestedFrames.emplace_back(new CFrameAction(callbackForward, callbackData));
@@ -54,16 +50,15 @@ public:
 
 	void clear()
 	{
-		int count = m_requestedFrames.length();
+		int count = m_requestedFrames.size();
 		while (count--)
 		{
-			m_requestedFrames.popFront();
+			m_requestedFrames.pop_front();
 		}
 	}
 
 private:
 	std::deque<std::unique_ptr<CFrameAction>> m_requestedFrames;
-
 };
 
 #endif // FRAMEACTION_H
