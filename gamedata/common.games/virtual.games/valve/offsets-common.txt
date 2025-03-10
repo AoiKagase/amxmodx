@@ -134,6 +134,13 @@
                 "mac"      "16"
             }
 
+			"mytogglepointer"
+			{
+				"windows"  "17"
+				"linux"    "17"
+				"mac"      "17"
+			}
+
             "mymonsterpointer"
             {
                 "windows"  "18"
@@ -402,16 +409,44 @@
 
             "fvisible"
             {
-                "windows"  "56"
+                "windows"  "57"
                 "linux"    "56"
                 "mac"      "56"
             }
 
             "fvecvisible"
             {
-                "windows"  "57"
+                "windows"  "56"
                 "linux"    "57"
                 "mac"      "57"
+            }
+
+            "playsentence"
+            {
+                "windows"  "59"
+                "linux"    "59"
+                "mac"      "59"
+            }
+
+            "playscriptedsentence"
+            {
+                "windows"  "60"
+                "linux"    "60"
+                "mac"      "60"
+            }
+
+            "sentencestop"
+            {
+                "windows"  "61"
+                "linux"    "61"
+                "mac"      "61"
+            }
+
+            "isallowedtospeak"
+            {
+                "windows"  "62"
+                "linux"    "62"
+                "mac"      "62"
             }
 
             "look"
@@ -421,6 +456,12 @@
                 "mac"      "63"
             }
 
+            "runai"
+            {
+                "windows"  "64"
+                "linux"    "64"
+                "mac"      "64"
+            }
             "changeyaw"
             {
                 "windows"  "66"
@@ -428,11 +469,25 @@
                 "mac"      "66"
             }
 
+            "monsterthink"
+            {
+                "windows"  "67"
+                "linux"    "67"
+                "mac"      "67"
+            }
+
             "irelationship"
             {
                 "windows"  "68"
                 "linux"    "68"
                 "mac"      "68"
+            }
+
+            "monsterinit"
+            {
+                "windows"  "69"
+                "linux"    "69"
+                "mac"      "69"
             }
 
             "monsterinitdead"
@@ -458,37 +513,16 @@
 
             "finviewcone"
             {
-                "windows"  "74"
+                "windows"  "75"
                 "linux"    "74"
                 "mac"      "74"
             }
 
             "fvecinviewcone"
             {
-                "windows"  "75"
+                "windows"  "74"
                 "linux"    "75"
                 "mac"      "75"
-            }
-
-            "runai"
-            {
-                "windows"  "64"
-                "linux"    "64"
-                "mac"      "64"
-            }
-
-            "monsterthink"
-            {
-                "windows"  "67"
-                "linux"    "67"
-                "mac"      "67"
-            }
-
-            "monsterinit"
-            {
-                "windows"  "69"
-                "linux"    "69"
-                "mac"      "69"
             }
 
             "checklocalmove"
@@ -575,32 +609,11 @@
                 "mac"      "92"
             }
 
-            "canplaysentence"
+            "canplaysentence2"
             {
                 "windows"  "93"
                 "linux"    "93"
                 "mac"      "93"
-            }
-
-            "playsentence"
-            {
-                "windows"  "59"
-                "linux"    "59"
-                "mac"      "59"
-            }
-
-            "playscriptedsentence"
-            {
-                "windows"  "60"
-                "linux"    "60"
-                "mac"      "60"
-            }
-
-            "sentencestop"
-            {
-                "windows"  "61"
-                "linux"    "61"
-                "mac"      "61"
             }
 
             "getidealstate"
@@ -806,6 +819,20 @@
                 "mac"      "126"
             }
 
+            "player_shouldfadeondeath"
+            {
+                "windows"  "65"
+                "linux"    "65"
+                "mac"      "65"
+            }
+
+            "player_getgunposition"
+            {
+                "windows"  "121"
+                "linux"    "121"
+                "mac"      "121"
+            }
+
             "player_jump"
             {
                 "windows"  "127"
@@ -834,18 +861,11 @@
                 "mac"      "130"
             }
 
-            "player_getgunposition"
+            "player_updateclientdata"
             {
-                "windows"  "121"
-                "linux"    "121"
-                "mac"      "121"
-            }
-
-            "player_shouldfadeondeath"
-            {
-                "windows"  "65"
-                "linux"    "65"
-                "mac"      "65"
+                "windows"  "131"
+                "linux"    "131"
+                "mac"      "131"
             }
 
             "player_impulsecommands"
@@ -853,13 +873,6 @@
                 "windows"  "132"
                 "linux"    "132"
                 "mac"      "132"
-            }
-
-            "player_updateclientdata"
-            {
-                "windows"  "131"
-                "linux"    "131"
-                "mac"      "131"
             }
 
             "item_addtoplayer"

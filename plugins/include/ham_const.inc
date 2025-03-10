@@ -184,6 +184,15 @@ enum Ham
 	Ham_IsTriggered,
 
 	/**
+	 * Description:	-
+	 *					This function is not supported by Counter-Strike, The Specialists and Natural Selection mods.
+	 * Forward params:	function(this);
+	 * Return type:		Entity.
+	 * Execute params:	ExecuteHam(Ham_MyTogglePointer, this);
+	 */
+	Ham_MyTogglePointer,
+
+	/**
 	 * Description:		Returns the id of the entity if its class is derived off of CBaseMonster, -1 otherwise.
 	 * Forward params:	function(this)
 	 * Return type:		Entity.
@@ -1545,6 +1554,15 @@ enum Ham
 	 * Execute params:	ExecuteHam(Ham_SentenceStop, this);
 	 */
 	Ham_SentenceStop,
+
+	/**
+	 * Description:		-
+	 *					This function is not supported by Counter-Strike, The Specialists and Natural Selection mods.
+	 * Forward params:	function(this);
+	 * Return type:		Integer (boolean).
+	 * Execute params:	ExecuteHam(Ham_IsAllowedToSpeak, this);
+	 */
+	Ham_IsAllowedToSpeak,
 
 	/**
 	 * Description:		Surveys the Conditions information available and finds the best new state for a monster.
