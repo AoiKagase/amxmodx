@@ -85,11 +85,8 @@ jobs:
           7z x mariadb-connector-c-3.4.7.zip
           dir
           mkdir libmariadb
-          move cab1.cab libmariadb/
-          chdir libmariadb
-          7z x cab1.cab
+          move libdllimp libmariadb/libmariadb.lib
           dir
-          ren libdllimp libmariadb.lib
           chdir %DEPENDENCIES_ROOT_WIN%\ambuild
           python3 setup.py install          
       - name: Install Linux dependencies
