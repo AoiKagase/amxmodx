@@ -81,10 +81,14 @@ jobs:
           
           curl -L -o mariadb-connector-c-3.4.7.zip https://dlm.mariadb.com/4441418/Connectors/c/connector-c-3.4.7/mariadb-connector-c-3.4.7-win32.msi
           7z x mariadb-connector-c-3.4.7.zip
+          dir
           chdir mariadb-connector-c-3.4.7
-          7z x "cab1.cab" 
+          dir
+          7z x cab1.cab
+          dir
           ren cab1 libmariadb
           chdir libmariadb
+          dir
           ren libdllimp libmariadb.lib
           chdir %DEPENDENCIES_ROOT_WIN%
           ren mariadb-connector-c-3.4.7 mysql-5.5
