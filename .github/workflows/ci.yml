@@ -79,14 +79,14 @@ jobs:
           git clone https://github.com/alliedmodders/metamod-hl1 metamod-am
           git clone https://github.com/alliedmodders/hlsdk
           
-          mkdir %DEPENDENCIES_ROOT_WIN%\mysql-5.5
-          curl -L -o %DEPENDENCIES_ROOT_WIN%\mysql-5.5\mariadb-connector-c-3.4.7.zip https://dlm.mariadb.com/4441418/Connectors/c/connector-c-3.4.7/mariadb-connector-c-3.4.7-win32.msi
-          chdir %DEPENDENCIES_ROOT_WIN%\mysql-5.5
-          7z x mariadb-connector-c-3.4.7.zip
-          dir
-          mkdir libmariadb
-          move libdllimp libmariadb/libmariadb.lib
-          dir
+          # mkdir %DEPENDENCIES_ROOT_WIN%\mysql-5.5
+          # curl -L -o %DEPENDENCIES_ROOT_WIN%\mysql-5.5\mariadb-connector-c-3.4.7.zip https://dlm.mariadb.com/4441418/Connectors/c/connector-c-3.4.7/mariadb-connector-c-3.4.7-win32.msi
+          # chdir %DEPENDENCIES_ROOT_WIN%\mysql-5.5
+          # 7z x mariadb-connector-c-3.4.7.zip
+          # dir
+          # mkdir libmariadb
+          # move libdllimp libmariadb/libmariadb.lib
+          # dir
           chdir %DEPENDENCIES_ROOT_WIN%\ambuild
           python3 setup.py install          
       - name: Install Linux dependencies
@@ -112,7 +112,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          python3 ../configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT }}/metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT }}/hlsdk --mysql=${{ env.DEPENDENCIES_ROOT }}/mysql-5.5 --disable-auto-versioning
+          python3 ../configure.py --no-mysql --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT }}/metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT }}/hlsdk --disable-auto-versioning
           ambuild
       - name: Upload Linux artifacts
         if: startsWith(runner.os, 'Linux') && always()
@@ -131,7 +131,7 @@ jobs:
         run: |
           cl.exe
           dir ${{ env.DEPENDENCIES_ROOT_WIN }}
-          python3 configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT_WIN }}\metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT_WIN }}\hlsdk --mysql=${{ env.DEPENDENCIES_ROOT_WIN }}\mysql-5.5 --disable-auto-versioning
+          python3 configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT_WIN }}\metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT_WIN }}\hlsdk --no-mysql --disable-auto-versioning
           dir
           ambuild obj-windows
       - name: Upload Windows artifacts
