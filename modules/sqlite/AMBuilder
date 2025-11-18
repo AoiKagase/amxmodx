@@ -12,6 +12,9 @@ binary.compiler.defines += [
   'HAVE_STDINT_H',
 ]
 
+if binary.compiler.cxx.name == 'gcc':
+  binary.compiler.cflags += ['-Wno-misleading-indentation']
+
 if builder.target_platform == 'linux' or builder.target_platform == 'mac':
   binary.compiler.defines += ['stricmp=strcasecmp']
   binary.compiler.postlink += ['-lpthread']
