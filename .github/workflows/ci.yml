@@ -129,13 +129,13 @@ jobs:
         shell: cmd
         run: |
           cl.exe
+          python3 configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT_WIN }}\metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT_WIN }}\hlsdk --mysql=${{ env.DEPENDENCIES_ROOT_WIN }}\mysql-5.5 --disable-auto-versioning
           dir
-          python3 ..\configure.py --enable-optimize --metamod=${{ env.DEPENDENCIES_ROOT_WIN }}\metamod-am --hlsdk=${{ env.DEPENDENCIES_ROOT_WIN }}\hlsdk --mysql=${{ env.DEPENDENCIES_ROOT_WIN }}\mysql-5.5 --disable-auto-versioning
-          ambuild ..\obj-windows
+          ambuild obj-windows
       - name: Upload Windows artifacts
         if: startsWith(runner.os, 'Windows') && always()
         uses: actions/upload-artifact@v4
         with:
           name: amxmodx-${{ matrix.os_short }}-${{ matrix.compiler_cc }}-${{ github.sha }}
-          path: amxmodx/build/packages/
+          path: amxmodx/obj-windows/packages/
           retention-days: 7
