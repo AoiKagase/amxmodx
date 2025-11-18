@@ -79,13 +79,14 @@ jobs:
           git clone https://github.com/alliedmodders/metamod-hl1 metamod-am
           git clone https://github.com/alliedmodders/hlsdk
           
-          curl -L -o "mariadb-connector-c-3.4.7.zip" https://dlm.mariadb.com/4441418/Connectors/c/connector-c-3.4.7/mariadb-connector-c-3.4.7-win32.msi
-          7z x "mariadb-connector-c-3.4.7.zip" -o "mysql-5.5"
-          chdir mysql-5.5
+          curl -L -o mariadb-connector-c-3.4.7.zip https://dlm.mariadb.com/4441418/Connectors/c/connector-c-3.4.7/mariadb-connector-c-3.4.7-win32.msi
+          7z x mariadb-connector-c-3.4.7.zip
+          chdir mariadb-connector-c-3.4.7
           7z x "cab1.cab" -o "libmariadb"
           chdir libmariadb
           ren libdllimp libmariadb.lib
-          
+          chdir %DEPENDENCIES_ROOT_WIN%
+          ren mariadb-connector-c-3.4.7 mysql-5.5
           chdir %DEPENDENCIES_ROOT_WIN%\ambuild
           python3 setup.py install          
       - name: Install Linux dependencies
