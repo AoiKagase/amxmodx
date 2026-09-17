@@ -1783,3 +1783,7 @@ _amx_opcodelist DD OP_INVALID
         DD      OP_FLOAT_TO
         DD      OP_FLOAT_ROUND
         DD      OP_FLOAT_CMP
+
+%ifidn __OUTPUT_FORMAT__, elf32
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif

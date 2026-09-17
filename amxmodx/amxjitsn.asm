@@ -2619,3 +2619,7 @@ _amx_opcodelist_jit:
         DD      OP_FLOAT_CMP	; DA
 
 END:
+
+%ifidn __OUTPUT_FORMAT__, elf32
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif

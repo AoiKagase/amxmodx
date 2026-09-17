@@ -1,0 +1,212 @@
+name: Build Release
+on:
+  push:
+    branches:
+      - master
+      - '1.9-dev'
+env:
+  MYSQL_VERSION: '5.5'
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        include:
+          - platform: windows
+            os: windows-latest
+            os_short: win
+          - platform: linux
+            os: ubuntu-latest
+            os_short: linux
+            container_image: ghcr.io/alliedmodders/build-containers/debian10:latest
+      fail-fast: false
+    name: ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    container:
+      image: ${{ matrix.container_image }}
+    steps:
+      - name: Checkout AMX Mod X
+        uses: actions/checkout@v7
+        with:
+          path: amxmodx
+          fetch-depth: 0
+          submodules: recursive
+
+      # Workaround for github.workspace mismatch in containerized jobs.
+      # See https://github.com/actions/runner/issues/2058
+      - name: Resolve paths
+        id: path_helper
+        shell: bash
+        run: |
+          echo "dependencies=$GITHUB_WORKSPACE/dependencies" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v6
+        env:
+          cache-name: amxx-deps
+        with:
+          path: ${{ steps.path_helper.outputs.dependencies }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-mysql${{ env.MYSQL_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Install NASM (Linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        run: |
+          # nasm is pre-installed in the build container; this is a fallback
+          command -v nasm || (apt-get update -qq && apt-get install -y -qq nasm)
+
+      - name: Install dependencies (Linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        run: |
+          mkdir -p '${{ steps.path_helper.outputs.dependencies }}'
+          cd '${{ steps.path_helper.outputs.dependencies }}'
+
+          # Satisfy checkout-deps requirement for an "amxmodx" folder.
+          mkdir -p amxmodx
+          ../amxmodx/support/checkout-deps.sh
+
+      - name: Setup MSVC (x86)
+        if: startsWith(matrix.os, 'windows')
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Setup NASM (Windows)
+        if: startsWith(matrix.os, 'windows')
+        uses: ilammy/setup-nasm@v1
+
+      - name: Install dependencies (Windows)
+        if: startsWith(matrix.os, 'windows')
+        shell: bash
+        run: |
+          DEPS='${{ steps.path_helper.outputs.dependencies }}'
+          mkdir -p "$DEPS"
+          cd "$DEPS"
+
+          if [ ! -d "metamod-am" ]; then
+            git clone https://github.com/alliedmodders/metamod-hl1 metamod-am
+          fi
+          if [ ! -d "hlsdk" ]; then
+            git clone https://github.com/alliedmodders/hlsdk
+          fi
+          if [ ! -d "mysql-${{ env.MYSQL_VERSION }}" ]; then
+            curl -sSL -o mysql-connector.zip \
+              "https://downloads.mysql.com/archives/get/p/19/file/mysql-connector-c-6.1.1-win32.zip"
+            7z x mysql-connector.zip
+            mv mysql-connector-c-6.1.1-win32 "mysql-${{ env.MYSQL_VERSION }}"
+            rm mysql-connector.zip
+          fi
+
+          if [ ! -d "ambuild" ]; then
+            git clone https://github.com/alliedmodders/ambuild
+          fi
+          pip install ./ambuild
+
+      - name: Build
+        working-directory: amxmodx
+        shell: bash
+        run: |
+          DEPS='${{ steps.path_helper.outputs.dependencies }}'
+          mkdir build
+          cd build
+          python3 ../configure.py \
+            --enable-optimize \
+            --symbol-files \
+            "--metamod=$DEPS/metamod-am" \
+            "--hlsdk=$DEPS/hlsdk" \
+            "--mysql=$DEPS/mysql-${{ env.MYSQL_VERSION }}"
+          ambuild
+
+      - name: Package
+        id: package
+        working-directory: amxmodx/build
+        shell: bash
+        run: |
+          version_base=$(cat ../product.version)
+          version_base=${version_base%-dev}
+          version_rev=$(git rev-list --count HEAD)
+          version="${version_base}.${version_rev}"
+          expanded_version="${version_base}-git${version_rev}"
+
+          packages=(base cstrike dod esf ns tfc ts)
+          release_dir="release"
+          mkdir -p "$release_dir"
+
+          for pkg in "${packages[@]}"; do
+            pkg_dir="packages/$pkg"
+            if [ ! -d "$pkg_dir" ]; then
+              echo "Warning: package directory $pkg_dir not found, skipping"
+              continue
+            fi
+
+            if [ "${{ matrix.platform }}" == "windows" ]; then
+              filename="amxmodx-${expanded_version}-${pkg}-${{ matrix.platform }}.zip"
+              (cd "$pkg_dir" && 7z a "../../${release_dir}/${filename}" addons)
+            else
+              filename="amxmodx-${expanded_version}-${pkg}-${{ matrix.platform }}.tar.gz"
+              tar zcf "${release_dir}/${filename}" -C "$pkg_dir" addons
+            fi
+          done
+
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "expanded_version=$expanded_version" >> $GITHUB_OUTPUT
+
+      - name: Output PDBs
+        if: startsWith(matrix.os, 'windows')
+        shell: pwsh
+        id: output_pdbs
+        working-directory: amxmodx/build
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $buildDir = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath 'amxmodx/build'
+          $outDir = Join-Path -Path $env:GITHUB_WORKSPACE -ChildPath 'pdbs'
+          New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+
+          Get-Content -LiteralPath (Join-Path -Path $buildDir -ChildPath 'pdblog.txt') |
+            ForEach-Object -Process {
+              $fullPdbPathInfo = (Get-Item -Path (Join-Path -Path $buildDir -ChildPath $_))
+              $baseName = $fullPdbPathInfo.BaseName
+              $dir = $fullPdbPathInfo.DirectoryName
+
+              '.pdb', '.exe', '.dll' | ForEach-Object -Process {
+                  $binPath = Join-Path $dir ($baseName + $_)
+                  if (Test-Path $binPath) {
+                    Copy-Item -Path $binPath -Destination $outDir
+                  }
+              }
+          }
+
+      - name: Upload PDBs
+        if: startsWith(matrix.os, 'windows')
+        uses: actions/upload-artifact@v7
+        with:
+          name: pdbs
+          path: pdbs/*
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.21.0
+        with:
+          allowUpdates: true
+          replacesArtifacts: false
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          omitBody: true
+
+          artifacts: amxmodx/build/release/*
+          artifactContentType: ${{ matrix.platform == 'windows' && 'application/zip' || 'application/gzip' }}
+          artifactErrorsFailBuild: true
+
+          tag: ${{ steps.package.outputs.version }}
+          commit: ${{ github.sha }}
+          generateReleaseNotes: true
+
+          draft: false
+          prerelease: ${{ github.ref == 'refs/heads/master' }}
+          makeLatest: ${{ github.ref != 'refs/heads/master' }}
+          token: ${{ secrets.GITHUB_TOKEN }}
