@@ -493,9 +493,9 @@
 
             "player_shouldfadeondeath"
             {
-                "windows"  "64"
-                "linux"    "64"
-                "mac"      "64"
+                "windows"  "65"
+                "linux"    "65"
+                "mac"      "65"
             }
 
             "item_holster"
@@ -780,37 +780,37 @@
 
             "weapon_reload"
             {
-                "windows"  "81"
-                "linux"    "81"
-                "mac"      "81"
+                "windows"  "86"
+                "linux"    "86"
+                "mac"      "86"
             }
 
             "weapon_weaponidle"
             {
-                "windows"  "82"
-                "linux"    "82"
-                "mac"      "82"
+                "windows"  "87"
+                "linux"    "87"
+                "mac"      "87"
             }
 
             "weapon_retireweapon"
             {
-                "windows"  "83"
-                "linux"    "83"
-                "mac"      "83"
+                "windows"  "88"
+                "linux"    "88"
+                "mac"      "88"
             }
 
             "weapon_shouldweaponidle"
             {
-                "windows"  "84"
-                "linux"    "84"
-                "mac"      "84"
+                "windows"  "89"
+                "linux"    "89"
+                "mac"      "89"
             }
 
             "weapon_usedecrement"
             {
-                "windows"  "85"
-                "linux"    "85"
-                "mac"      "85"
+                "windows"  "90"
+                "linux"    "90"
+                "mac"      "90"
             }
 
             "schedulechange"
@@ -997,16 +997,16 @@
 
             "fademonster"
             {
-                "windows"  "119"
-                "linux"    "119"
-                "mac"      "119"
+                "windows"  "120"
+                "linux"    "120"
+                "mac"      "120"
             }
 
             "player_getgunposition"
             {
-                "windows"  "120"
-                "linux"    "120"
-                "mac"      "120"
+                "windows"  "121"
+                "linux"    "121"
+                "mac"      "121"
             }
 
             "deathsound"
@@ -1497,12 +1497,12 @@
 
             "fvecvisible"
             {
-                "windows"  "56"
-                "linux"    "57"
-                "mac"      "57"
+                "windows"  "55"
+                "linux"    "56"
+                "mac"      "56"
             }
 
-            "item_addtoplayer"
+            "look"
             {
                 "windows"  "58"
                 "linux"    "58"
@@ -1511,9 +1511,9 @@
 
             "item_addtoplayer"
             {
-                "windows"  "132"
-                "linux"    "132"
-                "mac"      "132"
+                "windows"  "58"
+                "linux"    "58"
+                "mac"      "58"
             }
 
             "runai"
