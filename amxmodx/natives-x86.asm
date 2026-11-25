@@ -102,3 +102,7 @@ _amxx_DynaCodesize:
 section .data
 	
 GLOBAL_GATE		DD		0
+
+%ifidn __OUTPUT_FORMAT__, elf32
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif

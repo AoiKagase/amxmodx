@@ -169,6 +169,15 @@ for generated_header in AMXX.generated_headers:
 if builder.target_platform == 'windows':
   builder.AddCopy(AMXX.csx_app.binary, folder_map['cstrike/addons/amxmodx/data'])
 
+# Export PDB paths for symbol store processing.
+full_binary_list = AMXX.binaries + AMXX.modules + [AMXX.amxxpc, AMXX.libpc300]
+if AMXX.csx_app is not None:
+  full_binary_list += [AMXX.csx_app]
+with open(os.path.join(builder.buildPath, 'pdblog.txt'), 'w') as fp:
+  for task in full_binary_list:
+    if task.debug is not None:
+      fp.write(task.debug.path + '\n')
+
 # Copy configuration files for each mod.
 configs = [
   'amxx.cfg',
