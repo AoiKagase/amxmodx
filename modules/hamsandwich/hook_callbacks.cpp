@@ -975,8 +975,8 @@ void Hook_Void_Float_Vector_Trace_Int(Hook *hook, void *pthis, float f1, Vector 
 
 const char *Hook_Str_Void(Hook *hook, void *pthis)
 {
-	std::string ret;
-	std::string origret;
+	static std::string ret;
+	static std::string origret;
 
 	MAKE_VECTOR()
 
@@ -3301,8 +3301,8 @@ void Hook_Vector_Vector_Vector_Vector(Hook *hook, Vector *out, void *pthis, Vect
 
 const char *Hook_Str_Str(Hook *hook, void *pthis, const char* str)
 {
-	std::string ret;
-	std::string origret;
+	static std::string ret;
+	static std::string origret;
 	std::string a;
 	
 	a = str;

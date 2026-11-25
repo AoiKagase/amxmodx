@@ -134,13 +134,6 @@
                 "mac"      "16"
             }
 
-			"mytogglepointer"
-			{
-				"windows"  "17"
-				"linux"    "17"
-				"mac"      "17"
-			}
-
             "mymonsterpointer"
             {
                 "windows"  "18"
@@ -1504,12 +1497,12 @@
 
             "fvecvisible"
             {
-                "windows"  "55"
-                "linux"    "56"
-                "mac"      "56"
+                "windows"  "56"
+                "linux"    "57"
+                "mac"      "57"
             }
 
-            "look"
+            "item_addtoplayer"
             {
                 "windows"  "58"
                 "linux"    "58"
